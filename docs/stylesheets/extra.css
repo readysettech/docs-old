@@ -1,0 +1,40 @@
+/* Font for headings  */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300&display=swap');
+
+@font-face {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+h1, h2, h3,
+h4, h5, h6 {
+  font-family: "Space Grotesk";
+}
+
+/* Top nav background and logo customizations */
+.md-header {
+  background: linear-gradient(44.99deg, #17AEFF 11.43%, #B263FE 43.27%, #F97ACE 85.89%);
+}
+
+.md-header__button.md-logo {
+  padding: 1px;
+  margin: 1px;
+}
+
+.md-header__button.md-logo > :-webkit-any(img,svg) {
+  height: 2.5rem;
+}
+
+.md-header__topic:first-child {
+  font-family: "Space Grotesk";
+  font-weight: normal;
+}
+
+.md-ellipsis {
+  font-family: "Space Grotesk";
+}
+
+/* Custom primary and secondary colors */
+:root > * {
+  --md-primary-fg-color: #17AEFF;
+  --md-accent-fg-color: #B263FE;
+}
