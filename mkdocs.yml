@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 
 site_name: "ReadySet Docs"
-repo_url: https://github.com/jseldess/readyset-doc-test
-repo_name: ""
+repo_url: https://github.com/readysettech/docs
+repo_name: readysettech/docs
 
 theme:
   name: material
