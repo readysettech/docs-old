@@ -1,0 +1,42 @@
+# Docker Deployment via the ReadySet Orchestrator 
+
+You can configure and deploy ReadySet via docker using the ReadySet orchestrator.
+
+If you are interested in trying out ReadySet, but not yet using it in a production environment, we recommend using the ReadySet orchestrator to set up your cluster. 
+
+> To get access to the orchestrator, sign up for our [early access list](https://readysettech.typeform.com/to/ig8uZ4DS) today.
+
+To spin up ReadySet locally using Docker, download the ReadySet orchestrator, and answer the prompts using the guidelines below. 
+
+1. **Provide a deployment name**
+
+You will first be prompted to provide a deployment name. This can be anything you like and is used to create underlying database assets. If you are creating a new deployment, it is recommended that you use a deployment name you have not previously used, so fresh assets will be created.
+
+2. **Provide a destination**
+
+The installer will then ask you where you would like to deploy ReadySet. Choose the `Docker-Compose` option.
+
+3. **Input your database credentials**
+
+When prompted, please provide a name for your database. You will then be prompted for a password. In unix style fashion, your password will not be displayed back to you for security purposes. Simply hit enter when finished typing and you will be prompted to confirm your chosen database password.
+
+4. **Choose a ReadySet migration mode**
+
+Now we need to select a migration mode. There are two ways in which we can manage migrations. If you choose the `Async` option, then a background process will automatically determine which of your queries can be supported, and automatically send all supported queries to ReadySet. If you would prefer a more explicit way of managing which queries you would like to be handled by ReadySet, you can choose the `Explicit` migration mode instead.
+
+With the explicit migration mode, you need to manually migrate each query. 
+
+5. **Choose a ReadySet port** 
+
+You will now be asked to provide a port on your local machine that you will access ReadySet from. This allows you to pick a custom port so that ReadySet does not collide with any existing local database deployments you may have running.
+
+6. **Deploy ReadySet locally with Docker**
+
+The installer will create and save a docker-compose file, and display where the file has been saved. You will now be asked if you would like to deploy with docker-compose now. If you choose `yes` (recommended) then you will see docker compose begin deploying four assets:
+1. Consul
+2. MySQL or Postgres
+3. ReadySet Server
+4. ReadySet Adapter (named “db”)
+
+When that is finished, you will be provided with a connection string that you can use to connect to your local ReadySet cluster!
+

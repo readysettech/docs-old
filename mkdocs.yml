@@ -3,6 +3,7 @@
 site_name: "ReadySet Docs"
 repo_url: https://github.com/readysettech/docs
 repo_name: readysettech/docs
+edit_uri: edit/main/docs/
 
 theme:
   name: material

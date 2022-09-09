@@ -7,4 +7,4 @@ Under the hood, ReadySet precomputes the results of prepared statements (i.e., p
 these results over time as the underlying data in your database changes. You can read more about how ReadySet works in the
 [Concepts](/concepts/overview) section.
 
-![Architecture](/readyset_arch.png)
+![Architecture](assets/readyset_arch.png)
