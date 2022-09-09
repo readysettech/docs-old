@@ -5,12 +5,12 @@ ReadySet slots between your application and database. It is wire-compatible with
 do to start using ReadySet is swap out your database connection string. ReadySet gives you fine-grained control over which
 queries are cached. Queries that aren't cached are proxied through ReadySet.
 
-![Basic ReadySet Stack Diagram](/rs_stack_diagram.png)
+![Basic ReadySet Stack Diagram](../assets/rs_stack_diagram.png)
 
 ## How does ReadySet work under the hood?
 Imagine a basic online forum application with `posts`, `users`, and `upvotes`. A simple database schema for this application might look like:
 
-![Example DB Schema](/reddit_sql_schema.png)
+![Example DB Schema](../assets/reddit_sql_schema.png)
 
 You can imagine a query like the one below, which returns all of the posts authored by a particular user:
 
@@ -29,7 +29,7 @@ Under the hood, ReadySet constructs a **dataflow graph** for the query. Each nod
 
 The graph for the query would look something like this:
 
-![Example ReadySet Dataflow Graph](/rs_example_dataflow.png)
+![Example ReadySet Dataflow Graph](../assets/rs_example_dataflow.png)
 
 Once the graph is constructed, if a user queries all of the posts authored by user id 4, ReadySet has the results ready so reads can be performed with **no additional compute**.
 Results are therefore returned instantaneously, regardless of the size of your database.
@@ -84,7 +84,7 @@ won’t take up any memory real estate in your ReadySet cluster.
 ReadySet supports **eventual consistency**. There will be a small delay between when the write is issued and the cached result is updated in ReadySet to reflect that write.
 
 
-![alt_text](/rs_write_diagram.png)
+![alt_text](../assets/rs_write_diagram.png)
 
 
 ## Is ReadySet a good fit for my application?

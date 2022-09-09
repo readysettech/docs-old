@@ -1,0 +1,43 @@
+# AWS Reference Architecture
+
+ReadySet consists of two server types: The ReadySet Adapter, primarily
+responsible for proxying customer queries to the customer database or the
+ReadySet Servers, and the ReadySet Servers, primarily responsible for caching
+customer data. ReadySet supports scaling both vertically and horizontally.
+
+![AWS Reference Architecture](/aws-reference-architecture.png)
+
+In the above architecture diagram, you can see how the components that
+underpin ReadySet are connected.
+
+After ReadySet has taken its snapshot of the upstream database and begin
+following its transaction logs, your existing applications can begin executing
+queries through the ReadySet Adapter NLB (network load balancer).
+
+As requests are made to the NLB, an Adapter instance will receive the request
+and decide which action(s) to take: proxy to the upstream DB or process the
+query using the ReadySet Server cluster.
+
+Consul is used for leader election, key value storage, and as a means of
+reaching a state of quorum within the ReadySet cluster. Consul servers are
+deployed using an autoscaling group for high-availability purposes.
+
+Each ReadySet Adapter and Server EC2 instance has a Consul client deployed with
+it, providing a means of sharing DNS records and other state amongst the
+cluster’s components.
+
+## Instance Type Recommendations
+
+ReadySet consists of two server types: the ReadySet Adapter, which is primarily responsible for proxying customer queries to the customer database or to the ReadySet server, and the ReadySet server, which is responsible for caching customer data. ReadySet supports scaling both vertically and horizontally.
+
+We suggest the following instance types for each of the server types:
+
+| Server Type       | Count | Instance Type          |
+|-------------------|-------|------------------------|
+| ReadySet Adapter  | 3+    | m5.xlarge - mx.12xlarge |
+| ReadySet Server | 1     | r5.xlarge - r5.12xlarge |
+
+The ReadySet Adapter is responsible for proxying queries to the ReadySet caching layer and the customer database. We recommend m5 instances as they provide a balance of the compute, memory, and network requirements needed by the Adapter. This layer is stateless and can be easily horizontally scaled.
+
+The ReadySet Server is responsible for caching queries and incrementally updating the cached state as updates are replicated from the customer database. The amount of memory available to the ReadySet server instances in aggregate bounds the size of the cache’s working set. We recommend r5 instance types as they provide additional memory per CPU.
+

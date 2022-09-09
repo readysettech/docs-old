@@ -1,0 +1,37 @@
+# Connect Your Application To ReadySet 
+
+### How do I connect to a ReadySet cluster?
+
+ReadySet is wire-compatible with the MySQL and Postgres protocols, so you can connect to your ReadySet instance in the same way you would connect to a MySQL or Postgres database.
+
+
+### Where do I find the ReadySet connection string? 
+For **AWS CloudFormation deployments**, the host name for the ReadySet connection string can be found in the AWS CloudFormation stack outputs under the key `ReadySetAdapterNLBDNSName`. Once you have the host name, you can use it to connect via a MySQL or Postgres client (e.g., `mysql -h<host-name>`) or as part of the connection string in your application (e.g., `mysql://<user>:<password>@<host-name>:<port>/<database>`. The default port is `3306` for MySQL deployments and `5432` for Postgresql deployments.
+
+For **local Docker deployments**, the ReadySet host will be `127.0.0.1`. The port is specified by the user during the setup process.
+
+### What happens when I replace my upstream connection with a connection to ReadySet?
+
+By default, ReadySet proxies all queries to your upstream database. A user must cache queries explicitly in ReadySet. See the [caching documentation](./cache) for more information. 
+
+### How do I check if I set ReadySet up correctly? 
+Check the ReadySet dashboard to ensure that ReadySet is correctly connected to your application. Open the dashboard and navigate to the “ReadySet Connection Status” panel. 
+Here, you can check:
+* When the ReadySet server and adapter started up
+* If the ReadySet server and adapter are receiving requests
+* The number of active connections ReadySet has to your upstream database
+* Other ReadySet settings such as number of adapters, servers, and whether migrations are in progress.
+
+### How do I decide what to cache?
+
+The ReadySet dashboard displays all queries that are being proxied to your upstream database along with the number of times that a query has been executed and its latencies at different percentiles.
+
+Different queries will experience different improvements to their latencies when cached by ReadySet. One strategy for selecting which queries to cache is to start by caching heavily used queries that have high latencies against the upstream database. The subsequent improvement to latency can be seen in the ReadySet dashboard. 
+
+### How do I cache a query in ReadySet?
+
+See the [caching documentation](./cache) for more information. 
+
+### What happens if ReadySet doesn't support my query?
+
+Although ReadySet does not support caching some queries, ReadySet can proxy any query to your upstream database. A failure to cache a query will not interrupt the normal proxying of that query to your upstream database. For more information, see [which queries we support.](query_support.md)
