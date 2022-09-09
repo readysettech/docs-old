@@ -30,7 +30,7 @@ emit the updated results and propagate them downstream in the graph.
 Since these internal nodes are connected together based on a query plan, the leaf nodes of the graph (referred to as **reader nodes**)
 cache the final query results, and all non-leaf nodes effectively cache intermediate state.
 
-![High Level](/high-level-graph.png)
+![High Level](../assets/high-level-graph.png)
 
 ## Putting it all together
 As writes are applied to your database, the resulting data changes are immediately replicated to ReadySet. ReadySet incrementally

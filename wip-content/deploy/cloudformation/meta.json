@@ -1,0 +1,5 @@
+{
+    "arch": "AWS Reference Architecture",
+    "manual": "Manual Deployment", 
+    "orchestrator": "ReadySet Orchestrator Deployment"
+} 

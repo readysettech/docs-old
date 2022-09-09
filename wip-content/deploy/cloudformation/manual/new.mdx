@@ -1,0 +1,94 @@
+# Deploy ReadySet to a New VPC
+These instructions walk you through how to create a new VPC and manually deploy ReadySet into that VPC via CloudFormation and connect it to a new RDS database. 
+
+> The ReadySet orchestrator is a simple command line tool that automates the full set up process. If you're just interested in trying ReadySet 
+> out but not necessarily deploying it in production, we recommend using the ReadySet Orchestrator. 
+
+## Part 0: Prerequisites
+
+Obtain a EC2 SSH Key for accessing the various instances that will be created.
+Please contact your AWS admin if you do not have access to a EC2 SSH Key.
+
+## Part 1: Deploy ReadySet
+
+For the next steps, use the ReadySet CloudFormation template link we sent you.
+
+
+### Launch ReadySet via CloudFormation
+#### Step 1: Specify Template
+The first page is pre-configured for you, click `Next` at the bottom of the page. On the next page, fill in the blank fields using the guidelines below.
+#### Step 2: Specify Stack Details
+Fill in the fields using the guidance below.
+| Parameter      | Default value(s) | Guidance |
+| ------- | ------- | ----------- |
+| `Stack name` |   | We recommend naming your stack something like "ReadySet".   |
+| `VPCCIDR` | 10.0.0.0/16 | This field is automatically filled in. This value will be the CIDR of the VPC created by this CloudFormation stack.|
+| `VPCCreateNATGateways` | true | Set this to false if you want to airgap your ReadySet deployment. |
+| `PrivateSubnet<1, 2, 3>CIDR` | 10.0.0.0/19, 10.0.32.0/19, 10.0.64.0/19 | This field is automatically filled in. This value will be the CIDRs of the private subnets created by this CloudFormation stack. |
+| `PublicSubnet<1, 2, 3>CIDR` | 10.0.128.0/20, 10.0.144.0/20, 10.0.160.0/20 | This field is automatically filled in. This value will be the CIDRs of the public subnets created by this CloudFormation stack. |
+| `AvailabilityZones` |   | Include all three availability zones for the AWS region you are deploying in. This allows ReadySet to ensure high availability. |
+| `KeyPairName` |   | Paste in the name of the key you obtained in Part 0. |
+| `AccessCIDR` |   | Input the CIDR of the IP addresses that will have access to the ReadySet VPC. |
+| `ConsulEc2RetryJoinTagKey` | ReadySetConsulNodeType | This field is automatically filled in. This is used to tag instances that are part of the Consul server quorum. |
+| `ConsulEc2RetryJoinTagValue` | Server | This field is automatically filled in. This is used to tag instances that are part of the Consul server quorum. |
+| `DatabaseStorageType` | gp2  | This field is automatically filled in. This is the database storage type defined in AWS RDS. |
+| `DatabaseInstanceClass` | db.t3.medium  | This field is automatically filled in. This is the instance class used for the AWS RDS database. |
+| `DatabaseAllocatedStorage` | 20  | This field is automatically filled in. This is the storage size in GB allocated for your AWS RDS database. This value may be changed later, but will require some RDS downtime. |
+| `DatabaseName` |   | Set this to the name of the new database you would like inside of the AWS RDS database server instance. |
+| `DatabaseUsername` |   | Set this to the username you would like to use to log into the AWS RDS database as a superuser. |
+| `DatabasePassword` |   | Set this to the password you would like to use to log into the AWS RDS database as a superuser. |
+| `ReadySetS3BucketName` | User-dependent  | This field is automatically filled in. |
+| `ReadySetS3Prefix` | User-dependent  | This field is automatically filled in. |
+| `ReadySetAdapterInstanceType` |   | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
+| `ReadySetAdapterNodes` |   | We recommend setting this to at least 3 for high-availability. |
+| `ReadySetServerInstanceType` |   | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
+| `ReadySetServerNodes` |   | We recommend setting this to at least 3 for high-availability. |
+| `ReadySetServerVolumeSizeGB` |   | This is the volume size for storing the base tables. We recommend setting this to be 2x the storage size of your RDS instance. |
+| `ReadySetMemoryLimitGB` |   | This is the memory limit for ReadySet server instances in GB. We recommend setting this to 80% of the total memory on the selected ReadySetServerInstanceType (e.g., this would be 26GB for c5.4xlarge). This can also be set to 0 for no limit. |
+| `ReadySetMonitorInstanceType` |   | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
+| `ReadySetDeploymentName` |   | Set this to the Stack name you inputted at the top of this page. |
+
+
+#### Step 3: Configure Stack Options
+Fill in your desired stack options. We highly recommend selecting "Preserve successfully provisioned resources" to allow ReadySet to help debug any deployment issues that may arise.
+
+These options are dependent on your company's AWS security policies. We currently do not have a list of all IAM permissions required to deploy these stacks.
+
+#### Step 4: Review
+This page provides a review of your ReadySet stack setup configurations. Accept the Capabilities acknowledgement and then click “Create Stack”. 
+
+#### Step 5: Obtain values for next steps
+Once the ReadySet stack has reached the `CREATE_COMPLETED` state, go to the Outputs tab in the ReadySet stack to obtain the following values. Store these values in a temporary text file for use in further steps:
+- The IP Address of the Bastion host 
+- The VPC Endpoint Service: `ReadySetMySQLVPCEndpointService`
+
+Logs will be uploaded to CloudWatch in a Log Group with the same name as the CloudFormation stack. These logs will be in a Log Stream named `readyset`.
+
+## Part 2: Start using ReadySet 
+### Get your ReadySet connection string 
+#### Step 1: Create a VPC Endpoint and collect its DNS host name
+In the AWS console, navigate to **Virtual Private Cloud**, and then **Endpoints**. Click **Create Endpoint**.
+
+Under **Service category**, select **Find service by name** and copy in the `ReadySetMySQLVPCEndpointService` you obtained in Part 1 Step 5. Click **Verify** to confirm that this service is valid. Once verified, the additional fields will be populated for you.
+
+In the VPC field, select the VPC you will be using to send queries to ReadySet. 
+
+Click **Create endpoint** at the bottom of the page. 
+
+You’ll now be able to view **Details** for the endpoint you just created. Copy the DNS name to use as a part of your database connection string. This is the DNS host name that will resolve to live ReadySet adapters. This DNS host name is only valid inside the VPC you will be sending queries from. 
+
+#### Step 2: Accept the VPC Endpoint
+In the AWS console, navigate to **Endpoint Services** under **Virtual Private Cloud**. Select the endpoint service that matches the value from `ReadySetMySQLVPCEndpointService` that you obtained in Part 1 Step 5. Then, click the **Endpoint connections** tab. Select the new endpoint that you created in Part 2 Step 1. Click **Actions** and then **Accept endpoint connection request**. 
+
+Navigate back to **Endpoints** under **Virtual Private Cloud** to confirm that the endpoint has been accepted. Once the status for the endpoint is `available`, you can start sending queries to ReadySet!
+
+#### Step 3: Connect to ReadySet
+Use the DNS host name you collected in Part 2 Step 1 for connecting to ReadySet. This database connection uses the same authentication parameters as the `DatabaseUsername` and `DatabasePassword` you set in the CloudFormation stack. For example, the connection string should look something like `mysql://<DNShostname>/`.
+
+If you are using the command line MySQL client, you can connect to ReadySet by running `mysql -h <DNShostname>`. We recommend using a different instance to test connections, such as an application server, rather than using any individual Adapter or Server instance.
+
+
+### Notes 
+The `KeyPairName` was added to every adapter and server instance which will allow you to SSH into any individual adapter or server instance assuming you have those credentials. This should not need to be done. 
+
+As you use ReadySet, logs are also being uploaded to a CloudWatch Log Group with the name of your ReadySet stack.
