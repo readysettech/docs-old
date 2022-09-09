@@ -1,0 +1,31 @@
+
+# Usage Guidelines
+
+## Workload Requirements
+ReadySet makes the largest performance impact on applications with cacheable workloads. Cacheable workloads are **read-heavy** with
+**predictable access patterns**.
+
+### Read-Heavy Workloads
+Read-heavy workloads are characterized by a high read-to-write ratio. In other words, of the requests
+being sent to your database, the vast majority of them are reads rather than writes.
+
+ReadySet caches query results by computing the result of a query and storing it in memory so that it is accessible when
+the same query is issued again. These pre-computed queries accelerate read performance. In order to see performance improvements, your
+application should therefore perform a non-trivial number of reads.
+
+### Predictable Access Patterns
+Most caches (ReadySet included) are populated based on demand, i.e., the first time a user issues a request, the result for that request is computed and stored in memory so that it is
+readily available the next time the same query is issued.
+
+If the same request is never issued again, storing the result for that request in memory will not improve performance. Therefore, demand-based caching solutions excel when
+access patterns are predictable.
+
+## Resource Requirements
+
+### Memory
+
+An application's working set is the set of items that is useful to cache (i.e., items that are frequently accessed). To achieve the best results, ensure that ReadySet's memory budget can accommodate the working set of your application. Since ReadySet stores intermediate state in addition to the final query results,
+the memory required to accommodate the working set will be larger than the size of your working set.
+
+If the working set cannot be accommodated by ReadySet due to resource constraints, thrashing will occur. Thrashing refers to the frequent swapping of items from the cache as parts of the working set are evicted and reintroduced.
+Thrashing wastes CPU cycles and leads to performance degradation due to an increased frequency of cache misses.
