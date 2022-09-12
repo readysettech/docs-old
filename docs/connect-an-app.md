@@ -4,139 +4,222 @@ Once you have a ReadySet instance up and running, the next step is to connect yo
 running is to swap out your database connection string to point to ReadySet instead. The specifics of how to do this vary by
 database client library, ORM, and programming language. Below are a few examples.
 
-
 ## Python
 
-### Pyscopg2 (Postgres)
+=== "MySQL"
 
-To connect with Psycopyg2, pass a database URL to the psycopg2.connect function:
+    === "SQLAlchemy"
 
-```python
-import psycopg2
-import os
+        ```python
+        from sqlalchemy import create_engine
+        import os
 
-connection = psycopg2.connect(os.environ['DATABASE_URL'])
-```
+        engine = create_engine(os.environ['DATABASE_URL'])
+        engine.connect()
+        ```
 
-In this case, `DATABASE_URL` is an environment variable with the following format:
+        where `DATABASE_URL` is an environment variable with the following format:
 
-```sh
-postgresql://{username}:{password}@{host}:{port}/{database}?sslmode=verify-full&sslrootcert={root-cert}
-```
+        ```sh
+        mysql://{username}:{password}@{host}:{port}/{database}?sslmode=verify-full&sslrootcert={root-cert}
+        ```
+    === "Django"
 
-### SQLAlchemy (MySQL and Postgres)
+        To connect to ReadySet from a Django application, modify the DATABASES property in the settings.py file. Per the Django documentation, ensure that you have mysqlclient or another db api driver installed.
 
-```python
-from sqlalchemy import create_engine
-import os
+        ```python
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': '{database}',
+                'USER': '{username}',
+                'PASSWORD': '{password}',
+                'HOST': '{host}',
+                'PORT': '{port}'
+            }
+        }
 
-engine = create_engine(os.environ['DATABASE_URL'])
-engine.connect()
-```
+        ```
 
-where `DATABASE_URL` is an environment variable with the following format:
+        You can read the official documentation about connecting Django to a MySQL database [here](https://docs.djangoproject.com/en/4.0/ref/databases/#connecting-to-the-database).
 
-```sh
-mysql://{username}:{password}@{host}:{port}/{database}?sslmode=verify-full&sslrootcert={root-cert}
-```
+=== "Postgres"
 
-### Django (MySQL)
-To connect to ReadySet from a Django application, modify the DATABASES property in the settings.py file. Per the Django documentation, ensure that you have mysqlclient or another db api driver installed.
+    === "Pyscopg2"
 
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '{database}',
-        'USER': '{username}',
-        'PASSWORD': '{password}',
-        'HOST': '{host}',
-        'PORT': '{port}'
-    }
-}
+        To connect with Psycopyg2, pass a database URL to the psycopg2.connect function:
 
-```
+        ```python
+        import psycopg2
+        import os
 
-You can read the official documentation about connecting Django to a MySQL database [here](https://docs.djangoproject.com/en/4.0/ref/databases/#connecting-to-the-database).
+        connection = psycopg2.connect(os.environ['DATABASE_URL'])
+        ```
 
-### Django (Postgres)
+        In this case, `DATABASE_URL` is an environment variable with the following format:
 
-To connect to ReadySet from a Django application, modify the DATABASES property in the settings.py file. Per the Django documentation, pyscopg2 is required.
+        ```sh
+        postgresql://{username}:{password}@{host}:{port}/{database}?sslmode=verify-full&sslrootcert={root-cert}
+        ```
 
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '{database}',
-        'USER': '{username}',
-        'PASSWORD': '{password}',
-        'HOST': '{host}',
-        'PORT': '{port}'
-    }
-}
+    === "SQLAlchemy"
 
-```
+        ```python
+        from sqlalchemy import create_engine
+        import os
 
+        engine = create_engine(os.environ['DATABASE_URL'])
+        engine.connect()
+        ```
+
+        where `DATABASE_URL` is an environment variable with the following format:
+
+        ```sh
+        mysql://{username}:{password}@{host}:{port}/{database}?sslmode=verify-full&sslrootcert={root-cert}
+        ```
+
+    === "Django"
+
+        To connect to ReadySet from a Django application, modify the DATABASES property in the settings.py file. Per the Django documentation, pyscopg2 is required.
+
+        ```python
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': '{database}',
+                'USER': '{username}',
+                'PASSWORD': '{password}',
+                'HOST': '{host}',
+                'PORT': '{port}'
+            }
+        }
+
+        ```
 
 ## Javascript
 
-### Sequelize (MySQL or Postgres)
+=== "MySQL"
 
-To connect to ReadySet, first create a Sequelize object and pass it the correct parameters. According to the official documentation, there are several ways to do this.
+    === "Sequelize"
 
-```js
-const Sequelize = require("sequelize");
+        To connect to ReadySet, first create a Sequelize object and pass it the correct parameters. According to the official documentation, there are several ways to do this.
 
-const connectionString = "{dialect}://{username}:{password}@{host}:{port}/{database}"
-const sequelize = new Sequelize(connectionString)
-```
+        ```js
+        const Sequelize = require("sequelize");
 
-or
+        const connectionString = "{dialect}://{username}:{password}@{host}:{port}/{database}"
+        const sequelize = new Sequelize(connectionString)
+        ```
 
-```js
-const Sequelize = require("sequelize");
+        or
 
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
-});
-```
+        ```js
+        const Sequelize = require("sequelize");
 
-There are several ways to correctly pass database connection parameters to Sequelize. To read more about them, see the official documentation [here](https://sequelize.org/).
+        const sequelize = new Sequelize('database', 'username', 'password', {
+          host: 'localhost',
+          dialect: /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
+        });
+        ```
 
+        There are several ways to correctly pass database connection parameters to Sequelize. To read more about them, see the official documentation [here](https://sequelize.org/).
 
-### TypeORM (MySQL or Postgres)
-To get started using TypeORM and ReadySet, follow the steps below.
+    === "TypeORM"
 
-1) Install TypeORM:
+        To get started using TypeORM and ReadySet, follow the steps below.
 
-```javascript
-    npm install typeorm --save
-```
+        1) Install TypeORM:
 
-2) Install dependencies, including the correct database driver. A full list of supported drivers is listed [here](https://typeorm.io/#installation).
+        ```javascript
+            npm install typeorm --save
+        ```
 
-```js
-npm install reflect-metadata --save
-npm install (database-driver)
-```
+        2) Install dependencies, including the correct database driver. A full list of supported drivers is listed [here](https://typeorm.io/#installation).
 
-3) Configure your datasource in TypeORM’s `data-source.ts` file:
+        ```js
+        npm install reflect-metadata --save
+        npm install (database-driver)
+        ```
 
-```js
-export const AppDataSource = new DataSource({
-    type: "{databasetype}",
-    host: "{host}",
-    Port: {port},
-    username: "{username}",
-    password: "{password}",
-    database: "{database-name}",
-    synchronize: false,
-    logging: true,
-    entities: [], // entities to keep track of
-    subscribers: [],
-    migrations: [],
-})
-```
+        3) Configure your datasource in TypeORM’s `data-source.ts` file:
 
-For more information, read the official TypeORM documentation [here](https://typeorm.io/).
+        ```js
+        export const AppDataSource = new DataSource({
+            type: "{databasetype}",
+            host: "{host}",
+            Port: {port},
+            username: "{username}",
+            password: "{password}",
+            database: "{database-name}",
+            synchronize: false,
+            logging: true,
+            entities: [], // entities to keep track of
+            subscribers: [],
+            migrations: [],
+        })
+        ```
+
+        For more information, read the official TypeORM documentation [here](https://typeorm.io/).
+
+=== "Postgres"
+
+    === "Sequelize"
+
+        To connect to ReadySet, first create a Sequelize object and pass it the correct parameters. According to the official documentation, there are several ways to do this.
+
+        ```js
+        const Sequelize = require("sequelize");
+
+        const connectionString = "{dialect}://{username}:{password}@{host}:{port}/{database}"
+        const sequelize = new Sequelize(connectionString)
+        ```
+
+        or
+
+        ```js
+        const Sequelize = require("sequelize");
+
+        const sequelize = new Sequelize('database', 'username', 'password', {
+          host: 'localhost',
+          dialect: /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
+        });
+        ```
+
+        There are several ways to correctly pass database connection parameters to Sequelize. To read more about them, see the official documentation [here](https://sequelize.org/).
+
+    === "TypeORM"
+
+        To get started using TypeORM and ReadySet, follow the steps below.
+
+        1) Install TypeORM:
+
+        ```javascript
+            npm install typeorm --save
+        ```
+
+        2) Install dependencies, including the correct database driver. A full list of supported drivers is listed [here](https://typeorm.io/#installation).
+
+        ```js
+        npm install reflect-metadata --save
+        npm install (database-driver)
+        ```
+
+        3) Configure your datasource in TypeORM’s `data-source.ts` file:
+
+        ```js
+        export const AppDataSource = new DataSource({
+            type: "{databasetype}",
+            host: "{host}",
+            Port: {port},
+            username: "{username}",
+            password: "{password}",
+            database: "{database-name}",
+            synchronize: false,
+            logging: true,
+            entities: [], // entities to keep track of
+            subscribers: [],
+            migrations: [],
+        })
+        ```
+
+        For more information, read the official TypeORM documentation [here](https://typeorm.io/).
