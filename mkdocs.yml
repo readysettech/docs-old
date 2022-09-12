@@ -15,6 +15,7 @@ theme:
     - navigation.top
     - header.autohide
     - content.tabs.link
+    - content.code.annotate
   font:
     # Fonts for everything but headings
     # Heading fonts defined in stylesheets/extra.css
@@ -44,24 +45,26 @@ theme:
 # Page tree
 nav:
   - Intro:
-    - What is ReadySet?: intro.md
-    - Quickstart: quickstart.md
+    - What is ReadySet?: guides/intro.md
+    - Quickstart: guides/quickstart.md
   - Run ReadySet:
-    - Deploy with Kubernetes: deploy-readyset.md
-    - Deploy on ReadySet Cloud: deploy-readyset.md
-    - Connect an App: connect-an-app.md
-    - Cache Queries: cache-queries.md
-  - Manage ReadySet:
-    - Upgrade ReadySet: upgrade-readyset.md
-    - Scale ReadySet: scale-readyset.md
+    - Deploy on AWS:
+        - Kubernetes: guides/deploy-readyset-kubernetes.md
+        - ReadySet Cloud: guides/deploy-readyset-cloud.md
+    - Connect an App: guides/connect-an-app.md
+    - Cache Queries: guides/cache-queries.md
+  # - Manage ReadySet:
+  #   - Upgrade ReadySet: guides/upgrade-readyset.md
+  #   - Scale ReadySet: guides/scale-readyset.md
   - Reference:
     - SQL:
       - Query Support: reference/query-support.md
       - SQL Extensions: reference/sql-extensions.md
     - Dashboard: reference/dashboard.md
-    - Commands:
-      - readset-server: reference/readyset-server.md
-      - readyset-adaptor: reference/readyset-adaptor.md
+    # - Commands:
+    #   - readset-server: reference/readyset-server.md
+    #   - readyset-adapter: reference/readyset-adapter.md
+    - Telemetry: reference/telemetry.md
   - Concepts:
       - Overview: concepts/overview.md
       - Dataflow: concepts/dataflow.md
@@ -85,6 +88,7 @@ extra:
 markdown_extensions:
   - admonition
   - attr_list
+  - footnotes
   - md_in_html
   - pymdownx.details
   - pymdownx.highlight:
