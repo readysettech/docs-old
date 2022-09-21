@@ -10,8 +10,14 @@ h4, h5, h6 {
   font-family: "Space Grotesk";
 }
 
+/* Override heading font in sidenav and page toc */
 .md-nav .md-ellipsis {
   font-family: "Roboto" !important;
+}
+
+/* Hide the GitHub repo star and fork numbers */
+.md-source__facts {
+  display: none;
 }
 
 /* Top nav background and logo customizations */
