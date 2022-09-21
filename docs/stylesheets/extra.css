@@ -10,6 +10,10 @@ h4, h5, h6 {
   font-family: "Space Grotesk";
 }
 
+.md-nav .md-ellipsis {
+  font-family: "Roboto" !important;
+}
+
 /* Top nav background and logo customizations */
 .md-header {
   background: linear-gradient(44.99deg, #17AEFF 11.43%, #B263FE 43.27%, #F97ACE 85.89%);
@@ -37,4 +41,9 @@ h4, h5, h6 {
 :root > * {
   --md-primary-fg-color: #17AEFF;
   --md-accent-fg-color: #B263FE;
+}
+
+/* Don't show copy to clipboard icon in command output */
+.highlight.no-copy .md-clipboard {
+  display: none;
 }

@@ -1,4 +1,4 @@
-# Connecting to ReadySet
+# Connect to ReadySet
 
 Once you have a ReadySet instance up and running, the next step is to connect your application. The easiest way to get up and
 running is to swap out your database connection string to point to ReadySet instead. The specifics of how to do this vary by
