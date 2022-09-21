@@ -84,6 +84,9 @@ extra:
       link: https://twitter.com/readysetio
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/company/readysettech/
+  analytics:
+    provider: google
+    property: G-316711760
 
 markdown_extensions:
   - admonition
