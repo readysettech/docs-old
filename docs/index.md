@@ -1,17 +1,30 @@
-# What is ReadySet?
+# ReadySet Docs
 
 ReadySet is a lightweight SQL caching engine that sits between your application and database and turns even the most complex SQL reads into lightning-fast lookups. Unlike other caching solutions, ReadySet requires no changes to your application code.
 
-Based on years of dataflow research at MIT[^1], ReadySet stores the results of queries in-memory and automatically keeps queries up-to-date as the underlying database is updated. When the cache gets too full, ReadySet dynamically chooses which rows to evict. ReadySet can do this automatically because it listens to your database's replication logs.
+<div class="grid cards" markdown>
 
-This means:
+-   :material-lightbulb-on-outline:{ .lg .middle } [__About ReadySet__](guides/intro.md)
 
-- No extra code to keep your cache and database in sync
-- No extra code to evict stale records
-- No TTLs to set - your cache is as up-to-date as your replication lag
+    ---
 
-ReadySet is wire-compatible with MySQL and Postgres. For more on how ReadySet works under the hood, see [Concepts](concepts/overview.md).
+    Learn how ReadySet works and when it's a good fit for an application
 
-![Architecture](assets/readyset_arch.png)
+-   :material-clock-fast:{ .lg .middle } [__Quickstart in 5 minutes__](guides/quickstart.md)
 
-[^1]: See the [Noria](https://pdos.csail.mit.edu/papers/noria:osdi18.pdf) paper.
+    ---
+
+    Test the ReadySet caching engine in a local deployment
+
+-   :material-link-variant:{ .lg .middle } [__Connect an app__](guides/connect-an-app.md)
+
+    ---
+
+    Get code samples for connecting from various ORMs and SQL drivers
+
+-   :material-check:{ .lg .middle } [__Query support__](reference/query-support.md)
+
+    ---
+
+    Find out which parts of the SQL language are supported by ReadySet
+</div>
