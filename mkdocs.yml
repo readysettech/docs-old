@@ -86,7 +86,7 @@ extra:
       link: https://www.linkedin.com/company/readysettech/
   analytics:
     provider: google
-    property: G-316711760
+    property: G-QHKR2RLDNK
 
 markdown_extensions:
   - admonition
