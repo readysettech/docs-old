@@ -92,7 +92,7 @@ The orchestrator then downloads the necessary images and starts a ReadySet deplo
     === "Postgres"
 
         ``` sh
-        PGPASSWORD=<password> psql -h <host> -p <host> -U root <deployment name>
+        PGPASSWORD=<password> psql -h <host> -p <host> -U postgres <deployment name>
         ```
 
 3. Load the sample data into your database:   
