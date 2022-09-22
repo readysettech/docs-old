@@ -16,6 +16,7 @@ theme:
     - header.autohide
     - content.tabs.link
     - content.code.annotate
+    - content.tooltips
   font:
     # Fonts for everything but headings
     # Heading fonts defined in stylesheets/extra.css
@@ -89,6 +90,7 @@ extra:
     property: G-QHKR2RLDNK
 
 markdown_extensions:
+  - abbr
   - admonition
   - attr_list
   - footnotes
