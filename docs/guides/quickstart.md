@@ -52,7 +52,7 @@ First, you'll start a local deployment using the ReadySet orchestrator.(1) Then 
 
     2.  This is the port that ReadySet will listen on for incoming requests from SQL clients and ORMs. The default is `3307` for MySQL and `5433` for Postgres.
 
-        If you use a new MySQL of Postgres database, the database is accessible on `3306` for MySQL and `5432` for Postgres.
+        If you use a new MySQL of Postgres database, the database is accessible on `3308` for MySQL and `5434` for Postgres.
 
     3.  Caching is `explicit` by default, which means that ReadySet will only cache queries you tell it to. For this tutorial, it's important to keep this setting. In future testing, however, you can change this to `implicit` if you want ReadySet to attempt to cache every query that it receives, without your intervention.
 
