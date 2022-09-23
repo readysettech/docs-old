@@ -40,7 +40,7 @@ First, you'll start a local deployment using the ReadySet orchestrator.(1) Then 
     - Choose a backing database, either MySQL or Postgres.
     - Set a deployment name and password.(1)
     - Assign ReadySet a port to listen on.(2)
-    - Choose to use a new or existing database.
+    - Choose to use a new local database or an existing database.
     - If using an existing database, provide additional database details.
     - When asked, proceed with the current installation.(3)
 
@@ -52,7 +52,7 @@ First, you'll start a local deployment using the ReadySet orchestrator.(1) Then 
 
     2.  This is the port that ReadySet will listen on for incoming requests from SQL clients and ORMs. The default is `3307` for MySQL and `5433` for Postgres.
 
-        If you use a new MySQL of Postgres database, the database is accessible on `3306` for MySQL and `5432` for Postgres.
+        If you use a new MySQL of Postgres database, the database is accessible on `3308` for MySQL and `5434` for Postgres.
 
     3.  Caching is `explicit` by default, which means that ReadySet will only cache queries you tell it to. For this tutorial, it's important to keep this setting. In future testing, however, you can change this to `implicit` if you want ReadySet to attempt to cache every query that it receives, without your intervention.
 
@@ -80,19 +80,18 @@ The orchestrator then downloads the necessary images and starts a ReadySet deplo
         ``` sh
         curl -O https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/quickstart-data-postgres.sql
         ```
-
 2. Start the database SQL shell, using the pre-configured command printed by the orchestrator:
 
     === "MySQL"
 
-        ``` sh
-        mysql -h <host> -uroot -p<password> -P<port> --database=<deployment name>
+        ```
+        mysql -h 127.0.0.1 -uroot -p<password> -P<port> --database=<deployment name>
         ```
 
     === "Postgres"
 
-        ``` sh
-        PGPASSWORD=<password> psql -h <host> -p <host> -U postgres <deployment name>
+        ```
+        PGPASSWORD=<password> psql -h 127.0.0.1 -p <port> -U postgres <deployment name>
         ```
 
 3. Load the sample data into your database:   
