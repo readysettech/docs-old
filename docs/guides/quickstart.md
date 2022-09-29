@@ -80,6 +80,7 @@ The orchestrator then downloads the necessary images and starts a ReadySet deplo
         ``` sh
         curl -O https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/quickstart-data-postgres.sql
         ```
+
 2. Start the database SQL shell, using the pre-configured command printed by the orchestrator:
 
     === "MySQL"
