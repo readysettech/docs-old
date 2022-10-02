@@ -42,7 +42,9 @@ components:
             - deployment_torn_down
             - installer_finished
             - installer_run
+            - proxied_query
             - query_parse_failed
+            - schema
             - server_start
             - server_stop
             - show_caches
@@ -76,7 +78,11 @@ components:
             - installer_compose
         docker_version:
           type: string
+        proxied_query:
+          type: string
         query_id:
+          type: string
+        schema:
           type: string
         server_version:
           type: string
@@ -86,18 +92,20 @@ components:
 
 Below are brief descriptions of each possible event:
 
-- **Server Start**: The ReadySet server was launched
-- **Server Stop**: The ReadySet server was shut down
 - **Adapter Start**: The ReadySet adapter was launched
 - **Adapter Stop**: The ReadySet adapter was shut down
-- **Installer Run**: The ReadySet installer was launched
+- **Create Cache**: A `CREATE CACHE` statement was executed
 - **Deployment Started**: A deployment of ReadySet was initiated by the installer
 - **Deployment Finished**: The ReadySet installer finished deploying a new instance of ReadySet
 - **Deployment Torn Down**: The ReadySet installer finished tearing down a deployment
+- **Installer Run**: The ReadySet installer was launched
 - **Installer Finished**: The ReadySet installer exited successfully
+- **Proxied Query**: A new query, incompatible with ReadySet, is being proxied to the upstream database, and the anonymized query was reported
 - **Query Parse Failed**: ReadySet failed to parse a query, but the upstream was able to
-- **Create Cache**: A CREATE CACHE statement was executed
-- **Show Caches**: The SHOW CACHES statement was executed
-- **Show Proxied Queries**: The SHOW PROXIED QUERIES statement was executed
+- **Schema**: New tables or views were snapshotted, and anonymized schemas of each were reported
+- **Server Start**: The ReadySet server was launched
+- **Server Stop**: The ReadySet server was shut down
+- **Show Caches**: The `SHOW CACHES` statement was executed
+- **Show Proxied Queries**: The `SHOW PROXIED QUERIES` statement was executed
 - **Snapshot Complete**: ReadySet successfully snapshotted the upstream database
 - **Upstream Connected**: ReadySet successfully connected to the upstream database
