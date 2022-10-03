@@ -8,7 +8,7 @@ Telemetry is reported using the [Segment](https://segment.com) customer data pla
 
 ## Disabling telemetry
 
-Telemetry can be disabled by running the ReadySet installer with the `--disable-telemetry` option.
+Telemetry can be disabled by running ReadySet executables with the `--disable-telemetry` option.
 
 ## Providing your own Segment source
 
@@ -34,15 +34,23 @@ components:
           description: a per-session UUID
         event:
           enum:
-          - adapter_start
-          - adapter_stop
-          - server_start
-          - server_stop
-          - installer_run
-          - deployment_started
-          - deployment_finished
-          - deployment_torn_down
-          - installer_finished
+            - adapter_start
+            - adapter_stop
+            - create_cache
+            - deployment_finished
+            - deployment_started
+            - deployment_torn_down
+            - installer_finished
+            - installer_run
+            - proxied_query
+            - query_parse_failed
+            - schema
+            - server_start
+            - server_stop
+            - show_caches
+            - show_proxied_queries
+            - snapshot_complete
+            - upstream_connected
         properties:
           $ref: '#/components/schemas/Properties'
         timestamp:
@@ -55,30 +63,49 @@ components:
     Properties:
       type: object
       properties:
-        db_backend:
-          enum:
-          - mysql
-          - postgres
         adapter_version:
-            type: string
-        server_version:
-            type: string
-        docker_version:
             type: string
         commit_id:
             type: string
+        db_backend:
+          enum:
+            - mysql
+            - postgres
+        deployment_env:
+          enum:
+            - eks
+            - helm
+            - installer_compose
+        docker_version:
+          type: string
+        proxied_query:
+          type: string
+        query_id:
+          type: string
+        schema:
+          type: string
+        server_version:
+          type: string
 ```
 
 ### Events
 
 Below are brief descriptions of each possible event:
 
-- **Server Start**: The ReadySet server was launched
-- **Server Stop**: The ReadySet server was shut down
 - **Adapter Start**: The ReadySet adapter was launched
 - **Adapter Stop**: The ReadySet adapter was shut down
-- **Installer Run**: The ReadySet installer was launched
+- **Create Cache**: A `CREATE CACHE` statement was executed
 - **Deployment Started**: A deployment of ReadySet was initiated by the installer
 - **Deployment Finished**: The ReadySet installer finished deploying a new instance of ReadySet
 - **Deployment Torn Down**: The ReadySet installer finished tearing down a deployment
+- **Installer Run**: The ReadySet installer was launched
 - **Installer Finished**: The ReadySet installer exited successfully
+- **Proxied Query**: A new query, incompatible with ReadySet, is being proxied to the upstream database, and the anonymized query was reported
+- **Query Parse Failed**: ReadySet failed to parse a query, but the upstream was able to
+- **Schema**: New tables or views were snapshotted, and anonymized schemas of each were reported
+- **Server Start**: The ReadySet server was launched
+- **Server Stop**: The ReadySet server was shut down
+- **Show Caches**: The `SHOW CACHES` statement was executed
+- **Show Proxied Queries**: The `SHOW PROXIED QUERIES` statement was executed
+- **Snapshot Complete**: ReadySet successfully snapshotted the upstream database
+- **Upstream Connected**: ReadySet successfully connected to the upstream database
