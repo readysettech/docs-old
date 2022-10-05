@@ -4,7 +4,7 @@ The intricacies of whether particular queries are supported by ReadySet depend o
 
 **Importantly, you do not have to do work to figure out if your particular queries are supported by ReadySet.**
 
-The easiest way to determine which queries are supported is to refer to the [ReadySet dashboard](/using/dashboard), which will display information about whether individual queries are supported by ReadySet for you.
+The easiest way to determine which queries are supported is to refer to the [ReadySet dashboard](/reference/dashboard), which will display information about whether individual queries are supported by ReadySet for you.
 
 ## Query Structure
 
