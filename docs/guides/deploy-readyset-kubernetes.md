@@ -1,6 +1,6 @@
 # Deploy ReadySet with Kubernetes
 
-This page shows you how to run ReadySet on Amazon EKS (Elastic Kubernetes Service) in front of an Amazon RDS (Relational Database Service) for Postgres or MySQL database.
+This page shows you how to run ReadySet on [Amazon EKS](https://aws.amazon.com/eks/) in front of an [Amazon RDS](https://aws.amazon.com/rds/) for Postgres or MySQL database.
 
 First, you'll start a Kubernetes cluster on Amazon EKS with enough resources for a simple ReadySet deployment. For efficient networking and security, you'll use the same VPC as your database. Next, you'll set up load balancing to handle traffic from outside of the Kubernetes cluster. Then you'll configure your database to ensure that ReadySet can consume the database's replication stream. Finally, you'll use ReadySet's Helm chart to deploy ReadySet into the Kubernetes cluster.
 
