@@ -480,7 +480,7 @@ In this step, you'll configure your database so that ReadySet can consume the da
 
 In this step, you'll use the Helm package manager to deploy ReadySet into your EKS cluster.
 
-1. [Install the Helm client](https://helm.sh/docs/intro/install/):
+1. [Install the Helm client](https://helm.sh/docs/intro/install/).
 
 
 2. Clone the [`readyset` GitHub repository](https://github.com/readysettech/readyset):
