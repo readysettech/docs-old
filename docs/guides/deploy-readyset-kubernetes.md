@@ -491,103 +491,122 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
 
 3. Move into to the `readysettech/readyset/helm/readyset` directory. This directory contains the `Chart.yaml` and `values.yaml` files that Helm needs to deploy ReadySet.
 
-4. Edit the `values.yaml` as follows:
+4. By default, Helm uses the `latest` docker image tag for the ReadySet Server and Adapter. This tag is updated nightly and so represents different versions of ReadySet over time. To ensure that you deploy a fixed version of ReadySet, it's important to use the tag for a specific version.
+
+    1. Get the available image tags for the ReadySet Server and Adapter:
+
+        ``` sh
+        TOKEN=$(curl -k https://public.ecr.aws/token/ | jq -r '.token')
+        ```
+
+        ``` sh
+        curl -k -H "Authorization: Bearer $TOKEN" \
+        https://public.ecr.aws/v2/readyset/readyset-server/tags/list
+        ```
+
+        ``` sh
+        curl -k -H "Authorization: Bearer $TOKEN" \
+        https://public.ecr.aws/v2/readyset/readyset-adapter/tags/list
+        ```
+
+        The results will look like this:
+
+        ``` {.text .no-copy}
+        {"name":"readyset/readyset-server","tags":["d3f36b07c8edd41c9ec558654b0cd6b1998eee61","latest"]}
+        {"name":"readyset/readyset-adapter","tags":["d3f36b07c8edd41c9ec558654b0cd6b1998eee61","latest"]}
+        ```
+
+    2. In `values.yaml`, change the image tags for the ReadySet Server and Adapter from `latest` to a specific version:
+
+        ``` sh hl_lines="9"
+        # -- Container image settings for ReadySet server.
+        # @default -- Truncated due to length.
+        image:
+
+          # -- Image repository to use for ReadySet server.
+          repository: public.ecr.aws/readyset/readyset-server
+
+          # -- Image tag to use for ReadySet server.
+          tag: "latest"
+        ```
+
+        ``` sh hl_lines="9"
+        # -- Container image settings for ReadySet adapter.
+        # @default -- Truncated due to length.
+        image:
+
+          # -- Image repository to use for ReadySet adapter.
+          repository: public.ecr.aws/readyset/readyset-adapter
+
+          # -- Image tag to use for ReadySet adapter.
+          tag: "latest"
+        ```
+
+        !!! warning
+
+            The ReadySet Server and Adapter must run the same version of ReadySet, so be sure to use matching image tags for the Server and Adapter.
+
+5. In `values.yaml`, configure your deployment to use the ReadySet Adapter for your database:
 
     === "RDS Postgres"
 
-        1. Configure your deployment to use the ReadySet Adapter for Postgres:
-
-            ```  sh hl_lines="3"
-            # -- Flag to instruct entrypoint script which adapter binary to use.
-            # Supported values: mysql, psql
-            engine: "psql"
-            ```
-
-        2. Change the storage size to be 2x the size of your database:
-
-            ``` sh hl_lines="10"
-            volumeClaimTemplates:
-            - metadata:
-                name: state
-              spec:
-                storageClassName: gp2
-                accessModes:
-                  - ReadWriteOnce
-                resources:
-                  requests:
-                    storage: 250Gi
-            ```
-
-        3. Set environment variables to disable verification of SSL certifications on the ReadySet Server and ReadySet adapter. This is necessary because ReadySet cannot currently verify Amazon's self-signed certificates.
-
-            ``` sh hl_lines="4"
-            # -- Static environment variables to be applied to ReadySet server containers.
-            extraEnvironmentVars:
-
-              DISABLE_REPLICATION_SSL_VERIFICATION: "1"
-            ```
-
-            ``` sh hl_lines="4-5"
-            # -- Static environment variables applied to ReadySet adapter containers.
-            extraEnvironmentVars:
-
-              DISABLE_REPLICATION_SSL_VERIFICATION: "1"
-              DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
-            ```
+        ```  sh hl_lines="3"
+        # -- Flag to instruct entrypoint script which adapter binary to use.
+        # Supported values: mysql, psql
+        engine: "psql"
+        ```
 
     === "RDS MySQL"
 
-        1. Configure your deployment to use the ReadySet Adapter for MySQL:
+        ```  sh hl_lines="3"
+        # -- Flag to instruct entrypoint script which adapter binary to use.
+        # Supported values: mysql, psql
+        engine: "mysql"
+        ```
 
-            ```  sh hl_lines="3"
-            # -- Flag to instruct entrypoint script which adapter binary to use.
-            # Supported values: mysql, psql
-            engine: "mysql"
-            ```
+6. In `values.yaml`, change the storage size to be 2x the size of your database:
 
-        2. Change the storage size to be 2x the size of your database:
-
-            ``` sh hl_lines="10"
-            volumeClaimTemplates:
-            - metadata:
-                name: state
-              spec:
-                storageClassName: gp2
-                accessModes:
-                  - ReadWriteOnce
-                resources:
-                  requests:
-                    storage: 250Gi
-            ```
-
-        3. Set environment variables to disable verification of SSL certifications on the ReadySet Server and ReadySet adapter. This is necessary because ReadySet cannot currently verify Amazon's self-signed certificates.
-
-            ``` sh hl_lines="4"
-            # -- Static environment variables to be applied to ReadySet server containers.
-            extraEnvironmentVars:
-
-              DISABLE_REPLICATION_SSL_VERIFICATION: "1"
-            ```
-
-            ``` sh hl_lines="4-5"
-            # -- Static environment variables applied to ReadySet adapter containers.
-            extraEnvironmentVars:
-
-              DISABLE_REPLICATION_SSL_VERIFICATION: "1"
-              DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
-            ```
+    ``` sh hl_lines="10"
+    volumeClaimTemplates:
+    - metadata:
+        name: state
+      spec:
+        storageClassName: gp2
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 250Gi
+    ```
 
     !!! note
 
         The `values.yaml` file contains the CPU, memory, and storage specifications for the components of your deployment. The default values are suitable for testing purposes only. For production deployments, you'll need to substitute values that are appropriate for your database and workload. Please [reach out](mailto:info@readyset.io) to ReadySet for guidance.
 
-5. Use the ReadySet Helm chart to deploy ReadySet to your EKS cluster:
+7. In `values.yaml`, set environment variables to disable verification of SSL certifications on the ReadySet Server and ReadySet adapter. This is necessary because ReadySet cannot currently verify Amazon's self-signed certificates.
+
+    ``` sh hl_lines="4"
+    # -- Static environment variables to be applied to ReadySet server containers.
+    extraEnvironmentVars:
+
+      DISABLE_REPLICATION_SSL_VERIFICATION: "1"
+    ```
+
+    ``` sh hl_lines="4-5"
+    # -- Static environment variables applied to ReadySet adapter containers.
+    extraEnvironmentVars:
+
+      DISABLE_REPLICATION_SSL_VERIFICATION: "1"
+      DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
+    ```
+
+8. Use the ReadySet Helm chart to deploy ReadySet to your EKS cluster:
 
     ``` sh
     helm install readyset . --values values.yaml
     ```    
 
-6. Confirm that the ReadySet deployment completed successfully, with the pods for the ReadySet Adapter, ReadySet Server, and Consul showing `Running` under `STATUS`:
+9. Confirm that the ReadySet deployment completed successfully, with the pods for the ReadySet Adapter, ReadySet Server, and Consul showing `Running` under `STATUS`:
 
     ``` sh
     kubectl get pods -o wide
@@ -600,7 +619,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     readyset-readyset-server-0                  2/2     Running   0          5m    192.168.18.133   ip-192-168-18-84.ec2.internal    <none>           <none>
     ```
 
-7. Confirm that the persistent volumes for storing ReadySet's snapshot of your database and for ReadySet state details were created successfully:
+10. Confirm that the persistent volumes for storing ReadySet's snapshot of your database and for ReadySet state details were created successfully:
 
     ``` sh
     kubectl get pv
@@ -612,7 +631,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     pvc-ddf75696-9eb7-4e28-a846-2110e889c8de   250Gi      RWO            Delete           Bound    default/state-readyset-readyset-server-0        gp2                     5m
     ```
 
-8. Confirm that ReadySet has finished snapshotting the tables in your database:
+11. Confirm that ReadySet has finished snapshotting the tables in your database:
 
     === "RDS Postgres"
 
@@ -646,7 +665,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         2022-09-30T16:14:13.368502Z  INFO taking database snapshot: replicators::noria_adapter: Snapshot finished
         ```
 
-9. Confirm that ReadySet is receiving the database's replication stream:
+12. Confirm that ReadySet is receiving the database's replication stream:
 
     === "RDS Postgres"
 
@@ -690,7 +709,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         kubectl logs ${ADAPTER} -c readyset-adapter -f
         ```        
 
-10. Confirm that a load balancer service was created successfully:
+13. Confirm that a load balancer service was created successfully:
 
     ``` sh
     kubectl get service/readyset-readyset-adapter
@@ -702,7 +721,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     ```
     Do not move on to the next step until an `EXTERNAL-IP` has been assigned to the load balancer. This may take a few minutes.
 
-11. Check that you can connect to ReadySet via the load balancer.
+14. Check that you can connect to ReadySet via the load balancer.
 
     === "RDS Postgres"
 
