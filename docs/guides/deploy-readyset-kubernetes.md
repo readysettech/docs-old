@@ -151,6 +151,10 @@ For more demanding workloads, ReadySet can be run with multiple Adapters. Please
 
         1. Set environment variables with your database connection details:
 
+            !!! note "Replication scope"
+
+                By default, ReadySet will replicate all tables in all schemas of the database specified in `DB_NAME`. If the queries you want to cache with ReadySet touch only a specific schema or specific tables in a schema, you can restrict the scope of replication accordingly. See [Step 4](#step-4-configure-readyset) for more details.
+
             ``` sh
             export DB_USERNAME="<username>"
             ```
@@ -192,6 +196,10 @@ For more demanding workloads, ReadySet can be run with multiple Adapters. Please
     === "RDS MySQL"
 
         1. Set environment variables with your database connection details:
+
+            !!! note "Replication scope"
+
+                By default, ReadySet will replicate all tables in the database specified in `DB_NAME`. If the queries you want to cache with ReadySet touch only specific tables in the database, you can restrict the scope of replication accordingly. See [Step 4](#step-4-configure-readyset) for more details.
 
             ``` sh
             export DB_USERNAME="<username>"
@@ -476,12 +484,9 @@ In this step, you'll configure your database so that ReadySet can consume the da
         exit
         ```
 
-##  Step 4. Start ReadySet
+## Step 4. Configure ReadySet
 
-In this step, you'll use the Helm package manager to deploy ReadySet into your EKS cluster.
-
-1. [Install the Helm client](https://helm.sh/docs/intro/install/).
-
+In this step, you'll download and edit the configuration files for deploying ReadySet.
 
 2. Clone the [`readyset` GitHub repository](https://github.com/readysettech/readyset):
 
@@ -599,13 +604,41 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
       DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
     ```
 
-8. Use the ReadySet Helm chart to deploy ReadySet to your EKS cluster:
+8. By default, ReadySet will replicate all data in the database specified in the ReadySet secret that you created earlier. If the queries you want to cache with ReadySet touch only specific tables in the database, you can set the `REPLICATION_TABLES` environment variable to restrict the replication scope accordingly:
+
+    === "RDS Postgres"
+
+        ``` sh hl_lines="4"
+        # -- Static environment variables to be applied to ReadySet server containers.
+        extraEnvironmentVars:
+
+          REPLICATION_TABLES: "<schmema>.<table>,<schmema>.<table>"
+        ```
+
+        To replicate all tables in a schema, use `<schema>.*`.
+
+    === "RDS MySQL"
+
+        ``` sh hl_lines="4"
+        # -- Static environment variables to be applied to ReadySet server containers.
+        extraEnvironmentVars:
+
+          REPLICATION_TABLES: "<database>.<table>,<database>.<table>"
+        ```
+
+## Step 5. Start ReadySet
+
+In this step, you'll use the Helm package manager to deploy ReadySet into your EKS cluster.
+
+1. [Install the Helm client](https://helm.sh/docs/intro/install/).
+
+2. Use the ReadySet Helm chart to deploy ReadySet to your EKS cluster:
 
     ``` sh
     helm install readyset . --values values.yaml
     ```    
 
-9. Confirm that the ReadySet deployment completed successfully, with the pods for the ReadySet Adapter, ReadySet Server, and Consul showing `Running` under `STATUS`:
+3. Confirm that the ReadySet deployment completed successfully, with the pods for the ReadySet Adapter, ReadySet Server, and Consul showing `Running` under `STATUS`:
 
     ``` sh
     kubectl get pods -o wide
@@ -618,7 +651,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     readyset-readyset-server-0                  2/2     Running   0          5m    192.168.18.133   ip-192-168-18-84.ec2.internal    <none>           <none>
     ```
 
-10. Confirm that the persistent volumes for storing ReadySet's snapshot of your database and for ReadySet state details were created successfully:
+4. Confirm that the persistent volumes for storing ReadySet's snapshot of your database and for ReadySet state details were created successfully:
 
     ``` sh
     kubectl get pv
@@ -630,7 +663,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     pvc-ddf75696-9eb7-4e28-a846-2110e889c8de   250Gi      RWO            Delete           Bound    default/state-readyset-readyset-server-0        gp2                     5m
     ```
 
-11. Confirm that ReadySet has finished snapshotting the tables in your database:
+5. Confirm that ReadySet has finished snapshotting the tables in your database:
 
     === "RDS Postgres"
 
@@ -664,7 +697,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         2022-09-30T16:14:13.368502Z  INFO taking database snapshot: replicators::noria_adapter: Snapshot finished
         ```
 
-12. Confirm that ReadySet is receiving the database's replication stream:
+6. Confirm that ReadySet is receiving the database's replication stream:
 
     === "RDS Postgres"
 
@@ -708,7 +741,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         kubectl logs ${ADAPTER} -c readyset-adapter -f
         ```        
 
-13. Confirm that a load balancer service was created successfully:
+7. Confirm that a load balancer service was created successfully:
 
     ``` sh
     kubectl get service/readyset-readyset-adapter
@@ -720,7 +753,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     ```
     Do not move on to the next step until an `EXTERNAL-IP` has been assigned to the load balancer. This may take a few minutes.
 
-14. Check that you can connect to ReadySet via the load balancer.
+8. Check that you can connect to ReadySet via the load balancer.
 
     === "RDS Postgres"
 
