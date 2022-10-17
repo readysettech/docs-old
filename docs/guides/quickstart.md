@@ -1,4 +1,4 @@
-# Quickstart
+# Quickstart with ReadySet
 
 This tutorial shows you the quickest way to get started with ReadySet.
 
@@ -14,11 +14,9 @@ First, you'll start a local deployment using the ReadySet orchestrator.(1) Then 
 
     The orchestrator also gives you the choice to create a new MySQL or Postgres database or connect to an existing database.
 
-??? tip "Interested in cloud deployment?"
+!!! tip
 
-    You can deploy to AWS yourself using our Kubernetes Helm chart, or you can let ReadySet do the work on ReadySet Cloud.
-
-    See [Deploy with Kubernetes](deploy-readyset-kubernetes.md) or [Deploy on ReadySet Cloud](deploy-readyset-cloud.md) for more details.
+    To deploy ReadySet on AWS, use our [Kubernetes Helm chart](deploy-readyset-kubernetes.md), or let ReadySet do the work on [ReadySet Cloud](deploy-readyset-cloud.md).
 
 ## Before you begin
 
