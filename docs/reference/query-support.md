@@ -83,14 +83,15 @@ select * from t1, t2 where t1.x = t1.y
 ReadySet supports the following components of the SQL expression language:
 
 - Literal values
-    - String literals, quoted according to the SQL dialect being used (single quotes for postgresql, double or single quotes for mysql)
+    - String literals, quoted according to the SQL dialect being used (single quotes for PostgreSQL, double or single quotes for MySQL)
         - ReadySet does not support string literals with charset or collation specifications
     - Integer literals
     - Float literals
         - ReadySet does not support float literals using scientific (exponential) notation
-    - the `NULL` literal
-    - the `CURRENT_TIMESTAMP`, `CURRENT_DATE`, and `CURRENT_TIME` literals
-    - boolean literals `TRUE` and `FALSE`
+    - `NULL` literal
+    - `CURRENT_TIMESTAMP`, `CURRENT_DATE`, and `CURRENT_TIME` literals
+    - Boolean literals `TRUE` and `FALSE`
+    - Array literals
 - Operators
     - `AND`
     - `OR`
@@ -104,6 +105,7 @@ ReadySet supports the following components of the SQL expression language:
     - Unary `-`
     - Unary `NOT`
     - `BETWEEN`
+    - `EXISTS` without a subquery
 - `IN` and `NOT IN` with a list of expressions
     - see "Limitations of `IN`" under [“Parameters”](#parameters)
 - `CAST`
@@ -117,6 +119,12 @@ ReadySet supports the following components of the SQL expression language:
     - `timediff`
     - `addtime`
     - `round`
+    - `json_typeof`
+    - `jsonb_typeof`
+    - `coalesce`
+    - `substr` and `substring`
+    - `greatest`
+    - `least`
 
 ### Unsupported
 
@@ -267,6 +275,9 @@ ReadySet supports the following data types:
     - ReadySet will parse, but ignores the optional length field
 - `SERIAL`
 - `BIGSERIAL`
+- `ENUM`
+    - ReadySet supports enums in MySQL but not Postgres
+- `CITEXT`
 
 ReadySet additionally has limited support for the following data types:
 
@@ -284,4 +295,4 @@ ReadySet stores all strings internally as UTF-8. ReadySet does not support any o
 
 ### Miscellaneous schema support
 
-ReadySet does not support [schemas](https://www.postgresql.org/docs/current/ddl-schemas.html) (namespaces for tables).
+ReadySet supports [schemas](https://www.postgresql.org/docs/current/ddl-schemas.html) (namespaces for tables).
