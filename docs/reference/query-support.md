@@ -296,3 +296,16 @@ ReadySet stores all strings internally as UTF-8. ReadySet does not support any o
 ### Miscellaneous schema support
 
 ReadySet supports [schemas](https://www.postgresql.org/docs/current/ddl-schemas.html) (namespaces for tables).
+
+## Schema changes
+
+ReadySet supports the following options in `ALTER TABLE` statement:
+
+- `ADD COLUMN`
+- `ADD KEY`
+- `DROP COLUMN`
+- `ALTER COLUMN`
+    - ReadySet supports only `SET DEFAULT [literal]` and `DROP DEFAULT`
+- `CHANGE COLUMN`
+- `MODIFY COLUMN`
+    - ReadySet does not support `FIRST` or `AFTER`.
