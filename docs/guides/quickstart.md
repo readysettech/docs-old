@@ -22,8 +22,15 @@ First, you'll start a local deployment using the ReadySet orchestrator.(1) Then 
 
 ## Before you begin
 
-- Install and start [Docker](https://docs.docker.com/get-docker/).
-- Install the [MySQL shell](https://dev.mysql.com/doc/refman/8.0/en/mysql.html) or the [Postgres shell](https://www.postgresql.org/docs/current/app-psql.html), depending on which database you plan to use.
+=== "MySQL"
+
+    - Install [Docker Engine](https://docs.docker.com/engine/install/) for your OS.
+    - Install the [MySQL shell](https://dev.mysql.com/doc/refman/8.0/en/mysql.html).
+
+=== "Postgres"
+
+    - Install [Docker Engine](https://docs.docker.com/engine/install/) for your OS.
+    - Install the [Postgres shell](https://www.postgresql.org/docs/current/app-psql.html).
 
 ## Step 1. Deploy ReadySet
 
