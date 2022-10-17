@@ -589,14 +589,13 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     # -- Static environment variables to be applied to ReadySet server containers.
     extraEnvironmentVars:
 
-      DISABLE_REPLICATION_SSL_VERIFICATION: "1"
+      DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
     ```
 
     ``` sh hl_lines="4-5"
     # -- Static environment variables applied to ReadySet adapter containers.
     extraEnvironmentVars:
 
-      DISABLE_REPLICATION_SSL_VERIFICATION: "1"
       DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
     ```
 
