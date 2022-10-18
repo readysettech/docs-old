@@ -663,7 +663,9 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     pvc-ddf75696-9eb7-4e28-a846-2110e889c8de   250Gi      RWO            Delete           Bound    default/state-readyset-readyset-server-0        gp2                     5m
     ```
 
-5. Confirm that ReadySet has finished snapshotting the tables in your database:
+5. Depending on the size of your dataset, it can take ReadySet between a few minutes to several hours to create an initial snapshot. During this process, ReadySet acquires read locks on the relevant database tables. `SELECT`, `INSERT`, and `UPDATE` statements can continue uninterrupted, but any DDL statements (e.g., `ALTER` and `DROP`) will block until the snapshot is finished.
+
+    Check on the snapshotting process:
 
     === "RDS Postgres"
 
@@ -672,7 +674,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         ```
 
         ``` sh
-        kubectl logs ${SERVER} -c readyset-server | grep 'Snapshot'
+        kubectl logs ${SERVER} -c readyset-server | grep 'snapshot'
         ```
 
         ```
@@ -683,6 +685,10 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         2022-09-27T18:13:10.971007Z  INFO replicators::noria_adapter: Snapshot finished
         ```
 
+        !!! note
+
+            Do not move on to the next step until you see the `Snapshot finished` message.
+
     === "RDS MySQL"
 
         ``` sh
@@ -690,12 +696,27 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         ```
 
         ``` sh
-        kubectl logs ${SERVER} -c readyset-server | grep 'Snapshot'
+        kubectl logs ${SERVER} -c readyset-server | grep 'taking database snapshot'
         ```
 
         ```
-        2022-09-30T16:14:13.368502Z  INFO taking database snapshot: replicators::noria_adapter: Snapshot finished
+        2022-10-18T17:18:01.685613Z  INFO taking database snapshot: replicators::noria_adapter: Starting snapshot
+        2022-10-18T17:18:01.803163Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Acquiring read lock table=`readyset`.`users`
+        2022-10-18T17:18:01.807475Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Replicating table table=`readyset`.`users`
+        2022-10-18T17:18:01.809739Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Read lock released table=`readyset`.`users`
+        2022-10-18T17:18:01.810049Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Acquiring read lock table=`readyset`.`posts`
+        2022-10-18T17:18:01.816496Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Replicating table table=`readyset`.`posts`
+        2022-10-18T17:18:01.818721Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Read lock released table=`readyset`.`posts`
+        2022-10-18T17:18:01.822144Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Replication started rows=4990 table=`readyset`.`users`
+        2022-10-18T17:18:01.822376Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Replication started rows=5000 table=`readyset`.`posts`
+        2022-10-18T17:18:01.863220Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Replication finished rows_replicated=4990 table=`readyset`.`users`
+        2022-10-18T17:18:01.864316Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Replication finished rows_replicated=5000 table=`readyset`.`posts`
+        2022-10-18T17:18:01.966256Z  INFO taking database snapshot: replicators::noria_adapter: Snapshot finished
         ```
+
+        !!! note
+
+            Do not move on to the next step until you see the `Snapshot finished` message.
 
 6. Confirm that ReadySet is receiving the database's replication stream:
 
