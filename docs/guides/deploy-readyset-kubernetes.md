@@ -10,6 +10,10 @@ First, you'll start a Kubernetes cluster on Amazon EKS with enough resources for
 
     ReadySet can be run in front of other versions of Postgres and MySQL. However, this tutorial focuses on RDS.
 
+- Make sure there are no DDL statements in progress.
+
+    ReadySet will take an initial snapshot of your data. Until the entire snapshot is finished, which can take between a few minutes to several hours depending on the size of your dataset, DDL statements (e.g., `ALTER` and `DROP`) against tables in your snapshot will be blocked. In MySQL, `INSERT` and `UPDATE` statements will also be blocked, but only while a given table is being snapshotted.
+
 - Complete the steps described in the [EKS Getting Started](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) documentation.
 
     This includes installing and configuring `eksctl`, the command-line tool for creating and deleting Kubernetes clusters on EKS, and `kubectl`, the command-line tool for managing Kubernetes from your workstation.
@@ -663,7 +667,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     pvc-ddf75696-9eb7-4e28-a846-2110e889c8de   250Gi      RWO            Delete           Bound    default/state-readyset-readyset-server-0        gp2                     5m
     ```
 
-5. Depending on the size of your dataset, it can take ReadySet between a few minutes to several hours to create an initial snapshot. During this process, ReadySet acquires read locks on the relevant database tables. `SELECT`, `INSERT`, and `UPDATE` statements can continue uninterrupted, but any DDL statements (e.g., `ALTER` and `DROP`) will block until the snapshot is finished.
+5. Depending on the size of your dataset, it can take ReadySet between a few minutes to several hours to create an initial snapshot. Until the entire snapshot is finished, DDL statements (e.g., `ALTER` and `DROP`) against tables in your snapshot will be blocked. In MySQL, `INSERT` and `UPDATE` statements will also be blocked, but only while a given table is being snapshotted.
 
     Check on the snapshotting process:
 
