@@ -22,11 +22,11 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
 
     Deploy ReadySet on Amazon EKS (Elastic Kubernetes Service)
 
--   :material-cloud-outline:{ .lg .middle } [__Join the Cloud Waitlist__](guides/deploy-readyset-cloud.md)
+-   :material-cloud-outline:{ .lg .middle } [__Run with ReadySet Cloud__](guides/deploy-readyset-cloud.md)
 
     ---
 
-    ReadySet Cloud provides a fully-managed, single-tenant ReadySet deployment
+    Get early access to a fully-managed deployment of ReadySet
 
 -   :material-link-variant:{ .lg .middle } [__Connect an app__](guides/connect-an-app.md)
 
