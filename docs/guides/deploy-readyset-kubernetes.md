@@ -18,7 +18,9 @@ First, you'll start a Kubernetes cluster on Amazon EKS with enough resources for
 
     This includes installing and configuring `eksctl`, the command-line tool for creating and deleting Kubernetes clusters on EKS, and `kubectl`, the command-line tool for managing Kubernetes from your workstation.
 
-- For efficient networking and security, you'll deploy your Kubernetes cluster into the same VPC as your database. Make sure you meet the [EKS requirements for using an existing VPC](https://eksctl.io/usage/vpc-configuration/#use-existing-vpc-other-custom-configuration).  
+- Make sure you meet the [EKS requirements for using an existing VPC](https://eksctl.io/usage/vpc-configuration/#use-existing-vpc-other-custom-configuration).
+
+    For efficient networking and security, you'll deploy your Kubernetes cluster into the same VPC as your database.
 
 ## Step 1. Start Kubernetes
 
