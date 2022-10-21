@@ -46,8 +46,8 @@ First, you'll start a local deployment using the ReadySet orchestrator.(1) Then 
     - Set a deployment name and password.(1)
     - Assign ReadySet a port to listen on.(2)
     - Choose to use a new local database or an existing database.
-    - If using an existing database, provide additional database details.
-    - When asked, proceed with the current installation.(3)
+    - If using an existing database, provide additional database details.(3)
+    - When asked, proceed with the current installation.(4)
 
     </div>
 
@@ -59,7 +59,9 @@ First, you'll start a local deployment using the ReadySet orchestrator.(1) Then 
 
         If you use a new MySQL of Postgres database, the database is accessible on `3308` for MySQL and `5434` for Postgres.
 
-    3.  Caching is `explicit` by default, which means that ReadySet will only cache queries you tell it to. For this tutorial, it's important to keep this setting. In future testing, however, you can change this to `implicit` if you want ReadySet to attempt to cache every query that it receives, without your intervention.
+    3.  If your existing database is listening on `localhost` or another loopback address, enter `host.docker.internal` as the database IP/hostname.
+
+    4.  Caching is `explicit` by default, which means that ReadySet will only cache queries you tell it to. For this tutorial, it's important to keep this setting. In future testing, however, you can change this to `implicit` if you want ReadySet to attempt to cache every query that it receives, without your intervention.
 
         Experimental query support is `disabled` by default. For this tutorial, it's best to keep this setting.
 
