@@ -11,28 +11,27 @@ The easiest way to determine which queries are supported is to refer to the [Rea
 ReadySet supports the following clauses in SQL SELECT queries:
 
 - `SELECT` with a list of select expressions, all of which must be supported expressions (see “[Expressions](#expressions)”)
-    - ReadySet does not support scalar subqueries in the `SELECT` clause
+    - ReadySet does not support scalar subqueries in the `SELECT` clause.
 - `DISTINCT`, modifying the select clause
 - `FROM`, with a list of tables (which may be implicitly joined), and (uncorrelated) subqueries
 - `JOIN` (see ["Joins"](#joins))
 - `WHERE`
-    - The `WHERE` clause must have a single condition [expression](#expressions)
+    - The `WHERE` clause must have a single condition [expression](#expressions).
 - `GROUP BY`, with a list of **column references**
-    - ReadySet does not support expressions or field positions in the `GROUP BY` clause
+    - ReadySet does not support expressions or field positions in the `GROUP BY` clause.
+- `HAVING`
+    - ReadySet does not support [parameters](#parameters) in the `HAVING` clause.
 - `ORDER BY`, with a list of [expression](#expressions) and an optional ASC or DESC specifier
 - `LIMIT`
 - `OFFSET`
 
-There are specific top-level clauses and other query conditions that ReadySet does not yet support.
+There are specific top-level clauses and other query conditions that ReadySet does not yet support. Notably, ReadySet does not support any of the following (this is not an exhaustive list):
 
-Notably, ReadySet does not support any of the following (this is not an exhaustive list):
-
-- `HAVING`
 - `UNION`, `INTERSECT`, or `EXCEPT` as operators to combine multiple `SELECT` statements
 - `WINDOW`
 - `ORDER BY` with `NULLS FIRST` or `NULLS LAST`
 
-Support for additional operators is always expanding! Reach out to us in [Slack](https://join.slack.com/t/readysetcommunity/shared_invite/zt-1c7bxdxo7-Y6KuoLfc1YWagLk3xHSrsw) if you need an unsupported feature and we'll look into it.
+Support for additional operators is always expanding! Reach out to us in our [Discord Community chat](https://discord.gg/readyset) if you need an unsupported feature and we'll look into it.
 
 ## Joins
 
@@ -84,10 +83,10 @@ ReadySet supports the following components of the SQL expression language:
 
 - Literal values
     - String literals, quoted according to the SQL dialect being used (single quotes for PostgreSQL, double or single quotes for MySQL)
-        - ReadySet does not support string literals with charset or collation specifications
+        - ReadySet does not support string literals with charset or collation specifications.
     - Integer literals
     - Float literals
-        - ReadySet does not support float literals using scientific (exponential) notation
+        - ReadySet does not support float literals using scientific (exponential) notation.
     - `NULL` literal
     - `CURRENT_TIMESTAMP`, `CURRENT_DATE`, and `CURRENT_TIME` literals
     - Boolean literals `TRUE` and `FALSE`
@@ -110,7 +109,7 @@ ReadySet supports the following components of the SQL expression language:
     - see "Limitations of `IN`" under [“Parameters”](#parameters)
 - `CAST`
 - `CASE`
-    - `Case` may only have one `THEN` branch and an optional `ELSE` branch
+    - `Case` may only have one `THEN` branch and an optional `ELSE` branch.
 - Functions
     - `convert_tz`
     - `dayofweek`
@@ -160,7 +159,7 @@ ReadySet supports the following aggregate functions:
 - `MAX(expr)`
 - `MIN(expr)`
 - `GROUP_CONCAT(expr SEPARATOR str_val)`
-    - ReadySet does not support the `ORDER BY` clause in the `GROUP_CONCAT` aggregate function, and requires the specification of a SEPARATOR (unlike MySQL, where the SEPARATOR is optional)
+    - ReadySet does not support the `ORDER BY` clause in the `GROUP_CONCAT` aggregate function, and requires the specification of a SEPARATOR (unlike MySQL, where the `SEPARATOR` is optional).
 
 Similar to many SQL databases, ReadySet requires all columns in the `SELECT` clause or `ORDER BY` list that aren't in an aggregate function to be explicitly listed in the `GROUP BY` clause. This corresponds to the MySQL `ONLY_FULL_GROUP_BY` SQL mode.
 
@@ -210,12 +209,13 @@ ReadySet uses the **parameters** in a prepared statement, specified either posit
 
 - Parameters can only appear in the `WHERE` clause of the outermost `SELECT` statement in a query (e.g., not in any subqueries).
     - Parameters are only supported in the `WHERE` clause of a query if, when expressed in conjunctive normal form, all conjunctive subexpressions of the expression in the `WHERE` clause either contain no parameters, or can be expressed as a single equality comparison between a column and a parameter, **or** are an `IN` expression where the right-hand side consists of a list of **only** parameters (ReadySet does not support mixing parameters and other types of expressions on the right-hand side of an `IN` expression).
-    - ReadySet contains experimental support for conditions that consist of an **inequality** comparison between a parameter and a column (`>`, `>=`, `<` and `<=`)
+    - ReadySet contains experimental support for conditions that consist of an **inequality** comparison between a parameter and a column (`>`, `>=`, `<` and `<=`).
 - Parameters can also appear as the value of the `LIMIT` or `OFFSET` clause of a query.
 
 ### Limitations of `IN`
 
-When the IN clause is used with parameters, queries may not contain the following elements:
+When the `IN` clause is used with parameters, queries may not contain the following elements:
+
 - Some aggregate functions (`AVG`, or `GROUP_CONCAT`)
 
 These limitations do not apply when the right-hand side of the `IN` clause does not contain any query parameters.
@@ -228,21 +228,21 @@ ReadySet supports the following data types:
 
 - `BOOL`
 - `CHAR`
-    - ReadySet will parse, but ignores, the optional length field
+    - ReadySet will parse, but ignores, the optional length field.
 - `VARCHAR`
-    - ReadySet will parse, but ignores, the optional length field
+    - ReadySet will parse, but ignores, the optional length field.
 - `INT`
-    - ReadySet will parse, but ignores, the optional padding field
+    - ReadySet will parse, but ignores, the optional padding field.
 - `INT UNSIGNED`
-    - ReadySet will parse, but ignores, the optional padding field
+    - ReadySet will parse, but ignores, the optional padding field.
 - `BIGINT`
-    - ReadySet will parse, but ignores, the optional padding field
+    - ReadySet will parse, but ignores, the optional padding field.
 - `BIGINT UNSIGNED`
-    - ReadySet will parse, but ignores, the optional padding field
+    - ReadySet will parse, but ignores, the optional padding field.
 - `SMALLINT`
-    - ReadySet will parse, but ignores, the optional padding field
+    - ReadySet will parse, but ignores, the optional padding field.
 - `SMALLINT UNSIGNED`
-    - ReadySet will parse, but ignores, the optional padding field
+    - ReadySet will parse, but ignores, the optional padding field.
 - `BLOB`
 - `LONGBLOG`
 - `MEDIUMBLOB`
@@ -257,26 +257,26 @@ ReadySet supports the following data types:
 - `TEXT`
 - `DATE`
 - `DATETIME`
-    - ReadySet will parse, but ignores the optional precision field
+    - ReadySet will parse, but ignores the optional precision field.
 - `TIME`
 - `TIMESTAMP` / `TIMESTAMP WITHOUT TIME ZONE`
-    - ReadySet will parse, but ignores the optional precision field
+    - ReadySet will parse, but ignores the optional precision field.
 - `TIMESTAMPTZ` / `TIMESTAMP WITH TIME ZONE`
-    - ReadySet will parse, but ignores the optional precision field
+    - ReadySet will parse, but ignores the optional precision field.
 - `BINARY`
     - ReadySet will parse, but ignores the optional length field
 - `VARBINARY`
-    - ReadySet will parse, but ignores the optional length field
+    - ReadySet will parse, but ignores the optional length field.
 - `DECIMAL`
 - `BYTEARRAY`
 - `BIT`
-    - ReadySet will parse, but ignores the optional length field
+    - ReadySet will parse, but ignores the optional length field.
 - `VARBIT`
-    - ReadySet will parse, but ignores the optional length field
+    - ReadySet will parse, but ignores the optional length field.
 - `SERIAL`
 - `BIGSERIAL`
 - `ENUM`
-    - ReadySet supports enums in MySQL but not Postgres
+    - ReadySet supports enums in MySQL but not Postgres.
 - `CITEXT`
 
 ReadySet additionally has limited support for the following data types:
@@ -305,7 +305,7 @@ ReadySet supports the following options in `ALTER TABLE` statement:
 - `ADD KEY`
 - `DROP COLUMN`
 - `ALTER COLUMN`
-    - ReadySet supports only `SET DEFAULT [literal]` and `DROP DEFAULT`
+    - ReadySet supports only `SET DEFAULT [literal]` and `DROP DEFAULT`.
 - `CHANGE COLUMN`
 - `MODIFY COLUMN`
     - ReadySet does not support `FIRST` or `AFTER`.
