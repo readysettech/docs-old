@@ -50,8 +50,8 @@ nav:
     - Quickstart: guides/quickstart.md
   - Run ReadySet:
     - Deploy on AWS:
-        - Kubernetes: guides/deploy-readyset-kubernetes.md
-        - ReadySet Cloud: guides/deploy-readyset-cloud.md
+        - with ReadySet Cloud: guides/deploy-readyset-cloud.md
+        - with Kubernetes: guides/deploy-readyset-kubernetes.md
     - Connect an App: guides/connect-an-app.md
     - Cache Queries: guides/cache-queries.md
   # - Manage ReadySet:
