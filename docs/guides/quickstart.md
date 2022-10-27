@@ -289,13 +289,13 @@ Your local deployment includes a [Grafana dashboard](../reference/dashboard.md) 
 </div>
 
 1.  "Proxied" means that ReadySet sent the queries to the backing database to return results.
-2.  You can also use the [`SHOW PROXIED QUERIES`](../reference/sql-extensions.md) command to check if ReadySet supports a query.
+2.  You can also use the [`SHOW PROXIED QUERIES`](../guides/cache-queries.md##identify-queries-to-cache) command to check if ReadySet supports a query.
 
-      ReadySet is continuously expanding support for areas of the SQL language. For more details, see [Query Support](../reference/query-support.md).
+      ReadySet is continuously expanding support for areas of the SQL language. For more details, see [SQL Support](../reference/sql-support.md).
 
 ## Step 5. Cache queries
 
-1. Back in the SQL shell, run the ReadySet-specific [`CREATE CACHE`](../reference/sql-extensions.md) command to cache the queries:
+1. Back in the SQL shell, run the ReadySet-specific [`CREATE CACHE`](../guides/cache-queries.md##cache-queries) command to cache the queries:
 
     ``` sql hl_lines="2"
     CREATE CACHE FROM
@@ -365,6 +365,6 @@ To start a new local deployment, just run the orchestrator again.
 
 - [Connect an application to your deployment](connect-an-app.md)
 
-- [Review query support](../reference/query-support.md)
+- [Review query support](../reference/sql-support.md)
 
 - [Learn how ReadySet works under the hood](../concepts/overview.md)
