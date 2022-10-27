@@ -58,9 +58,7 @@ nav:
   #   - Upgrade ReadySet: guides/upgrade-readyset.md
   #   - Scale ReadySet: guides/scale-readyset.md
   - Reference:
-    - SQL:
-      - Query Support: reference/query-support.md
-      - SQL Extensions: reference/sql-extensions.md
+    - SQL Support: reference/sql-support.md
     - Dashboard: reference/dashboard.md
     # - Commands:
     #   - readset-server: reference/readyset-server.md
