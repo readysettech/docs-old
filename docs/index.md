@@ -34,7 +34,7 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
 
     Get code samples for connecting from various ORMs and SQL drivers
 
--   :material-check:{ .lg .middle } [__Query support__](reference/query-support.md)
+-   :material-check:{ .lg .middle } [__SQL support__](reference/sql-support.md)
 
     ---
 
