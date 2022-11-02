@@ -65,10 +65,13 @@ nav:
     #   - readyset-adapter: reference/readyset-adapter.md
     - Telemetry: reference/telemetry.md
   - Concepts:
-      - Overview: concepts/overview.md
-      - Dataflow: concepts/dataflow.md
-      - Example Use Case: concepts/example.md
-      - Memory Efficiency: concepts/efficiency.md
+    - Overview: concepts/overview.md
+    - Dataflow: concepts/dataflow.md
+    - Example Use Case: concepts/example.md
+    - Memory Efficiency: concepts/efficiency.md
+  - Releases:
+    - ReadySet Core: releases/readyset-core.md
+
 
 extra_css:
   - stylesheets/extra.css
