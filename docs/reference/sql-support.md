@@ -2,21 +2,15 @@
 
 This page documents ReadySet's SQL support. There are 3 main areas of support:
 
-- [Table replication](#table-replication)
-
-    ReadySet takes an initial snapshot of tables from the upstream MySQL or Postgres database and then uses the database's replication stream to keep the snapshot accurate as the upstream tables change. To successfully snapshot and replicate a table, ReadySet must support the data types of the table's columns, the character set in which the data is encoded, and changes to the table's contents (via writes) and structure (via schema changes).
-
-- [Query caching](#query-caching)
-
-    Once tables are replicating to ReadySet, ReadySet can cache the results of most, but not all, SQL queries run against those tables. To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query.
-
-- [SQL extensions](#sql-extensions)
-
-    ReadySet supports custom SQL commands for viewing queries that ReadySet has proxied to the upstream database, caching supported queries, viewing caches, and removing caches.
+| Area | Details |
+|------|-------------|
+| [Table replication](#table-replication) | <p>ReadySet takes an initial snapshot of tables from the upstream MySQL or Postgres database and then uses the database's replication stream to keep the snapshot accurate as the tables change.</p><p>To successfully snapshot and replicate a table, ReadySet must support the data types of the columns, the character set in which the data is encoded, and changes to the table via writes and schema changes.</p> |
+| [Query caching](#query-caching) | <p>Once ReadySet is replicating tables, ReadySet can cache the results of SQL queries run against those tables.</p><p>To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query.</p> |
+| [SQL extensions](#sql-extensions) | ReadySet supports custom SQL commands for viewing queries that ReadySet has proxied to the upstream database, caching supported queries, viewing caches, and removing caches. |
 
 !!! tip
 
-    ReadySet is always expanding SQL support. If you need an unsupported feature, let us know on the [Discord chat](https://discord.gg/readyset).
+    ReadySet is continually expanding SQL support. If you need an unsupported feature, let us know on the [Discord chat](https://discord.gg/readyset), or [open an issue](https://github.com/readysettech/readyset/issues/new/choose) in our GitHub repository.
 
 ## Table replication
 
@@ -26,7 +20,7 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
 
 <style>
   table thead tr th:first-child {
-    width: 200px;
+    width: 150px;
   }
 </style>
 
@@ -36,7 +30,7 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
 
     | Type | Supported | Notes |
     |------|------------|-------|
-    | [`INT`<br>`INT UNSIGNED`<br>`SMALLINT`<br>`SMALLINT UNSIGNED`<br>`BIGINT`<br>`BIGINT UNSIGNED`](https://dev.mysql.com/doc/refman/8.0/en/integer-types.html) | :octicons-check-16: | ReadySet ignores the optional length field. |
+    | [`INT`<br>`INT UNSIGNED`<br>`TINYINT`<br>`TINYINT UNSIGNED`<br>`SMALLINT`<br>`SMALLINT UNSIGNED`<br>`MEDIUMINT`<br>`MEDIUMINT UNSIGNED`<br>`BIGINT`<br>`BIGINT UNSIGNED`<br>`SERIAL`](https://dev.mysql.com/doc/refman/8.0/en/integer-types.html) | :octicons-check-16: | ReadySet ignores the optional length field. |
     | [`DECIMAL`<br>`NUMERIC`](https://dev.mysql.com/doc/refman/8.0/en/fixed-point-types.html) | :octicons-check-16: | |
     | [`FLOAT`<br>`DOUBLE`<br>`REAL`](https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html) | :octicons-check-16: | |
     | [`BIT`](https://dev.mysql.com/doc/refman/8.0/en/bit-type.html) | :octicons-check-16: | ReadySet ignores the optional length field. |
@@ -106,7 +100,7 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
 
     | Type | Supported | Notes |
     |------|-----------|-------|
-    | [`DATE`<br>`TIME`<br>`TIMESTAMP WITHOUT TIME ZONE`<br>`TIMESTAMP WITH TIME ZONE`](https://www.postgresql.org/docs/current/datatype-datetime.html) | :octicons-check-16: | ReadySet ignores the optional precision field. |
+    | [`DATE`<br>`TIME`<br>`TIMETZ`<br>`TIMESTAMP`<br>`TIMESTAMPTZ`](https://www.postgresql.org/docs/current/datatype-datetime.html) | :octicons-check-16: | ReadySet ignores the optional precision field. |
     | [`INTERVAL`](https://www.postgresql.org/docs/current/datatype-datetime.html) | :octicons-x-16: | |
 
     **Boolean types**
@@ -190,6 +184,13 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
     | Type | Supported | Notes |
     |------|------------|-------|
     | [`CREATE TABLE <table> (col <domain>)`](https://www.postgresql.org/docs/current/domains.html) | :octicons-x-16: | |
+
+    **Object identifier types**
+
+    | Type | Supported | Notes |
+    |------|------------|-------|
+    | [`OID`<br>`REGCLASS`<br>`REGCOLLATION`<br>`REGCONFIG`<br>`REGDICTIONARY`<br>`REGNAMESPACE`<br>`REGOPER`<br>`REGOPERATOR`<br>`REGPROC`<br>`REGPROCEDURE`<br>`REGROLE`<br>`REGTYPE`](https://www.postgresql.org/docs/current/datatype-oid.html) | :octicons-x-16: | |
+
 
 ### Character sets
 
