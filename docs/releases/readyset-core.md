@@ -2,15 +2,66 @@
 
 ReadySet releases a new version of ReadySet Core on a weekly basis. This page summarizes the changes in each version and links to binaries and docker images.
 
-## beta-2022-11-01
-
 !!! warning
 
     Beta versions of ReadySet are backward-incompatible. To upgrade between beta versions, you must therefore clear all data files. Rolling upgrades will be supported with future ReadySet major releases.
 
+## beta-2022-11-09
+
 ### Downloads
 
 === ":material-linux: Linux"
+
+    !!! note
+
+        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
+
+    Binary (linux-x84_64) | Sha256Sum
+    ------------------------------|----------
+    [ReadySet Server](https://github.com/readysettech/readyset/files/9974540/readyset-server-beta-2022-11-09.linux-x86_64.tar.gz) | d52631fb7b8b0a912aa205f005ffd32b8494f38fb43ea96ccee08b41c216002d
+    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974536/readyset-mysql-beta-2022-11-09.linux-x86_64.tar.gz) | 966f4701beca80faf8d572fd261ff8431bbda374557680c2687e452c6cc228d6`
+    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974538/readyset-psql-beta-2022-11-09.linux-x86_64.tar.gz) | 6a1a5a47b3ee138c38d1d493fe5d442dabd001abb4858982dc2dfba3fbd6eaaf
+
+=== ":material-apple: Mac"
+
+    Binary (darwin-arm64) | Sha256Sum
+    ------------------------------|----------
+    [ReadySet Server](https://github.com/readysettech/readyset/files/9974631/readyset-server-beta-2022-11-09.darwin-arm64.tar.gz) | 76d7a65b9ef953af5ea337fa7ed731524c463d961835f7cb80444c6c9cc7a7d3
+    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974630/readyset-mysql-beta-2022-11-09.darwin-arm64.tar.gz) | 0c00931f87900e5570cdb83421ceddba64e55abe5316e0f29bd59848849f7884
+    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974629/readyset-psql-beta-2022-11-09.darwin-arm64.tar.gz) | 81faacc0e463f5dbe3b1a0fa5d139ea86e203f36e39d91814cfc1fc391c52d10
+
+=== ":material-docker: Docker"
+
+    - ReadySet Server (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset-server:beta-2022-11-09
+        ```
+
+    - ReadySet Adapter (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset-adapter:beta-2022-11-09
+        ```
+
+### Changes
+
+- Added replication and caching support for Postgres enumerated data types. [d8e428d](https://github.com/readysettech/readyset/commit/d8e428d5cf63fc704d2b9242066c2bccafffd76b), [e282ae9](https://github.com/readysettech/readyset/commit/e282ae99fe0f7e2491f56203b455b9f2e72ebd8e), [40d217f](https://github.com/readysettech/readyset/commit/40d217fdb8b55f004a8e3cbca9d2e30b379bd269), [ef95276](https://github.com/readysettech/readyset/commit/ef95276d4c3498ce77eed81e2d2d2185c0b21791), [5b401a5](https://github.com/readysettech/readyset/commit/5b401a5ecd805bba26421eaaf1a5f42ce5bd7dcd), [23e6a12](https://github.com/readysettech/readyset/commit/23e6a120ac3090cdd9cdf408824b24973ebc80d6), [312dfa0](https://github.com/readysettech/readyset/commit/312dfa04574cd7d471d5b35598c92df13d496168), [2fe679f](https://github.com/readysettech/readyset/commit/2fe679f20348a74e7e07ce2517073348ce365c11), [2295188](https://github.com/readysettech/readyset/commit/2295188268b744e630ef5f6adbf03c0fd3e3e68a)
+- Added caching support for the `?|` and `?&` JSON operators. [f5ae4d](https://github.com/readysettech/readyset/commit/f5ae4d0c004dfe9095523155cf0ceb78fe14309b), [6598431](https://github.com/readysettech/readyset/commit/659843199836c321ed4fecbce31c894dd2100fa2)
+- Fixed a bug that would cause `CREATE CACHE` commands to fail for MySQL `JOIN` queries with join conditions in the `WHERE` clause instead of the `ON` clause. [f9be6d6](https://github.com/readysettech/readyset/commit/f9be6d6e99c284f2a30163075a272063bab2f449)
+- Upgraded OpenSSL to address a recently identified [vulnerability](https://github.com/advisories/GHSA-8rwr-x37p-mx23). [4525073](https://github.com/readysettech/readyset/commit/4525073eb2a505ef0ef2489f79a0149cf6a29fcd)
+- ReadySet now logs the names of table/views that fail to snapshot or replicate. [7ffaf07](https://github.com/readysettech/readyset/commit/7ffaf07cbfca81691760b3ebf0b53afc66ac85e0)
+- ReadySet now logs queries that fail to parse. [a25c401](https://github.com/readysettech/readyset/commit/a25c401b450a7a919cb380e13aa14a089be7333f)
+- Added node column types to Graphviz data flow visualizations. [30f023b](https://github.com/readysettech/readyset/commit/30f023bf41c9c6a0548b83f71e76c35ee7f336a0)
+- The ReadySet Adapter now fails to start and returns and error when its version does not match the ReadySet Server. [e00c742](https://github.com/readysettech/readyset/commit/e00c742bdee9dd7c23361cade496fee1402ecaa3)
+
+## beta-2022-11-01
+
+### Downloads
+
+=== ":material-linux: Linux"
+
+    !!! note
+
+        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
 
     Binary (linux-x84_64) | Sha256Sum
     ------------------------------|----------
