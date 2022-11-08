@@ -208,18 +208,31 @@ When ReadySet receives the following schema change commands via the replication 
 
      After running any of the following schema change commands, be sure to [re-cache related queries](../guides/cache-queries.md).
 
-| Statement | Command | Notes |
-|-----------|--------|-------|
-| `ALTER TABLE` | `ADD COLUMN` | |
-| `ALTER TABLE` | `ADD KEY` | |
-| `ALTER TABLE` | `DROP COLUMN` | |
-| `ALTER TABLE` | `ALTER COLUMN` | ReadySet supports only `SET DEFAULT [literal]` and `DROP DEFAULT`. |
-| `ALTER TABLE` | `CHANGE COLUMN` | |
-| `ALTER TABLE` | `MODIFY COLUMN` | ReadySet does not support `FIRST` or `AFTER`. |
-| `ALTER TYPE` | `ADD VALUE` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
-| `ALTER TYPE` | `RENAME TO` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
-| `ALTER TYPE` | `RENAME VALUE` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
-| `ALTER TYPE` | `SET SCHEMA` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
+=== "MySQL"
+
+    | Statement | Command | Notes |
+    |-----------|--------|-------|
+    | `ALTER TABLE` | `ADD COLUMN` | |
+    | `ALTER TABLE` | `ADD KEY` | |
+    | `ALTER TABLE` | `DROP COLUMN` | |
+    | `ALTER TABLE` | `ALTER COLUMN` | ReadySet supports only `SET DEFAULT [literal]` and `DROP DEFAULT`. |
+    | `ALTER TABLE` | `CHANGE COLUMN` | |
+    | `ALTER TABLE` | `MODIFY COLUMN` | ReadySet does not support `FIRST` or `AFTER`. |
+
+=== "Postgres"
+
+    | Statement | Command | Notes |
+    |-----------|--------|-------|
+    | `ALTER TABLE` | `ADD COLUMN` | |
+    | `ALTER TABLE` | `ADD KEY` | |
+    | `ALTER TABLE` | `DROP COLUMN` | |
+    | `ALTER TABLE` | `ALTER COLUMN` | ReadySet supports only `SET DEFAULT [literal]` and `DROP DEFAULT`. |
+    | `ALTER TABLE` | `CHANGE COLUMN` | |
+    | `ALTER TABLE` | `MODIFY COLUMN` | ReadySet does not support `FIRST` or `AFTER`. |
+    | `ALTER TYPE` | `ADD VALUE` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
+    | `ALTER TYPE` | `RENAME TO` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
+    | `ALTER TYPE` | `RENAME VALUE` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
+    | `ALTER TYPE` | `SET SCHEMA` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
 
 ### Namespaces
 
