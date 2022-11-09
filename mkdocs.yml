@@ -59,7 +59,6 @@ nav:
   #   - Scale ReadySet: guides/scale-readyset.md
   - Reference:
     - SQL Support: reference/sql-support.md
-    - Dashboard: reference/dashboard.md
     # - Commands:
     #   - readset-server: reference/readyset-server.md
     #   - readyset-adapter: reference/readyset-adapter.md
