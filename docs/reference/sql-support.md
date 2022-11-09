@@ -113,7 +113,7 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
 
     | Type | Supported | Notes |
     |------|-----------|-------|
-    | [`ENUM`](https://www.postgresql.org/docs/current/datatype-enum.html) | :octicons-x-16: | |
+    | [`ENUM`](https://www.postgresql.org/docs/current/datatype-enum.html) | :octicons-check-16: | |
 
     **Geometric types**
 
@@ -202,21 +202,37 @@ All `INSERT`, `UPDATE`, and `DELETE` statements sent to ReadySet are proxied to 
 
 ### Schema changes
 
-When ReadySet receives the following `ALTER TABLE` commands via the replication stream, ReadySet updates its snapshot of the affected table and clears all cached queries for the table.
+When ReadySet receives the following schema change commands via the replication stream, ReadySet updates its snapshot of the affected tables and removes the caches of related queries.
 
 !!! tip
 
-     After running any of the following schema change commands on a table, be sure to [re-cache queries](../guides/cache-queries.md) that access the table.
+     After running any of the following schema change commands, be sure to [re-cache related queries](../guides/cache-queries.md).
 
-| Statement | Command | Notes |
-|-----------|--------|-------|
-| `ALTER TABLE` | `ADD COLUMN` | |
-| `ALTER TABLE` | `ADD KEY` | |
-| `ALTER TABLE` | `DROP COLUMN` | |
-| `ALTER TABLE` | `ALTER COLUMN` | ReadySet supports only `SET DEFAULT [literal]` and `DROP DEFAULT`. |
-| `ALTER TABLE` | `CHANGE COLUMN` | |
-| `ALTER TABLE` | `MODIFY COLUMN` | ReadySet does not support `FIRST` or `AFTER`. |
+=== "MySQL"
 
+    | Statement | Command | Notes |
+    |-----------|--------|-------|
+    | `ALTER TABLE` | `ADD COLUMN` | |
+    | `ALTER TABLE` | `ADD KEY` | |
+    | `ALTER TABLE` | `DROP COLUMN` | |
+    | `ALTER TABLE` | `ALTER COLUMN` | ReadySet supports only `SET DEFAULT [literal]` and `DROP DEFAULT`. |
+    | `ALTER TABLE` | `CHANGE COLUMN` | |
+    | `ALTER TABLE` | `MODIFY COLUMN` | ReadySet does not support `FIRST` or `AFTER`. |
+
+=== "Postgres"
+
+    | Statement | Command | Notes |
+    |-----------|--------|-------|
+    | `ALTER TABLE` | `ADD COLUMN` | |
+    | `ALTER TABLE` | `ADD KEY` | |
+    | `ALTER TABLE` | `DROP COLUMN` | |
+    | `ALTER TABLE` | `ALTER COLUMN` | ReadySet supports only `SET DEFAULT [literal]` and `DROP DEFAULT`. |
+    | `ALTER TABLE` | `CHANGE COLUMN` | |
+    | `ALTER TABLE` | `MODIFY COLUMN` | ReadySet does not support `FIRST` or `AFTER`. |
+    | `ALTER TYPE` | `ADD VALUE` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
+    | `ALTER TYPE` | `RENAME TO` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
+    | `ALTER TYPE` | `RENAME VALUE` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
+    | `ALTER TYPE` | `SET SCHEMA` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
 
 ### Namespaces
 
@@ -323,20 +339,32 @@ ReadySet supports the following components of the SQL expression language:
     - `NULL` literal
     - Boolean literals `TRUE` and `FALSE`
     - Array literals
-- Operators
+- Operators <!-- http://docs/rustdoc/dataflow_expression/enum.BinaryOperator.html -->
     - `AND`
     - `OR`
-    - `LIKE`, `NOT LIKE`
-    - `ILIKE`, `NOT ILIKE`
+    - `LIKE`
+    - `NOT LIKE`
+    - `ILIKE`
+    - `NOT ILIKE`
     - `=`
-    - `!=`, `<>`
-    - `>`, `>=`, `<`, `<=`
-    - `IS NULL`, `IS NOT NULL`
-    - `+`, `-`, `*`, `/`
+    - `!=` or `<>`
+    - `>`
+    - `>=`
+    - `<`
+    - `<=`
+    - `IS NULL`
+    - `IS NOT NULL`
+    - `+`
+    - `-`
+    - `*`
+    - `/`
     - Unary `-`
     - Unary `NOT`
     - `BETWEEN`
     - `EXISTS`
+    - `?`
+    - `?|`
+    - `?&`
 - `IN` and `NOT IN` with a list of expressions
     - see "Limitations of `IN`" under [“Parameters”](#parameters)
 - `CAST`
