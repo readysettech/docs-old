@@ -19,12 +19,6 @@ parser.add_argument("--url",
 args = parser.parse_args()
 
 conn = psycopg2.connect(dsn=args.url)
-    # database='imdb',
-    # user='postgres',
-    # password='readyset',
-    # host=127.0.0.1,
-    # port=args.port,
-    # sslmode='disable'
 conn.set_session(autocommit=True)
 cur = conn.cursor()
 
