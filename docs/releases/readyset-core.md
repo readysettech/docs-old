@@ -20,11 +20,11 @@ ReadySet releases a new version of ReadySet Core on a weekly basis. This page su
 
 === ":material-apple: Mac"
 
-    Binary (darwin-amd64) | Sha256Sum
+    Binary (darwin-arm64) | Sha256Sum
     ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/files/9911937/readyset-server-beta-2022-11-01.darwin-amd64.tar.gz) | 8a204cd07b85fbbc375ee7e2c9b87ce44b6df3a2dab8e78454d2047f7c02cfd0
-    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9910819/readyset-mysql-beta-2022-11-01.darwin-amd64.tar.gz) | 44ba62376b0a34fd099cd9c7b83fbb2714a868615d2792e63104b5a6862759b4
-    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9910816/readyset-psql-beta-2022-11-01.darwin-amd64.tar.gz) | cc220b6d1dfba79e9a0ad9946205000a072fd29fdcd09d6f510842fde827066f
+    [ReadySet Server](https://github.com/readysettech/readyset/files/9974664/readyset-server-beta-2022-11-01.darwin-arm64.tar.gz) | 8a204cd07b85fbbc375ee7e2c9b87ce44b6df3a2dab8e78454d2047f7c02cfd0
+    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974662/readyset-mysql-beta-2022-11-01.darwin-arm64.tar.gz) | 44ba62376b0a34fd099cd9c7b83fbb2714a868615d2792e63104b5a6862759b4
+    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974663/readyset-psql-beta-2022-11-01.darwin-arm64.tar.gz) | cc220b6d1dfba79e9a0ad9946205000a072fd29fdcd09d6f510842fde827066f
 
 === ":material-docker: Docker"
 
