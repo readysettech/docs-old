@@ -6,6 +6,54 @@ ReadySet releases a new version of ReadySet Core on a weekly basis. This page su
 
     Beta versions of ReadySet are backward-incompatible. To upgrade between beta versions, you must therefore clear all data files. Rolling upgrades will be supported with future ReadySet major releases.
 
+## beta-2022-11-17
+
+### Downloads
+
+=== ":material-linux: Linux"
+
+    !!! note
+
+        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
+
+    Binary (linux-x84_64) | Sha256Sum
+    ------------------------------|----------
+    [ReadySet Server](https://github.com/readysettech/readyset/files/9974540/readyset-server-beta-2022-11-17.linux-x86_64.tar.gz) | TBD
+    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974536/readyset-mysql-beta-2022-11-17.linux-x86_64.tar.gz) | TBD
+    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974538/readyset-psql-beta-2022-11-17.linux-x86_64.tar.gz) | TBD
+
+=== ":material-apple: Mac"
+
+    Binary (darwin-arm64) | Sha256Sum
+    ------------------------------|----------
+    [ReadySet Server](https://github.com/readysettech/readyset/files/9974631/readyset-server-beta-2022-11-17.darwin-arm64.tar.gz) | TBD
+    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974630/readyset-mysql-beta-2022-11-17.darwin-arm64.tar.gz) | TBD
+    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974629/readyset-psql-beta-2022-11-17.darwin-arm64.tar.gz) | TBD
+
+=== ":material-docker: Docker"
+
+    - ReadySet Server (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset-server:beta-2022-11-17
+        ```
+
+    - ReadySet Adapter (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset-adapter:beta-2022-11-17
+        ```
+
+### Changes
+
+- Added the ability to filter `SHOW PROXIED QUERIES` and `SHOW CACHES` by `query_id`, e.g, `SHOW PROXIED QUERIES WHERE query_id = 'q_7b44f013d9995ffe';`. [b150cfc](https://github.com/readysettech/readyset/commit/b150cfc74f57c5b639005671065044337d0ab9b6)
+- Added caching support for several Postgres JSON operators: `-`, `||`, `->`, `->>`, `@>`, `<@`, `#>`, and `#>>`. [c20aa47](https://github.com/readysettech/readyset/commit/c20aa47fc8cae4fc25b5dc6bffd9ca3729ae1), [b59a0f5](https://github.com/readysettech/readyset/commit/b59a0f56ed8aa83af43d2d278cf556b5137c7edf), [1804acc](https://github.com/readysettech/readyset/commit/1804acc764263ac552d4d20c4652356076d40c36), [d3c6085](https://github.com/readysettech/readyset/commit/d3c6085ab4e4d13eaacfb0b9aa1861a964f28931), [d29d7e7](https://github.com/readysettech/readyset/commit/d29d7e71a8a165220427af744a7cd7783a9d4022), [3753cb7](https://github.com/readysettech/readyset/commit/3753cb71d990831b63f584878aea6b0eab7866e9), [ee0cfaf](https://github.com/readysettech/readyset/commit/ee0cfaf99d4cbda99cca04735da525ba3c0ac536), [fe8b332](https://github.com/readysettech/readyset/commit/fe8b332bfc209047438507ad1ca0290311fe5bd4), [045321b](https://github.com/readysettech/readyset/commit/045321b3afc643f9474f0c79386b283766c06845), [60e0352](https://github.com/readysettech/readyset/commit/60e0352190c76fa2cdb6cb99ef2bf44db03e7ea4), [42f944b](https://github.com/readysettech/readyset/commit/42f944b088d9e112f0b03fe53fcae80f881e9f32), [f9ece02](https://github.com/readysettech/readyset/commit/f9ece029626913d427ac1cdf900a898700acd39f)
+- Added caching support for the MySQL `||` operator, which equivalent to `OR`. [d1796d1](https://github.com/readysettech/readyset/commit/d1796d1927f8c7d088150d80f152d840ba0ef769), [fa8bb66](https://github.com/readysettech/readyset/commit/fa8bb660fd6248e0f789ef71c0230c0476c60f0e)
+- Added caching support for the MySQL `DATE_FORMAT()` function. [b5041a7](https://github.com/readysettech/readyset/commit/b5041a797c20eae596bf2af943f703e3fe2ddc3d)
+- ReadySet now logs when replication slots are created and dropped. [9f85d98](https://github.com/readysettech/readyset/commit/9f85d98201d651eddf3f827ae70c3fa765850f6f)
+- Improved logging to ensure `ERROR` messages highlight situations that may require manual attention and `INFO` messages are not overly noisy with debugging details. [fb4d42c](https://github.com/readysettech/readyset/commit/fb4d42cd1bf86824494439a2e43ca64d17192ac6)
+- Fixed a bug that could cause Postgres replication to repeatedly fail on certain tables. [7207efa](https://github.com/readysettech/readyset/commit/7207efa7096c54168cebd7f79e7e6e7bed66391b)
+- Fixed a bug where arrays of Postgres enums would fail to replicate from the upstream database. [74e0e71](https://github.com/readysettech/readyset/commit/74e0e71282fa2a3ff573f81d7d3e11b35a954772), [d964876](https://github.com/readysettech/readyset/commit/d964876f224a59ef0f2b9936fea792bf98e3a666)
+
+
 ## beta-2022-11-09
 
 ### Downloads
