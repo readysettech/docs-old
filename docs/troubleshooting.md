@@ -19,7 +19,7 @@ mysql://<username>:<password>@<host-name>:<port>/<database>
 ```sh
 postgresql://postgres:<password>@<host-name>:<port>/<database>
  ```
-See our [connection docs](/connecting) for more information.
+See our [connection docs](/guides/connect-an-app) for more information.
 
 ## What happens when I replace my upstream connection with a connection to ReadySet?
 By default, ReadySet proxies all queries to your upstream database, so there will be no impact on your application.
