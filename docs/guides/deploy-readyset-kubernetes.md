@@ -2,7 +2,9 @@
 
 This page shows you how to run ReadySet yourself on [Amazon EKS](https://aws.amazon.com/eks/) in front of an [Amazon RDS](https://aws.amazon.com/rds/) for Postgres or MySQL database.
 
-First, you'll start a Kubernetes cluster on Amazon EKS with enough resources for a simple ReadySet deployment. For efficient networking and security, you'll use the same VPC as your database. Next, you'll set up load balancing to handle traffic from outside of the Kubernetes cluster. Then you'll configure your database to ensure that ReadySet can consume the database's replication stream. Finally, you'll use ReadySet's Helm chart to deploy ReadySet into the Kubernetes cluster.
+- First, you'll start a Kubernetes cluster on Amazon EKS with enough resources for a simple ReadySet deployment. For efficient networking and security, you'll use the same VPC as your database.
+- Next, you'll set up load balancing to handle traffic from outside of the Kubernetes cluster, and you'll configure your database to allow ReadySet to consume the database's replication stream.
+- Finally, you'll use ReadySet's Helm chart to deploy ReadySet into the Kubernetes cluster.
 
 !!! tip
 
@@ -42,12 +44,17 @@ For more demanding workloads, ReadySet can be run with multiple Adapters. Please
     1. In the RDS Console, select your database.
     2. Under **Connectivity & security**, note the **Subnets**.
 
-2. From your local workstation, create a Kubernetes cluster, replacing the `<db-subnet>` placeholders with the subnets from the previous step:
+2. Identify the region where your database is running:
+
+    1. In the RDS Console, select your databse.
+    2. Under **Summary**, note the region portion of **Region & AZ**.
+
+3. From your local workstation, create a Kubernetes cluster, replacing the `<db-region` and `<db-subnet>` placeholders with the details from the previous steps:
 
     ``` sh
     eksctl create cluster \
     --name=readyset \
-    --region=us-east-1 \
+    --region=<db-region> \
     --nodegroup-name=standard-workers \
     --nodes=3 \
     --node-type=c5.2xlarge \
@@ -58,7 +65,7 @@ For more demanding workloads, ReadySet can be run with multiple Adapters. Please
     | Flag | Description                          |
     | -----| ------------------------------------ |
     | `--name` | The name of the cluster.  |
-    | `--region` | The [region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) to deploy the cluster in. |
+    | `--region` | The [region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) where your databse is running and where you will run your EKS cluster. It is necessary to run your cluster in the same region as your database in order to have access to the same VPC. |
     | `--nodegroup-name` | The name of the pool of nodes for the cluster. |
     | `--nodes` | <p>The number of nodes in the cluster.</p><p>3 is the minimum required for a simple ReadySet deployment of one ReadySet Server, one ReadySet Adapter, and one instance of Consul.</p> |
     | `--node-type` | <p>The [instance type](https://www.amazonaws.cn/en/ec2/instance-types/) to use for the nodes.</p><p>The `c5.2xlarge` type is fine for testing ReadySet; however, ReadySet is a memory-intensive application, so you should use memory-optimized instances (`r5.2xlarge` or larger) for production deployments.</p> |
