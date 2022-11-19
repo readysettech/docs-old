@@ -341,7 +341,7 @@ ReadySet supports the following components of the SQL expression language:
     - Array literals
 - Operators <!-- http://docs/rustdoc/dataflow_expression/enum.BinaryOperator.html -->
     - `AND`
-    - `OR` (or `||` in MySQL)
+    - `OR`
     - `LIKE`
     - `NOT LIKE`
     - `ILIKE`
@@ -362,18 +362,9 @@ ReadySet supports the following components of the SQL expression language:
     - Unary `NOT`
     - `BETWEEN`
     - `EXISTS`
-    - [Postgres JSON operators](https://www.postgresql.org/docs/9.5/functions-json.html):
-        - `?`
-        - `?|`
-        - `?&`
-        - `-`
-        - `||`
-        - `->`
-        - `->>`
-        - `@>`
-        - `<@`
-        - `#>`
-        - `#>>`
+    - `?`
+    - `?|`
+    - `?&`
 - `IN` and `NOT IN` with a list of expressions
     - see "Limitations of `IN`" under [“Parameters”](#parameters)
 - `CAST`
@@ -386,7 +377,6 @@ ReadySet supports the following components of the SQL expression language:
     - `MONTH()`
     - `TIMEDIFF()`
     - `ADDTIME()`
-    - `DATE_FORMAT()`
     - `ROUND()`
     - `JSON_TYPEOF()`
     - `JSONB_TYPEOF()`
