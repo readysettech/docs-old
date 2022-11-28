@@ -63,4 +63,4 @@ Your ReadySet deployment will take an initial snapshot of your data, which can t
 Once snapshotting is finished, we'll give you the details you need to start caching queries with ReadySet, including:
 
 - The username, password, and endpoint for your ReadySet deployment so you can change your application's connection string to point at ReadySet instead of at the backing database
-- A link to a [Grafana dashboard](../reference/dashboard.md) where you can profile the latencies of queries sent through ReadySet and identify queries to cache
+- A link to a Grafana dashboard where you can profile the latencies of queries sent through ReadySet and identify queries to cache

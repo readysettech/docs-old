@@ -242,7 +242,7 @@ ReadySet supports [Postgres schemas](https://www.postgresql.org/docs/current/ddl
 
 !!! tip
 
-    You can use the [ReadySet dashboard](dashboard.md) to check if queries are supported by ReadySet. ReadySet always proxies unsupported queries to the upstream database.
+    After running a query through ReadySet, you can use the [`SHOW PROXIED QUERIES`](../guides/cache-queries/#identify-queries-to-cache) command to check if ReadySet supports the query. ReadySet always proxies unsupported queries to the upstream database.
 
 ### Clauses
 

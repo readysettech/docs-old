@@ -74,8 +74,7 @@ based on common input parameters to the query. For example, if a query is parame
 that query for the active subset of users, since they are the ones issuing requests. Once ReadySet surpasses a developer-specified memory limit,
 cache entries are evicted from memory based on a specified eviction strategy (e.g., LRU).
 
-ReadySet also makes it easy to cache only the subset of your queries that have the highest impact on read performance. You can use the ReadySet
-dashboard to profile your existing workload and make caching decisions based on query frequency and the current latencies.
+ReadySet also makes it easy to cache only the subset of your queries that have the highest impact on read performance. You can profile your existing workload and make caching decisions based on query frequency and the current latencies.
 If some of your queries don't need additional read performance boosts, you can continue proxying them to the customer database. As a result, they
 won’t take up any memory real estate in your ReadySet cluster.
 
