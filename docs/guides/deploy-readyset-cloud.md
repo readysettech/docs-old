@@ -26,7 +26,7 @@ This page shows you how to get up and running with a fully-managed deployment of
 
 ReadySet Cloud is currently in closed beta.
 
-[Get early access to ReadySet Cloud](https://readysettech.typeform.com/to/BqovNk8A?typeform-source=readyset.io){ .md-button .md-button--primary}
+[Get early access to ReadySet Cloud](https://readysettech.typeform.com/to/BqovNk8A?typeform-source=readyset.io){ .md-button .md-button--primary }
 
 ## Step 2. Collect required details
 
