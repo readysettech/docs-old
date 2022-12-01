@@ -3,6 +3,7 @@
 import argparse
 import psycopg2
 import time
+import numpy as np
 
 parser = argparse.ArgumentParser(
     description="test performance of ReadySet vs. a backing Postgres database")
@@ -22,14 +23,6 @@ conn = psycopg2.connect(dsn=args.url)
 conn.set_session(autocommit=True)
 cur = conn.cursor()
 
-def calculate_median_latency(lst):
-    n = len(lst)
-    if n < 1:
-        return None
-    if n % 2 == 1:
-        return sorted(lst)[n//2]
-    else:
-        return sum(sorted(lst)[n//2-1:n//2+1])/2.0
 
 times = list()
 for n in range(args.repeat):
@@ -53,9 +46,13 @@ conn.close()
 
 print("")
 print("Query latencies (in milliseconds):")
-print(times)
+print(["{:.2f}".format(t) for t in times])
 print("")
 
-print("Median query latency (in milliseconds):")
-print(calculate_median_latency(times))
+print("Latency Percentiles (in milliseconds):")
+print(" p50: {:.2f}".format(np.percentile(times, 50)))
+print(" p90: {:.2f}".format(np.percentile(times, 90)))
+print(" p95: {:.2f}".format(np.percentile(times, 95)))
+print(" p99: {:.2f}".format(np.percentile(times, 99)))
+print("p100: {:.2f}".format(np.percentile(times, 100)))
 print("")
