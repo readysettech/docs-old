@@ -49,9 +49,8 @@ nav:
     - What is ReadySet?: guides/intro.md
     - Quickstart: guides/quickstart.md
   - Run ReadySet:
-    - Deploy on AWS:
-        - with ReadySet Cloud: guides/deploy-readyset-cloud.md
-        - with Kubernetes: guides/deploy-readyset-kubernetes.md
+    - Deploy with ReadySet Cloud: guides/deploy-readyset-cloud.md
+    - Deploy with Kubernetes: guides/deploy-readyset-kubernetes.md
     - Connect an App: guides/connect-an-app.md
     - Cache Queries: guides/cache-queries.md
   # - Manage ReadySet:
@@ -73,9 +72,6 @@ nav:
 
 extra_css:
   - stylesheets/extra.css
-
-extra_javascript:
-  - js/feedback.js
 
 copyright: © 2022 ReadySet Technology Inc.
 
