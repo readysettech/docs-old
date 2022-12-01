@@ -23,7 +23,6 @@ conn = psycopg2.connect(dsn=args.url)
 conn.set_session(autocommit=True)
 cur = conn.cursor()
 
-
 times = list()
 for n in range(args.repeat):
     start = time.time()
@@ -49,7 +48,7 @@ print("Query latencies (in milliseconds):")
 print(["{:.2f}".format(t) for t in times])
 print("")
 
-print("Latency Percentiles (in milliseconds):")
+print("Latency percentiles (in milliseconds):")
 print(" p50: {:.2f}".format(np.percentile(times, 50)))
 print(" p90: {:.2f}".format(np.percentile(times, 90)))
 print(" p95: {:.2f}".format(np.percentile(times, 95)))

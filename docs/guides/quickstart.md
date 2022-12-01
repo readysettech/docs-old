@@ -114,7 +114,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
 
     !!! note
 
-        These commands will take a few minutes, as they load 5159701 rows into `title_basics` and 1246402 rows into `title_ratings`.
+        These commands may take a few minutes, as they load 5159701 rows into `title_basics` and 1246402 rows into `title_ratings`.
 
     ``` sh
     PGPASSWORD=readyset psql \
@@ -149,20 +149,37 @@ ReadySet sits between your database and application, so in this step, you'll sta
     ```
 
     ``` sql
+    SELECT count(*) FROM title_basics;
     SELECT * FROM title_basics WHERE tconst = 'tt0093779';
+    ```
+
+    ``` {.text .no-copy}
+      count
+    ---------
+     5159701
+    (1 row)
+
+      tconst   | titletype |    primarytitle    |   originaltitle    | isadult | startyear | endyear | runtimeminutes |          genres
+    -----------+-----------+--------------------+--------------------+---------+-----------+---------+----------------+--------------------------
+     tt0093779 | movie     | The Princess Bride | The Princess Bride | f       |      1987 |         |             98 | Adventure,Family,Fantasy
+    (1 row)
+    ```
+
+    ``` sql
+    SELECT count(*) FROM title_ratings;
     SELECT * FROM title_ratings WHERE tconst = 'tt0093779';
     ```
 
     ``` {.text .no-copy}
-      tconst   | titletype |    primarytitle    |   originaltitle    | isadult | startyear | endyear | runtimeminutes |          genres
-    -----------+-----------+--------------------+--------------------+---------+-----------+---------+----------------+--------------------------
-     tt0093779 | movie     | The Princess Bride | The Princess Bride | f       |      1987 |         |             98 | Adventure,Family,Fantasy
+      count
+    ---------
+     1246402
     (1 row)
 
       tconst   | averagerating | numvotes
     -----------+---------------+----------
      tt0093779 |           8.0 |   427192
-    (1 row)
+    (1 row)    
     ```
 
 9. Exit the `psql` shell and container:
@@ -188,6 +205,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --network=readyset-net \
     --platform=linux/amd64 \
     --volume='readyset:/state' \
+    --pull=always \
     -e ENGINE=psql \
     -e DEPLOYMENT_ENV=quickstart_docker \
     public.ecr.aws/readyset/readyset-adapter:latest \
@@ -201,7 +219,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --db-dir='/state'
     ```
 
-2. This `docker run` command is similar to the one you used to start Postgres. However, the environment variable set in the container and the flags following the `readyset-psql` image are specific to ReadySet. Take a moment to understand them:
+2. This `docker run` command is similar to the one you used to start Postgres. However, the environment variables set in the container and the flags following the `readyset-adapter` image are specific to ReadySet. Take a moment to understand them:
 
     Flag | Details
     -----|--------
@@ -211,7 +229,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     `--upstream-db-url` | <p>The URL for connecting ReadySet to Postgres. This connection URL includes the username and password for ReadySet to authenticate with as well as the database to replicate.</p><div class="admonition tip"><p class="admonition-title">Tip</p><p>By default, ReadySet replicates all tables in all schemas of the specified Postgres database. For this tutorial, that's fine. However, in future deployments, if the queries you want to cache access only a specific schema or specific tables in a schema, or if some tables can't be replicated by ReadySet because they contain [data types](../reference/sql-support/#data-types) that ReadySet does not support, you can narrow the scope of replication by passing `--replication-tables=<schema.table>,<schema.table>`.</p>
     `--address` | The IP and port that ReadySet listens on. For this tutorial, ReadySet is running locally on a different port than Postgres, so connecting `psql` to ReadySet is just a matter of changing the port from `5432` to `5433`.</p>       
     `--username`<br>`--password`| The username and password for connecting clients to ReadySet. For this tutorial, you're using the same username and password for both Postgres and ReadySet.
-    `--query-caching` | <p>The query caching mode for ReadySet.</p><p>For this tutorial, you've set this to `explicit`, which means you must run a specific command to have ReadySet cache a query (covered in [Step 4](#step-4-cache-queries)). The other options are `inrequestpath` and `async`. `inrequestpath` caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready. `async` also caches supported queries automatically but proxies queries to the upstream database until the cache is ready. For most deployments, the `explicit` option is recommended, as it gives you the most flexibility and control.</p>
+    `--query-caching` | <p>The query caching mode for ReadySet.</p><p>For this tutorial, you've set this to `explicit`, which means you must run a specific command to have ReadySet cache a query (covered in [Step 3](#step-3-cache-queries)). The other options are `inrequestpath` and `async`. `inrequestpath` caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready. `async` also caches supported queries automatically but proxies queries to the upstream database until the cache is ready. For most deployments, the `explicit` option is recommended, as it gives you the most flexibility and control.</p>
     `--db-dir` | The directory in which to store replicated table data. For this tutorial, you're using a Docker volume that will persist after the container is stopped.
 
 3. Watch as ReadySet takes a snapshot of your tables:
@@ -429,6 +447,12 @@ Now you'll use a simple Python application to run your queries against both the 
     curl -O https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/quickstart-app.py
     ```
 
+    The Python app runs a specified query 20 times and prints the latency of each iteration as well as the query latency distributions (50th, 90th, 95th, 99th, and 100th percentiles). To check the code, run:
+
+    ``` sh
+    cat quickstart-app.py
+    ```
+
 4. Run the first `JOIN` query against the database:
 
     ``` sh
@@ -437,7 +461,7 @@ Now you'll use a simple Python application to run your queries against both the 
     --query="SELECT count(*) FROM title_ratings JOIN title_basics ON title_ratings.tconst = title_basics.tconst WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;"
     ```
 
-    ``` text hl_lines="9"
+    ``` text hl_lines="10"
     Result:
     ['count']
     ['14144']
@@ -446,7 +470,7 @@ Now you'll use a simple Python application to run your queries against both the 
     Query latencies (in milliseconds):
     ['261.31', '248.57', '239.23', '241.15', '239.70', '239.73', '240.10', '238.87', '239.38', '240.05', '239.80', '239.15', '238.33', '242.48', '246.25', '247.40', '239.31', '244.89', '239.60', '240.85']
 
-    Latency Percentiles (in milliseconds):
+    Latency percentiles (in milliseconds):
      p50: 239.92
      p90: 247.51
      p95: 249.21
@@ -454,7 +478,7 @@ Now you'll use a simple Python application to run your queries against both the 
     p100: 261.31
     ```
 
-    The Python app runs the query 20 times and prints the latency of each iteration as well as the query latency distributions (50th, 90th, 95th, 99th, and 100th percentile of latencies seen). Note the latencies seen when results are returned from the database.
+    Note the latencies when results are returned from the database.
 
 5. Run the same `JOIN` again, but this time against ReadySet:
 
@@ -476,7 +500,7 @@ Now you'll use a simple Python application to run your queries against both the 
     Query latencies (in milliseconds):
     ['8.07', '0.71', '0.47', '0.34', '0.43', '0.38', '0.40', '0.41', '0.32', '0.41', '0.31', '0.37', '0.34', '0.46', '0.29', '0.31', '0.37', '0.28', '0.33', '0.33']
 
-    Latency Percentiles (in milliseconds):
+    Latency percentiles (in milliseconds):
      p50: 0.37
      p90: 0.49
      p95: 1.07
@@ -494,7 +518,7 @@ Now you'll use a simple Python application to run your queries against both the 
     --query="SELECT title_basics.originaltitle, title_ratings.averagerating FROM title_basics JOIN title_ratings ON title_basics.tconst = title_ratings.tconst WHERE title_basics.startyear = 1950 AND title_basics.titletype = 'movie' ORDER BY title_ratings.averagerating DESC LIMIT 10;"
     ```
 
-    ``` text hl_lines="18"
+    ``` text hl_lines="19"
     Result:
     ['originaltitle', 'averagerating']
     ['Le mariage de Mademoiselle Beulemans', '9.0']
@@ -512,7 +536,7 @@ Now you'll use a simple Python application to run your queries against both the 
     Query latencies (in milliseconds):
     ['195.04', '179.04', '172.67', '170.25', '170.90', '175.98', '189.44', '186.62', '179.05', '179.87', '174.51', '176.44', '172.64', '172.13', '171.89', '170.64', '172.58', '172.00', '170.88', '171.12']
 
-    Latency Percentiles (in milliseconds):
+    Latency percentiles (in milliseconds):
      p50: 172.65
      p90: 186.90
      p95: 189.72
@@ -520,7 +544,7 @@ Now you'll use a simple Python application to run your queries against both the 
     p100: 195.04
     ```
 
-    Note the latencies seen when results are returned from the database.
+    Note the latencies when results are returned from the database.
 
 7. Run the same `JOIN` again, but this time against ReadySet:
 
@@ -547,7 +571,7 @@ Now you'll use a simple Python application to run your queries against both the 
     Query latencies (in milliseconds):
     ['9.30', '0.72', '0.52', '0.41', '0.46', '0.39', '0.43', '0.38', '0.43', '0.41', '0.38', '0.37', '0.37', '0.38', '0.34', '0.35', '0.40', '0.34', '0.40', '0.40']
 
-    Latency Percentiles (in milliseconds):
+    Latency percentiles (in milliseconds):
      p50: 0.40
      p90: 0.54
      p95: 1.15
@@ -615,7 +639,7 @@ One of ReadySet's most important features is its ability to keep your cache up-t
     Query latencies (in milliseconds):
     ['8.64', '0.69', '0.64', '0.49', '0.59', '0.46', '0.32', '0.32', '0.35', '0.38', '0.31', '0.33', '0.32', '0.30', '0.38', '0.34', '0.34', '0.33', '0.30', '0.33']
 
-    Latency Percentiles (in milliseconds):
+    Latency percentiles (in milliseconds):
      p50: 0.34
      p90: 0.64
      p95: 1.09
@@ -708,3 +732,13 @@ docker volume rm readyset
 ``` sh
 docker network rm readyset-net
 ```
+
+## Next steps
+
+- [Connect an app](connect-an-app.md)
+
+- [Review query support](../reference/sql-support.md)
+
+- [Learn how ReadySet works under the hood](../concepts/overview.md)
+
+- [Deploy with ReadySet Cloud](deploy-readyset-cloud.md)
