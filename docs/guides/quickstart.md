@@ -420,7 +420,7 @@ Now you'll use a simple Python application to run your queries against both the 
     ``` sh
     apt-get update \
     && apt-get -y install libpq-dev gcc curl \
-    && pip3 install psycopg2
+    && pip3 install psycopg2 numpy
     ```
 
 3. Download the Python app:
@@ -442,14 +442,19 @@ Now you'll use a simple Python application to run your queries against both the 
     ['count']
     ['14144']
 
-    Query latencies (in milliseconds):
-    [566.7273998260498, 254.38809394836426, 237.54477500915527, 238.02709579467773, 236.1123561859131, 234.16709899902344, 234.50851440429688, 235.5213165283203, 236.62209510803223, 233.14189910888672, 236.04488372802734, 236.33122444152832, 234.19809341430664, 236.9060516357422, 236.9368076324463, 263.0195617675781, 246.96660041809082, 260.5435848236084, 258.90254974365234, 245.91660499572754]
 
-    Median query latency (in milliseconds):
-    236.92142963409424
+    Query latencies (in milliseconds):
+    ['261.31', '248.57', '239.23', '241.15', '239.70', '239.73', '240.10', '238.87', '239.38', '240.05', '239.80', '239.15', '238.33', '242.48', '246.25', '247.40', '239.31', '244.89', '239.60', '240.85']
+
+    Latency Percentiles (in milliseconds):
+     p50: 239.92
+     p90: 247.51
+     p95: 249.21
+     p99: 258.89
+    p100: 261.31
     ```
 
-    The Python app runs the query 20 times and prints the latency of each iteration as well as the median query latency. Note the median latency when results are returned from the database.
+    The Python app runs the query 20 times and prints the latency of each iteration as well as the query latency distributions (50th, 90th, 95th, 99th, and 100th percentile of latencies seen). Note the latencies seen when results are returned from the database.
 
 5. Run the same `JOIN` again, but this time against ReadySet:
 
@@ -469,13 +474,17 @@ Now you'll use a simple Python application to run your queries against both the 
     ['14144']
 
     Query latencies (in milliseconds):
-    [147.66454696655273, 1.4758110046386719, 0.3712177276611328, 0.29015541076660156, 0.27489662170410156, 0.2846717834472656, 0.27489662170410156, 0.26798248291015625, 0.26535987854003906, 0.2770423889160156, 0.26798248291015625, 0.26035308837890625, 0.24843215942382812, 0.2856254577636719, 0.34546852111816406, 0.3268718719482422, 0.3361701965332031, 0.28586387634277344, 0.2803802490234375, 0.28586387634277344]
+    ['8.07', '0.71', '0.47', '0.34', '0.43', '0.38', '0.40', '0.41', '0.32', '0.41', '0.31', '0.37', '0.34', '0.46', '0.29', '0.31', '0.37', '0.28', '0.33', '0.33']
 
-    Median query latency (in milliseconds):
-    0.28514862060546875
+    Latency Percentiles (in milliseconds):
+     p50: 0.37
+     p90: 0.49
+     p95: 1.07
+     p99: 6.67
+    p100: 8.07
     ```
 
-    As you can see, ReadySet returns results much faster. In the example here, latency went from 236.9ms to 0.3ms.
+    As you can see, ReadySet returns results much faster. In the example here, the p50 latency went from 239.92ms to 0.37ms.
 
 6. Now run the second `JOIN` query against the database:
 
@@ -495,18 +504,23 @@ Now you'll use a simple Python application to run your queries against both the 
     ['Pyar', '8.6']
     ['Meena Bazaar', '8.5']
     ['Jiruba Tetsu', '8.5']
+    ['Vidyasagar', '8.4']
     ['Siete muertes a plazo fijo', '8.4']
-    ['Showkar', '8.4']
     ['Tathapi', '8.4']
 
-    Query latencies (in milliseconds):
-    [502.3610591888428, 172.79624938964844, 170.99690437316895, 170.18723487854004, 169.0659523010254, 170.57228088378906, 186.63430213928223, 179.0142059326172, 176.57208442687988, 186.58065795898438, 183.3055019378662, 178.94220352172852, 174.9889850616455, 176.33867263793945, 180.10997772216797, 174.98064041137695, 177.19364166259766, 171.53334617614746, 171.39816284179688, 171.39506340026855]
 
-    Median query latency (in milliseconds):
-    175.66382884979248
+    Query latencies (in milliseconds):
+    ['195.04', '179.04', '172.67', '170.25', '170.90', '175.98', '189.44', '186.62', '179.05', '179.87', '174.51', '176.44', '172.64', '172.13', '171.89', '170.64', '172.58', '172.00', '170.88', '171.12']
+
+    Latency Percentiles (in milliseconds):
+     p50: 172.65
+     p90: 186.90
+     p95: 189.72
+     p99: 193.98
+    p100: 195.04
     ```
 
-    Note the median latency when results are returned from the database.
+    Note the latencies seen when results are returned from the database.
 
 7. Run the same `JOIN` again, but this time against ReadySet:
 
@@ -531,13 +545,17 @@ Now you'll use a simple Python application to run your queries against both the 
     ['Siete muertes a plazo fijo', '8.4']
 
     Query latencies (in milliseconds):
-    [187.32094764709473, 1.1928081512451172, 0.3998279571533203, 0.4241466522216797, 0.4048347473144531, 0.37598609924316406, 0.4181861877441406, 0.3223419189453125, 0.33545494079589844, 0.4162788391113281, 0.3523826599121094, 0.3304481506347656, 0.35858154296875, 0.2868175506591797, 0.400543212890625, 0.3719329833984375, 0.33402442932128906, 0.4017353057861328, 0.33020973205566406, 0.43320655822753906]
+    ['9.30', '0.72', '0.52', '0.41', '0.46', '0.39', '0.43', '0.38', '0.43', '0.41', '0.38', '0.37', '0.37', '0.38', '0.34', '0.35', '0.40', '0.34', '0.40', '0.40']
 
-    Median query latency (in milliseconds):
-    0.3879070281982422
+    Latency Percentiles (in milliseconds):
+     p50: 0.40
+     p90: 0.54
+     p95: 1.15
+     p99: 7.67
+    p100: 9.30
     ```
 
-    Again, ReadySet returns results much faster. In this case, latency went from 175.6ms to 0.4ms.
+    Again, ReadySet returns results much faster. In this case, p50 latency went from 172.65 ms to 0.40 ms.
 
 8. Exit the `app` container:
 
@@ -595,15 +613,19 @@ One of ReadySet's most important features is its ability to keep your cache up-t
     ['14145']
 
     Query latencies (in milliseconds):
-    [10.125160217285156, 0.7064342498779297, 0.40841102600097656, 0.3204345703125, 0.3342628479003906, 0.2732276916503906, 0.2651214599609375, 0.2586841583251953, 0.31447410583496094, 0.2951622009277344, 0.2849102020263672, 0.3254413604736328, 0.347137451171875, 0.30803680419921875, 0.3619194030761719, 0.3151893615722656, 0.3483295440673828, 0.39124488830566406, 0.3299713134765625, 0.3707408905029297]
+    ['8.64', '0.69', '0.64', '0.49', '0.59', '0.46', '0.32', '0.32', '0.35', '0.38', '0.31', '0.33', '0.32', '0.30', '0.38', '0.34', '0.34', '0.33', '0.30', '0.33']
 
-    Median query latency (in milliseconds):
-    0.32770633697509766
+    Latency Percentiles (in milliseconds):
+     p50: 0.34
+     p90: 0.64
+     p95: 1.09
+     p99: 7.13
+    p100: 8.64
     ```
 
     !!! success
 
-        Previously, the count was 14144. Now, the count is 14145, and the median query latency is virtually unchanged. This shows how ReadySet automatically updates your cache, using the database's replication stream, with no action needed on your part to keep the database and cache in sync.
+        Previously, the count was 14144. Now, the count is 14145, and the query latencies are virtually unchanged. This shows how ReadySet automatically updates your cache, using the database's replication stream, with no action needed on your part to keep the database and cache in sync.
 
 6. Exit the `app` container:
 
