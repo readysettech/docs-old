@@ -76,6 +76,7 @@ extra_css:
 copyright: © 2022 ReadySet Technology Inc.
 
 extra:
+  homepage: https://readyset.io/
   social:
     - icon: fontawesome/brands/discord
       link: https://discord.gg/readyset
