@@ -88,6 +88,7 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`CHAR`<br>`VARCHAR`<br>`TEXT`](https://www.postgresql.org/docs/current/datatype-character.html) | :octicons-check-16: | ReadySet ignores the optional length field. |
+    | [`"CHAR"`](https://www.postgresql.org/docs/current/datatype-character.html#DATATYPE-CHARACTER-SPECIAL-TABLE) | :octicons-check-16: | |
     | [`CITEXT`](https://www.postgresql.org/docs/15/citext.html) | :octicons-check-16: | |
 
     **Binary types**
@@ -374,11 +375,11 @@ ReadySet supports the following components of the SQL expression language:
         - `<@`
         - `#>`
         - `#>>`
+        - `#-`
 - `IN` and `NOT IN` with a list of expressions
     - see "Limitations of `IN`" under [“Parameters”](#parameters)
 - `CAST`
 - `CASE`
-    - `Case` may only have one `THEN` branch and an optional `ELSE` branch
 - Built-in functions <!-- http://docs/rustdoc/dataflow_expression/enum.BuiltinFunction.html -->
     - `CONVERT_TZ()`
     - `DAYOFWEEK()`
@@ -388,8 +389,13 @@ ReadySet supports the following components of the SQL expression language:
     - `ADDTIME()`
     - `DATE_FORMAT()`
     - `ROUND()`
+    - `JSON_DEPTH()`
     - `JSON_TYPEOF()`
+    - `JSON_VALID()`
     - `JSONB_TYPEOF()`
+    - `JSONB_INSERT()`
+    - `JSONB_SET()`
+    - `JSONB_PRETTY()`
     - `COALESCE()`
     - `SUBSTR()` and `SUBSTRING()`
     - `SPLIT_PART()`
