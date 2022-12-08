@@ -206,11 +206,11 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --platform=linux/amd64 \
     --volume='readyset:/state' \
     --pull=always \
-    -e ENGINE=psql \
     -e DEPLOYMENT_ENV=quickstart_docker \
-    public.ecr.aws/readyset/readyset-adapter:latest \
+    public.ecr.aws/readyset/readyset:latest \
     --standalone \
     --deployment='quickstart-postgres' \
+    --database-type=postgresql \
     --upstream-db-url=postgresql://postgres:readyset@postgres:5432/imdb \
     --address=0.0.0.0:5433 \
     --username='postgres' \
@@ -219,13 +219,14 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --db-dir='/state'
     ```
 
-2. This `docker run` command is similar to the one you used to start Postgres. However, the environment variables set in the container and the flags following the `readyset-adapter` image are specific to ReadySet. Take a moment to understand them:
+2. This `docker run` command is similar to the one you used to start Postgres. However, the flags following the `readyset` image are specific to ReadySet. Take a moment to understand them:
 
     Flag | Details
     -----|--------
-    `-e` | The `readyset-adapter` image works with both Postgres and MySQL. You set the `ENGINE` environment variable to specify which one you're using. For this tutorial, you also set an environment variable to allow ReadySet to categorize your deployment as a quickstart experience in anonymous [telemetry](../reference/telemetry.md) data.
-    `--standalone` | <p>For [production deployments](deploy-readyset-kubernetes.md), you run the ReadySet Server and Adapter as separate processes. For local testing, however, you can run the Server and Adapter as a single process by passing the `--standalone` flag to the ReadySet Adapter command.</p>
+    `-e` |  For this tutorial, you also set an environment variable to allow ReadySet to categorize your deployment as a quickstart experience in anonymous [telemetry](../reference/telemetry.md) data.
+    `--standalone` | <p>For [production deployments](deploy-readyset-kubernetes.md), you run the ReadySet Server and Adapter as separate processes. For local testing, however, you can run the Server and Adapter as a single process by passing the `--standalone` flag to the `readyset` command.</p>
     `--deployment` | A unique identifier for the ReadySet deployment.
+    `--database-type` | The `readyset` image works with both Postgres and MySQL. You set this flag to specify which one you're using.
     `--upstream-db-url` | <p>The URL for connecting ReadySet to Postgres. This connection URL includes the username and password for ReadySet to authenticate with as well as the database to replicate.</p><div class="admonition tip"><p class="admonition-title">Tip</p><p>By default, ReadySet replicates all tables in all schemas of the specified Postgres database. For this tutorial, that's fine. However, in future deployments, if the queries you want to cache access only a specific schema or specific tables in a schema, or if some tables can't be replicated by ReadySet because they contain [data types](../reference/sql-support/#data-types) that ReadySet does not support, you can narrow the scope of replication by passing `--replication-tables=<schema.table>,<schema.table>`.</p>
     `--address` | The IP and port that ReadySet listens on. For this tutorial, ReadySet is running locally on a different port than Postgres, so connecting `psql` to ReadySet is just a matter of changing the port from `5432` to `5433`.</p>       
     `--username`<br>`--password`| The username and password for connecting clients to ReadySet. For this tutorial, you're using the same username and password for both Postgres and ReadySet.
