@@ -528,39 +528,39 @@ In this step, you'll download and edit the configuration files for deploying Rea
 
         ``` sh
         curl -k -H "Authorization: Bearer $TOKEN" \
-        https://public.ecr.aws/v2/readyset/readyset-adapter/tags/list
+        https://public.ecr.aws/v2/readyset/readyset/tags/list
         ```
 
         The results will look like this:
 
         ``` {.text .no-copy}
         {"name":"readyset/readyset-server","tags":["d3f36b07c8edd41c9ec558654b0cd6b1998eee61","latest"]}
-        {"name":"readyset/readyset-adapter","tags":["d3f36b07c8edd41c9ec558654b0cd6b1998eee61","latest"]}
+        {"name":"readyset/readyset","tags":["d3f36b07c8edd41c9ec558654b0cd6b1998eee61","latest"]}
         ```
 
-    2. In `values.yaml`, change the image tags for the ReadySet Server and Adapter from `latest` to a specific version:
+    2. In `values.yaml`, change the image tags for the ReadySet Server and Adapter from `latest` to the [most recent version](../releases/readyset-core.md):
 
         ``` sh hl_lines="9"
         # -- Container image settings for ReadySet server.
         # @default -- Truncated due to length.
         image:
 
-          # -- Image repository to use for ReadySet server.
+          # -- Container image repository to use for ReadySet server.
           repository: public.ecr.aws/readyset/readyset-server
 
-          # -- Image tag to use for ReadySet server.
+          # -- Container image tag to use for ReadySet server.
           tag: "latest"
         ```
 
         ``` sh hl_lines="9"
-        # -- Container image settings for ReadySet adapter.
+        # -- Container image settings for ReadySet adapter containers.
         # @default -- Truncated due to length.
         image:
 
-          # -- Image repository to use for ReadySet adapter.
-          repository: public.ecr.aws/readyset/readyset-adapter
+          # -- Image repository to use for ReadySet adapter containers.
+          repository: public.ecr.aws/readyset/readyset
 
-          # -- Image tag to use for ReadySet adapter.
+          # -- Image tag to use for ReadySet adapter containers.
           tag: "latest"
         ```
 
@@ -572,18 +572,32 @@ In this step, you'll download and edit the configuration files for deploying Rea
 
     === "RDS Postgres"
 
-        ```  sh hl_lines="3"
-        # -- Flag to instruct entrypoint script which adapter binary to use.
-        # Supported values: mysql, psql
-        engine: "psql"
+        ``` sh hl_lines="4"
+        # -- Flag to instruct readyset binary which adapter binary to use.
+        # -- Also used to configure listening port for the helm chart.
+        # Supported values: mysql, postgresql
+        database_type: "postgresql"
+        ```
+
+        ``` sh hl_lines="3"
+        # -- Entrypoint arguments for ReadySet adapter containers.
+        # -- database-type possible values: mysql, postgresql
+        args: ["--prometheus-metrics", "--database-type", "postgresql"]
         ```
 
     === "RDS MySQL"
 
-        ```  sh hl_lines="3"
-        # -- Flag to instruct entrypoint script which adapter binary to use.
-        # Supported values: mysql, psql
-        engine: "mysql"
+        ``` sh hl_lines="4"
+        # -- Flag to instruct readyset binary which adapter binary to use.
+        # -- Also used to configure listening port for the helm chart.
+        # Supported values: mysql, postgresql
+        database_type: "mysql"
+        ```
+
+        ``` sh hl_lines="3"
+        # -- Entrypoint arguments for ReadySet adapter containers.
+        # -- database-type possible values: mysql, postgresql
+        args: ["--prometheus-metrics", "--database-type", "mysql"]
         ```
 
 6. In `values.yaml`, change the storage size to be 2x the size of your database:
@@ -664,7 +678,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     ``` {.text .no-copy}
     NAME                                        READY   STATUS    RESTARTS   AGE   IP               NODE                             NOMINATED NODE   READINESS GATES
     readyset-consul-server-0                    1/1     Running   0          5m    192.168.39.169   ip-192-168-43-246.ec2.internal   <none>           <none>
-    readyset-readyset-adapter-9dbfb77d9-ml92h   2/2     Running   0          5m    192.168.48.46    ip-192-168-43-246.ec2.internal   <none>           <none>
+    readyset-readyset-9dbfb77d9-ml92h   2/2     Running   0          5m    192.168.48.46    ip-192-168-43-246.ec2.internal   <none>           <none>
     readyset-readyset-server-0                  2/2     Running   0          5m    192.168.18.133   ip-192-168-18-84.ec2.internal    <none>           <none>
     ```
 
@@ -772,22 +786,22 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         To follow the ReadySet Adapter logs, use:
 
         ``` sh
-        export ADAPTER=$(kubectl get pods | grep readyset-adapter | cut -d' ' -f1);
+        export ADAPTER=$(kubectl get pods | grep readyset | cut -d' ' -f1);
         ```
 
         ``` sh
-        kubectl logs ${ADAPTER} -c readyset-adapter -f
+        kubectl logs ${ADAPTER} -c readyset -f
         ```        
 
 7. Confirm that a load balancer service was created successfully:
 
     ``` sh
-    kubectl get service/readyset-readyset-adapter
+    kubectl get service/readyset-readyset
     ```
 
     ```
     NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP                                                                    PORT(S)                         AGE
-    readyset-readyset-adapter   LoadBalancer   10.100.46.222   k8s-default-readyset-3cab417124-2b191c9917ce4d43.elb.us-east-1.amazonaws.com   3306:30336/TCP,5432:30185/TCP   5m
+    readyset-readyset   LoadBalancer   10.100.46.222   k8s-default-readyset-3cab417124-2b191c9917ce4d43.elb.us-east-1.amazonaws.com   3306:30336/TCP,5432:30185/TCP   5m
     ```
     Do not move on to the next step until an `EXTERNAL-IP` has been assigned to the load balancer. This may take a few minutes.
 
@@ -857,7 +871,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         1. Get the IP of the ReadySet Adapter pod:
 
             ``` sh
-            export ADAPTER=$(kubectl get pods | grep readyset-adapter | cut -d' ' -f1);
+            export ADAPTER=$(kubectl get pods | grep readyset | cut -d' ' -f1);
             ```
 
             ``` sh
