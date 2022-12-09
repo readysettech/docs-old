@@ -534,8 +534,8 @@ In this step, you'll download and edit the configuration files for deploying Rea
         The results will look like this:
 
         ``` {.text .no-copy}
-        {"name":"readyset/readyset-server","tags":["d3f36b07c8edd41c9ec558654b0cd6b1998eee61","latest"]}
-        {"name":"readyset/readyset","tags":["d3f36b07c8edd41c9ec558654b0cd6b1998eee61","latest"]}
+        {"name":"readyset/readyset-server","tags":["nightly-2022-11-17","3de80e7d15f1dba1aa5817c78a78cbabb6cdbdc0","nightly-2022-11-04","b2a352d2085c83ac56fb5a5d75aaf96342dbc3c0","nightly-2022-11-03","nightly-2022-11-11","nightly-2022-11-29","nightly-2022-12-08.1","latest",...]}
+        {"name":"readyset/readyset","tags":["nightly-2022-12-07","0.1.0","nightly-2022-12-08.1","latest","nightly-2022-12-07.1","nightly-2022-12-06.2","nightly-2022-12-06.1","nightly-2022-12-08","beta-2022-12-07"]}
         ```
 
     2. In `values.yaml`, change the image tags for the ReadySet Server and Adapter from `latest` to the [most recent version](../releases/readyset-core.md):
@@ -678,7 +678,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     ``` {.text .no-copy}
     NAME                                        READY   STATUS    RESTARTS   AGE   IP               NODE                             NOMINATED NODE   READINESS GATES
     readyset-consul-server-0                    1/1     Running   0          5m    192.168.39.169   ip-192-168-43-246.ec2.internal   <none>           <none>
-    readyset-readyset-9dbfb77d9-ml92h   2/2     Running   0          5m    192.168.48.46    ip-192-168-43-246.ec2.internal   <none>           <none>
+    readyset-readyset-adapter-9dbfb77d9-ml92h   2/2     Running   0          5m    192.168.48.46    ip-192-168-43-246.ec2.internal   <none>           <none>
     readyset-readyset-server-0                  2/2     Running   0          5m    192.168.18.133   ip-192-168-18-84.ec2.internal    <none>           <none>
     ```
 
@@ -786,22 +786,22 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         To follow the ReadySet Adapter logs, use:
 
         ``` sh
-        export ADAPTER=$(kubectl get pods | grep readyset | cut -d' ' -f1);
+        export ADAPTER=$(kubectl get pods | grep readyset-adapter | cut -d' ' -f1);
         ```
 
         ``` sh
-        kubectl logs ${ADAPTER} -c readyset -f
+        kubectl logs ${ADAPTER} -c readyset-adapter -f
         ```        
 
 7. Confirm that a load balancer service was created successfully:
 
     ``` sh
-    kubectl get service/readyset-readyset
+    kubectl get service/readyset-readyset-adapter
     ```
 
     ```
     NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP                                                                    PORT(S)                         AGE
-    readyset-readyset   LoadBalancer   10.100.46.222   k8s-default-readyset-3cab417124-2b191c9917ce4d43.elb.us-east-1.amazonaws.com   3306:30336/TCP,5432:30185/TCP   5m
+    readyset-readyset-adapter   LoadBalancer   10.100.46.222   k8s-default-readyset-3cab417124-2b191c9917ce4d43.elb.us-east-1.amazonaws.com   3306:30336/TCP,5432:30185/TCP   5m
     ```
     Do not move on to the next step until an `EXTERNAL-IP` has been assigned to the load balancer. This may take a few minutes.
 
@@ -871,7 +871,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         1. Get the IP of the ReadySet Adapter pod:
 
             ``` sh
-            export ADAPTER=$(kubectl get pods | grep readyset | cut -d' ' -f1);
+            export ADAPTER=$(kubectl get pods | grep readyset-adapter | cut -d' ' -f1);
             ```
 
             ``` sh
