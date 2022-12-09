@@ -76,10 +76,6 @@ Once you've signed up, ReadySet will schedule time to discuss your use case, giv
         1. In the Supabase Dashboard, go to **Project Settings > General**.
         1. Scroll to the **Infrastructure** area.
         1. Note the **Region**.
-    1. Download your Supabase SSL certificate:
-        1. In the Supabase Dashboard, go to **Project Settings > Database**.
-        1. Scroll down to the **SSL Connection** area.
-        1. Click **Download Certificate**.
     1. Get your database connection string:
         1. Scroll down to the **Connection string** area.
         1. Select **URI** and note the connection string.
