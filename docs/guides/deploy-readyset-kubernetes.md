@@ -528,39 +528,39 @@ In this step, you'll download and edit the configuration files for deploying Rea
 
         ``` sh
         curl -k -H "Authorization: Bearer $TOKEN" \
-        https://public.ecr.aws/v2/readyset/readyset-adapter/tags/list
+        https://public.ecr.aws/v2/readyset/readyset/tags/list
         ```
 
         The results will look like this:
 
         ``` {.text .no-copy}
-        {"name":"readyset/readyset-server","tags":["d3f36b07c8edd41c9ec558654b0cd6b1998eee61","latest"]}
-        {"name":"readyset/readyset-adapter","tags":["d3f36b07c8edd41c9ec558654b0cd6b1998eee61","latest"]}
+        {"name":"readyset/readyset-server","tags":["nightly-2022-11-17","3de80e7d15f1dba1aa5817c78a78cbabb6cdbdc0","nightly-2022-11-04","b2a352d2085c83ac56fb5a5d75aaf96342dbc3c0","nightly-2022-11-03","nightly-2022-11-11","nightly-2022-11-29","nightly-2022-12-08.1","latest",...]}
+        {"name":"readyset/readyset","tags":["nightly-2022-12-07","0.1.0","nightly-2022-12-08.1","latest","nightly-2022-12-07.1","nightly-2022-12-06.2","nightly-2022-12-06.1","nightly-2022-12-08","beta-2022-12-07"]}
         ```
 
-    2. In `values.yaml`, change the image tags for the ReadySet Server and Adapter from `latest` to a specific version:
+    2. In `values.yaml`, change the image tags for the ReadySet Server and Adapter from `latest` to the [most recent version](../releases/readyset-core.md):
 
         ``` sh hl_lines="9"
         # -- Container image settings for ReadySet server.
         # @default -- Truncated due to length.
         image:
 
-          # -- Image repository to use for ReadySet server.
+          # -- Container image repository to use for ReadySet server.
           repository: public.ecr.aws/readyset/readyset-server
 
-          # -- Image tag to use for ReadySet server.
+          # -- Container image tag to use for ReadySet server.
           tag: "latest"
         ```
 
         ``` sh hl_lines="9"
-        # -- Container image settings for ReadySet adapter.
+        # -- Container image settings for ReadySet adapter containers.
         # @default -- Truncated due to length.
         image:
 
-          # -- Image repository to use for ReadySet adapter.
-          repository: public.ecr.aws/readyset/readyset-adapter
+          # -- Image repository to use for ReadySet adapter containers.
+          repository: public.ecr.aws/readyset/readyset
 
-          # -- Image tag to use for ReadySet adapter.
+          # -- Image tag to use for ReadySet adapter containers.
           tag: "latest"
         ```
 
@@ -572,18 +572,32 @@ In this step, you'll download and edit the configuration files for deploying Rea
 
     === "RDS Postgres"
 
-        ```  sh hl_lines="3"
-        # -- Flag to instruct entrypoint script which adapter binary to use.
-        # Supported values: mysql, psql
-        engine: "psql"
+        ``` sh hl_lines="4"
+        # -- Flag to instruct readyset binary which adapter binary to use.
+        # -- Also used to configure listening port for the helm chart.
+        # Supported values: mysql, postgresql
+        database_type: "postgresql"
+        ```
+
+        ``` sh hl_lines="3"
+        # -- Entrypoint arguments for ReadySet adapter containers.
+        # -- database-type possible values: mysql, postgresql
+        args: ["--prometheus-metrics", "--database-type", "postgresql"]
         ```
 
     === "RDS MySQL"
 
-        ```  sh hl_lines="3"
-        # -- Flag to instruct entrypoint script which adapter binary to use.
-        # Supported values: mysql, psql
-        engine: "mysql"
+        ``` sh hl_lines="4"
+        # -- Flag to instruct readyset binary which adapter binary to use.
+        # -- Also used to configure listening port for the helm chart.
+        # Supported values: mysql, postgresql
+        database_type: "mysql"
+        ```
+
+        ``` sh hl_lines="3"
+        # -- Entrypoint arguments for ReadySet adapter containers.
+        # -- database-type possible values: mysql, postgresql
+        args: ["--prometheus-metrics", "--database-type", "mysql"]
         ```
 
 6. In `values.yaml`, change the storage size to be 2x the size of your database:
