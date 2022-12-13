@@ -207,6 +207,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --volume='readyset:/state' \
     --pull=always \
     -e DEPLOYMENT_ENV=quickstart_docker \
+    -e RSA_API_KEY \
     public.ecr.aws/readyset/readyset:latest \
     --standalone \
     --deployment='quickstart-postgres' \
@@ -240,20 +241,20 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
         Snapshotting will take a few minutes. For each table, you'll see the progress and the estimated time remaining in the log messages (e.g., `progress=84.13% estimate=00:00:23`).
 
     ``` sh
-    docker logs readyset | grep 'Replicating table'
+    docker logs readyset | grep 'Snapshotting table'
     ```
 
     ``` {.text .no-copy}
-    2022-11-11T19:37:49.467850Z  INFO Replicating table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Replicating table
-    2022-11-11T19:37:49.621510Z  INFO Replicating table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting started rows=1246402
-    2022-11-11T19:38:10.379432Z  INFO Replicating table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished rows_replicated=1246402
-    2022-11-11T19:38:10.380743Z  INFO Replicating table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Replicating table
-    2022-11-11T19:38:10.806728Z  INFO Replicating table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting started rows=5159701
-    2022-11-11T19:38:41.816038Z  INFO Replicating table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress rows_replicated=1085440 progress=21.04% estimate=00:01:56
-    2022-11-11T19:39:12.831545Z  INFO Replicating table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress rows_replicated=2170880 progress=42.07% estimate=00:01:25
-    2022-11-11T19:39:43.869316Z  INFO Replicating table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress rows_replicated=3259392 progress=63.17% estimate=00:00:54
-    2022-11-11T19:40:14.878916Z  INFO Replicating table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress rows_replicated=4340736 progress=84.13% estimate=00:00:23
-    2022-11-11T19:40:38.566688Z  INFO Replicating table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting finished rows_replicated=5159701
+    2022-12-13T16:02:48.142605Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "quickstart-postgres"})
+    2022-12-13T16:02:48.202895Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "quickstart-postgres"})
+    2022-12-13T16:02:48.357445Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "quickstart-postgres"}) rows=1246402
+    2022-12-13T16:02:48.921839Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "quickstart-postgres"}) rows=5159701
+    2022-12-13T16:03:11.155418Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1246402
+    2022-12-13T16:03:19.927790Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1126400 progress=21.83% estimate=00:01:51
+    2022-12-13T16:03:50.933060Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=2282496 progress=44.24% estimate=00:01:18
+    2022-12-13T16:04:21.932289Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=3433014 progress=66.54% estimate=00:00:46
+    2022-12-13T16:04:52.932615Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=4604034 progress=89.23% estimate=00:00:14
+    2022-12-13T16:05:07.837214Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=5159701
     ```
 
     Don't continue to the next step until you see `Snapshotting finished` for both `title_ratings` and `title_basics`:
@@ -263,8 +264,8 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     ```
 
     ``` {.text .no-copy}
-    2022-11-11T19:38:10.379432Z  INFO Replicating table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished rows_replicated=1246402
-    2022-11-11T19:40:38.566688Z  INFO Replicating table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting finished rows_replicated=5159701
+    2022-12-13T16:03:11.155418Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1246402
+    2022-12-13T16:05:07.837214Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=5159701
     ```
 
 ## Step 3. Cache queries
