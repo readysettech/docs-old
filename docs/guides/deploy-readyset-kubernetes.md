@@ -705,15 +705,17 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         ```
 
         ``` sh
-        kubectl logs ${SERVER} -c readyset-server | grep 'snapshot'
+        kubectl logs ${SERVER} -c readyset-server | grep 'Snapshotting table'
         ```
 
         ```
-        2022-09-27T18:13:10.809288Z  INFO Replicating table: replicators::postgres_connector::snapshot: Snapshotting started rows=4990 table=`public`.`users`
-        2022-09-27T18:13:10.818057Z  INFO Replicating table: replicators::postgres_connector::snapshot: Snapshotting finished rows_replicated=4990 table=`public`.`users`
-        2022-09-27T18:13:10.846017Z  INFO Replicating table: replicators::postgres_connector::snapshot: Snapshotting started rows=5000 table=`public`.`posts`
-        2022-09-27T18:13:10.855421Z  INFO Replicating table: replicators::postgres_connector::snapshot: Snapshotting finished rows_replicated=5000 table=`public`.`posts`
-        2022-09-27T18:13:10.971007Z  INFO replicators::noria_adapter: Snapshot finished
+        2022-12-13T16:02:48.142605Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "readyset-helm-test"})
+        2022-12-13T16:02:48.202895Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "readyset-helm-test"})
+        2022-12-13T16:02:48.357445Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "readyset-helm-test"}) rows=1246402
+        2022-12-13T16:02:48.921839Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "readyset-helm-test"}) rows=5159701
+        2022-12-13T16:03:11.155418Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "readyset-helm-test"}) rows_replicated=1246402
+        2022-12-13T16:03:19.927790Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "readyset-helm-test"}) rows_replicated=1126400 progress=21.83% estimate=00:01:51
+        ...
         ```
 
         !!! note
