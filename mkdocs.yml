@@ -50,6 +50,7 @@ nav:
     - Quickstart: guides/quickstart.md
     - Tutorial: guides/tutorial.md
   - Run ReadySet:
+    - Production Notes: guides/production-notes.md
     - Deploy with ReadySet Cloud: guides/deploy-readyset-cloud.md
     - Deploy with Kubernetes: guides/deploy-readyset-kubernetes.md
     - Connect an App: guides/connect-an-app.md
