@@ -53,3 +53,8 @@ h4, h5, h6 {
 .highlight.no-copy .md-clipboard {
   display: none;
 }
+
+/* Formatting for options in CLI reference docs */
+.option-details {
+  margin-left: 50px;
+}

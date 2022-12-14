@@ -56,6 +56,8 @@ nav:
     - Production Notes: guides/production-notes.md
     - Deploy with ReadySet Cloud: guides/deploy-readyset-cloud.md
     - Deploy with Kubernetes: guides/deploy-readyset-kubernetes.md
+    - Deploy with Binary: guides/deploy-readyset-binary.md
+  - Use ReadySet:
     - Connect an App: guides/connect-an-app.md
     - Check Snapshotting: guides/check-snapshotting.md
     - Cache Queries: guides/cache-queries.md
@@ -63,10 +65,11 @@ nav:
   #   - Upgrade ReadySet: guides/upgrade-readyset.md
   #   - Scale ReadySet: guides/scale-readyset.md
   - Reference:
-    - SQL Support: reference/sql-support.md
-    # - Commands:
-    #   - readset-server: reference/readyset-server.md
-    #   - readyset-adapter: reference/readyset-adapter.md
+    - SQL: reference/sql-support.md
+    - CLI:
+      - reference/cli/index.md
+      - readyset: reference/cli/readyset.md
+      - readyset-server: reference/cli/readyset-server.md
     - Telemetry: reference/telemetry.md
   - Concepts:
     - Overview: concepts/overview.md
@@ -126,3 +129,6 @@ markdown_extensions:
       slugify: !!python/object/apply:pymdownx.slugs.slugify
         kwds:
           case: lower
+  - toc:
+      permalink: true
+      toc_depth: 3

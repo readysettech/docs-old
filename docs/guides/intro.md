@@ -4,7 +4,7 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
 
 ## How does ReadySet work?
 
-Based on years of dataflow research at MIT[^1], ReadySet stores the results of queries in-memory and automatically keeps queries up-to-date as the underlying database changes. When the cache gets too full, ReadySet dynamically chooses which rows to evict. ReadySet can do this automatically because it listens to your database's replication logs.
+Based on years of dataflow research at MIT[^1], ReadySet stores the results of queries in-memory and automatically keeps queries up-to-date as the underlying database changes. When the cache gets too full, ReadySet dynamically chooses which rows to evict. ReadySet can do this automatically because it listens to your database's replication stream.
 
 This means:
 
@@ -42,7 +42,7 @@ Integrating with ReadySet is straight-forward:
 
 To run through this process on your local machine, see the [Quickstart](quickstart.md) or [Demo](tutorial.md).  
 
-To run through this process in a cloud deployment, see [Deploy with ReadySet Cloud](deploy-readyset-cloud.md) or [Deploy with Kubernetes](deploy-readyset-kubernetes.md).
+To run through this process in a cloud deployment, see [Deploy with ReadySet Cloud](deploy-readyset-cloud.md), [Deploy with Kubernetes](deploy-readyset-kubernetes.md), or [Deploy with Binary](deploy-readyset-binary.md).
 
 ## How do you connect to ReadySet?
 

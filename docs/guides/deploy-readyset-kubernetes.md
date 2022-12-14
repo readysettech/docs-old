@@ -1,10 +1,6 @@
 # Deploy ReadySet with Kubernetes
 
-This page shows you how to run ReadySet yourself on [Amazon EKS](https://aws.amazon.com/eks/) in front of an [Amazon RDS](https://aws.amazon.com/rds/) for Postgres or MySQL database.
-
-- First, you'll start a Kubernetes cluster on Amazon EKS with enough resources for a simple ReadySet deployment. For efficient networking and security, you'll use the same VPC as your database.
-- Next, you'll set up load balancing to handle traffic from outside of the Kubernetes cluster, and you'll configure your database to allow ReadySet to consume the database's replication stream.
-- Finally, you'll use ReadySet's Helm chart to deploy ReadySet into the Kubernetes cluster.
+This page shows you how to run ReadySet with Kubernetes on [Amazon EKS](https://aws.amazon.com/eks/) in front of an Amazon RDS Postgres or MySQL database.
 
 !!! tip
 
@@ -14,9 +10,11 @@ This page shows you how to run ReadySet yourself on [Amazon EKS](https://aws.ama
 
 === "RDS Postgres"
 
-    - Make sure you have an existing [Amazon RDS for Postgres](https://aws.amazon.com/rds/postgresql/) database.
+    - Note that this tutorial covers the [scale-out deployment pattern](production-notes.md#scale-out), with the ReadySet Server and Adapter running as separate processes on separate machines.
 
-        ReadySet can be run in front of other versions of Postgres and MySQL. However, this tutorial focuses on RDS.
+    - Make sure you have an [Amazon RDS for Postgres](https://aws.amazon.com/rds/postgresql/) database running Postgres 13 or 14.
+
+        If you want to integrate with another version of Postgres, please [contact ReadySet](mailto:info@readyset.io).
 
     - Make sure there are no DDL statements in progress.
 
@@ -25,6 +23,8 @@ This page shows you how to run ReadySet yourself on [Amazon EKS](https://aws.ama
     - Make sure tables without primary keys have [`REPLICA IDENTITY FULL`](https://www.postgresql.org/docs/current/sql-altertable.html#SQL-ALTERTABLE-REPLICA-IDENTITY).
 
         If the database you want ReadySet to replicate includes tables without primary keys, make sure you alter those tables with `REPLICA IDENTITY FULL` before connecting ReadySet. Otherwise, Postgres will block writes and deletes on those tables.
+
+    - Make sure [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) is disabled. ReadySet does not current support row-level security.
 
     - Complete the steps described in the [EKS Getting Started](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) documentation.
 
@@ -36,7 +36,9 @@ This page shows you how to run ReadySet yourself on [Amazon EKS](https://aws.ama
 
 === "RDS MySQL"
 
-    - Make sure you have an existing [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) database.
+    - Note that this tutorial covers the [scale-out deployment pattern](production-notes.md#scale-out), with the ReadySet Server and Adapter running as separate processes on separate machines.
+
+    - Make sure you have an [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) database.
 
         ReadySet can be run in front of other versions of Postgres and MySQL. However, this tutorial focuses on RDS.
 
@@ -303,7 +305,7 @@ In this step, you'll install an AWS Network Load Balancer Controller into your K
 
 ## Step 3. Configure your database
 
-In this step, you'll configure your database so that ReadySet can consume the database's replication stream, which ReadySet uses to keep its cache up-to-date as the database changes. In Postgres, the replication stream is called [logical replication](https://www.postgresql.org/docs/current/logical-replication.html). In MySQL, the replication stream is called the [binary log](https://dev.mysql.com/doc/refman/5.7/en/binary-log.html).
+In this step, you'll configure your database so that ReadySet can consume the database's replication stream, which ReadySet uses to keep its cache up-to-date as the database changes.
 
 === "RDS Postgres"
 
@@ -330,7 +332,7 @@ In this step, you'll configure your database so that ReadySet can consume the da
 
         1.  To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
 
-    3. ReadySet uses Postgres [logical replication](https://www.postgresql.org/docs/current/logical-replication.html) to keep the cache up-to-date as the underlying database changes. In the `psql` shell, check if replication is enabled:
+    3. In the `psql` shell, check if [replication](https://www.postgresql.org/docs/current/logical-replication.html) is enabled:
 
         ``` sql
         SELECT name,setting
@@ -403,7 +405,7 @@ In this step, you'll configure your database so that ReadySet can consume the da
 
 === "RDS MySQL"
 
-    1. In RDS MySQL, the [binary log](https://dev.mysql.com/doc/refman/5.7/en/binary-log.html) is enabled only when automated backups are also enabled. If you didn't enable automated backups when creating your database instance, [enable automated backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.Enabling) now.
+    1. In RDS MySQL, [replication](https://dev.mysql.com/doc/refman/5.7/en/replication.html) is enabled only when automated backups are also enabled. If you didn't enable automated backups when creating your database instance, [enable automated backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.Enabling) now.
 
         - Be sure to use the **Apply Immediately** option. The database must be rebooted in order for the change to take effect.
 
@@ -650,7 +652,7 @@ In this step, you'll download and edit the configuration files for deploying Rea
           DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
         ```
 
-    1. By default, ReadySet will replicate all data in the database specified in the ReadySet secret that you created earlier. If the queries you want to cache with ReadySet touch only specific tables in the database, you can set the `REPLICATION_TABLES` environment variable to restrict the replication scope accordingly:
+    1. By default, ReadySet will replicate all data in the database specified in the ReadySet secret that you created earlier. However, if the queries you want to cache with ReadySet access only a subset of tables in the database, you can set the `REPLICATION_TABLES` environment variable to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.
 
         === "RDS Postgres"
 
@@ -771,7 +773,7 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         - **Snapshotting:** The initial snapshot of the table is in progress.
         - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because the table contains [unsupported data types](../reference/sql-support.md#data-types) or has been intentionally excluded from ReadySet replication (via the `--replication-tables` option).
+        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option).
 
         !!! info
 
@@ -868,7 +870,7 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         - **Snapshotting:** The initial snapshot of the table is in progress.
         - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because the table contains [unsupported data types](../reference/sql-support.md#data-types) or has been intentionally excluded from ReadySet replication (via the `REPLICATION_TABLES` environment variable).
+        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option).
 
         !!! info
 
