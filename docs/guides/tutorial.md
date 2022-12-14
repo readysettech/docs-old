@@ -35,7 +35,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
     -c wal_level=logical
     ```
 
-1. Take a moment to understand the flags you used:
+1. Take a moment to understand the options you used:
 
     <style>
       table thead tr th:first-child {
@@ -50,7 +50,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
     `--publish` | Maps the Postgres port from the container to the host so you can access the database from outside of Docker.
     `--network` | Connects the container to the bridge network you created earlier.
     `-e` | Sets environment variables to create a password for the default `postgres` user and to create a database. You'll use these details when connecting to Postgres.
-    `-c` |  Turns on Postgres [logical replication](https://www.postgresql.org/docs/current/logical-replication.html). Once ReadySet has taken an initial snapshot of the database, it uses the logical replication stream to keep its snapshot and caches up-to-date as the database changes. You'll see this in action in [Step 6](#step-6-cause-a-cache-refresh).   
+    `-c` |  Turns on Postgres [logical replication](https://www.postgresql.org/docs/current/logical-replication.html). Once ReadySet has taken an initial snapshot of the database, it uses the replication stream to keep its snapshot and caches up-to-date as the database changes. You'll see this in action in [Step 6](#step-6-cause-a-cache-refresh).   
 
 1. Create a second container for downloading sample data and running the `psql` client:
 
@@ -227,7 +227,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --query-log-ad-hoc
     ```
 
-1. This `docker run` command is similar to the one you used to start Postgres. However, the flags following the `readyset` image are specific to ReadySet. Take a moment to understand them:
+1. This `docker run` command is similar to the one you used to start Postgres. However, the options following the `readyset` image are specific to ReadySet. Take a moment to understand them:
 
     Flag | Details
     -----|--------
@@ -235,12 +235,16 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     `--standalone` | <p>For [production deployments](deploy-readyset-kubernetes.md), you run the ReadySet Server and Adapter as separate processes. For local testing, however, you can run the Server and Adapter as a single process by passing the `--standalone` flag to the `readyset` command.</p>
     `--deployment` | A unique identifier for the ReadySet deployment.
     `--database-type` | The `readyset` image works with both Postgres and MySQL. You set this flag to specify which one you're using.
-    `--upstream-db-url` | <p>The URL for connecting ReadySet to Postgres. This connection URL includes the username and password for ReadySet to authenticate with as well as the database to replicate.</p><div class="admonition tip"><p class="admonition-title">Tip</p><p>By default, ReadySet replicates all tables in all schemas of the specified Postgres database. For this tutorial, that's fine. However, in future deployments, if the queries you want to cache access only a specific schema or specific tables in a schema, or if some tables can't be replicated by ReadySet because they contain [data types](../reference/sql-support.md#data-types) that ReadySet does not support, you can narrow the scope of replication by passing `--replication-tables=<schema.table>,<schema.table>`.</p>
+    `--upstream-db-url` | <p>The URL for connecting ReadySet to Postgres. This connection URL includes the username and password for ReadySet to authenticate with as well as the database to snapshot and replicate.</p><div class="admonition tip"><p class="admonition-title">Tip</p><p>By default, ReadySet attempts to snapshot and replicate all tables in all schemas of the specified Postgres database. For this tutorial, that's fine. However, in future deployments, if the queries you want to cache access only a subset of tables, you can use the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option to filter out other tables that will not be used in caches. This will speed up the snapshotting process.</p>
     `--address` | The IP and port that ReadySet listens on. For this tutorial, ReadySet is running locally on a different port than Postgres, so connecting `psql` to ReadySet is just a matter of changing the port from `5432` to `5433`.</p>       
     `--username`<br>`--password`| The username and password for connecting clients to ReadySet. For this tutorial, you're using the same username and password for both Postgres and ReadySet.
     `--query-caching` | <p>The query caching mode for ReadySet.</p><p>For this tutorial, you've set this to `explicit`, which means you must run a specific command to have ReadySet cache a query (covered in [Step 4](#step-4-cache-queries)). The other options are `inrequestpath` and `async`. `inrequestpath` caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready. `async` also caches supported queries automatically but proxies queries to the upstream database until the cache is ready. For most deployments, the `explicit` option is recommended, as it gives you the most flexibility and control.</p>
     `--db-dir` | The directory in which to store replicated table data. For this tutorial, you're using a Docker volume that will persist after the container is stopped.
     `--query-log`<br>`--query-log-ad-hoc` | Enables logging individual queries and exposes per-query execution metrics at the `/metrics` endpoint.
+
+    !!! tip
+
+        For more details about the `readyset` command options, see the [CLI reference docs](../reference/cli/readyset.md).
 
 ## Step 3. Check snapshotting
 

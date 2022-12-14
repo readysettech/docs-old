@@ -95,9 +95,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
 
 === "Use an existing database"
 
-    ReadySet uses your database's replication stream to automatically keep your cache up-to-date as the database changes. In Postgres, the replication stream is called [logical replication](https://www.postgresql.org/docs/current/logical-replication.html). In MySQL, the replication stream is called the [binary log](https://dev.mysql.com/doc/refman/5.7/en/binary-log.html).
-
-    In this step, you'll ensure replication is enabled.
+    ReadySet uses your database's replication stream to automatically keep your cache up-to-date as the database changes. In this step, you'll ensure replication is enabled.
 
     === "Postgres"
 
@@ -111,7 +109,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
             --dbname=testdb
             ```
 
-        1. Check if replication is enabled:
+        1. Check if [replication](https://www.postgresql.org/docs/current/logical-replication.html) is enabled:
 
             ``` sql
             SELECT name,setting
@@ -135,7 +133,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
         1. Restart the database with replication enabled:
 
             ``` sh
-            postgres -c wal_level=logical <other flags>
+            postgres -c wal_level=logical <other options>
             ```
 
             Alternately, you can add the following to the `postgresql.conf` file and then restart the database:
@@ -157,7 +155,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
             --database=testdb
             ```
 
-        1. Check if replication is enabled with the `ROW` logging format:
+        1. Check if [replication](https://dev.mysql.com/doc/refman/5.7/en/replication.html) is enabled with the `ROW` logging format:
 
             ``` sql
             SHOW VARIABLES LIKE 'log_bin';
@@ -189,7 +187,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
         1. Restart the database with replication enabled and the logging format set to `ROW`:
 
             ``` sh
-            mysql --log-bin --binlog-format=ROW <other flags>
+            mysql --log-bin --binlog-format=ROW <other options>
             ```
 
 ## Step 2. Start ReadySet
@@ -298,8 +296,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
         --db-dir='/state'
         ```
 
-For details about the `readyset` command above, see the [ReadySet Demo](tutorial.md#step-2-start-readyset).
-
+For details about the `readyset` command options, see the [ReadySet Demo](tutorial.md#step-2-start-readyset) or the [CLI reference docs](../reference/cli/readyset.md).
 
 ## Next steps
 
