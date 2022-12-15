@@ -1,10 +1,73 @@
 # ReadySet Core Releases
 
-ReadySet releases a new version of ReadySet Core on a weekly basis. This page summarizes the changes in each version and links to binaries and docker images.
+ReadySet releases a new version of ReadySet Core on a monthly basis. This page summarizes the changes in each version and links to binaries and docker images.
 
 !!! warning
 
     Beta versions of ReadySet are backward-incompatible. To upgrade between beta versions, you must therefore clear all data files. Rolling upgrades will be supported with future ReadySet major releases.
+
+## beta-2022-12-15
+
+### Downloads
+
+=== ":material-linux: Linux"
+
+    !!! note
+
+        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
+
+    Binary (linux-x84_64) | Sha256Sum
+    ----------------------|----------
+    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset-server.x86_64.tar.gz) | 376a3c31923af51abf5a7ec181181eecaa1308de51efd7f336ebce54222abae0
+    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset.x86_64.tar.gz) | 7468de0b2611bfdd6df79198709c06d389f1df32223735e851c5070ca77fa82d
+
+=== ":material-apple: Mac"
+
+    Binary (darwin-arm64) | Sha256Sum
+    ------------------------------|----------
+    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset-server.arm64.tar.gz) | a8a2eb79e7c22fe5c6ce140e29931f4a474b89ead8c5f201a7eb4d370ab98861
+    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset.arm64.tar.gz) | 0e02417a0435232529cd1ec4b3a2bedb2164334e83c8f92ffb5d2d442e3ac12c
+
+=== ":material-docker: Docker"
+
+    - ReadySet Server (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset-server:beta-2022-12-15
+        ```
+
+    - ReadySet Adapter (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset:beta-2022-12-15
+        ```
+
+=== ":material-source-repository: Source"
+
+    - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2022-12-15.zip)
+    - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2022-12-15.tar.gz)
+
+### Changes
+
+- ReadySet now distributes a single `readyset` adapter binary and docker image for MySQL and Postgres instead of separate `readyset-mysql` and `readyset-psql` binaries. When running the `readyset` binary, set the new `--database-type` flag or `DATABASE_TYPE` environment variable to `mysql` or `postgresql` to specify which database ReadySet is integrating with. The `DATABASE_TYPE` environment variable replaces the `ENGINE` variable, which has been removed. Also, the `readyset-adapter` docker image has been renamed `readyset`. [e8004b0](https://github.com/readysettech/readyset/commit/e8004b0c779e463bc0343defb7675c14c90a26b7), [8315587](https://github.com/readysettech/readyset/commit/831558777c4a8c5737273a71de438cb618e7824b)
+- Parallelized the snapshotting of Postgres tables, greatly reducing the time it takes snapshotting to finish. [b1999a6](https://github.com/readysettech/readyset/commit/b1999a66fa57eaaec8444c164538dd8d2c572209)
+- Added caching suport for the Postgres `"CHAR"` special character type. [82f87a8](https://github.com/readysettech/readyset/commit/82f87a8432617572b59e821e3cae771168657bed)
+- Added caching support for the Postgres `JSONB_INSERT()` function. [b25d6c7](https://github.com/readysettech/readyset/commit/b25d6c7288ec4a01be28d5e5bd017c7c2ea69649)
+- Added caching support for the Postgres `JSONB_SET()` function. [9c91a77](https://github.com/readysettech/readyset/commit/9c91a77f8a90ed1f5ea5911956ed7c19bd0c36dc)
+- Added caching support for the Postgres `JSONB_PRETTY()` function. [055d2fc](https://github.com/readysettech/readyset/commit/055d2fcf271ad9e296e612c2397cf7fd228b7674)
+- Added caching support for the MySQL `JSON_DEPTH()` function. [9186017](https://github.com/readysettech/readyset/commit/9186017b0eaa76bd0d6735620cfafd413c853d46)
+- Added caching support for the MySQL `JSON_VALID()` function. [b72cfa1](https://github.com/readysettech/readyset/commit/b72cfa1ce9aed75ca3a690b795b87758e22e2b75)
+- Added caching support for the Postgres `#-` operator. [a69f0d9](https://github.com/readysettech/readyset/commit/a69f0d9913f9fa4d2ddf199117a526785bd5036f)
+- Added caching support for `CASE WHEN` expressions with more than one `WHEN` branch. [e7973bf](https://github.com/readysettech/readyset/commit/e7973bf9d007368dc152553b8b2842b8dbc36cd1)
+- Added caching support for subqueries directly in the `FROM` clause of the query. [8d0a633](https://github.com/readysettech/readyset/commit/8d0a63302a37b3a2aa19a3ea9245caeea4797c9a)
+- For queries that access tables that ReadySet has not replicated, the `SHOW PROXIED QUERIES` command now returns `no` for `readyset supported` instead of `pending`. Also, such queries now log at warn-level instead of error-level. [92e258f](https://github.com/readysettech/readyset/commit/92e258f7342129b53c160b540551bab66edd9d8d), [75ba85e](https://github.com/readysettech/readyset/commit/75ba85e79b2e83d876d351655f06b922714cd9a5)
+- Added replication support for "unchanged" Postgres [TOAST](https://www.postgresql.org/docs/current/storage-toast.html) fields. [9a05b63](https://github.com/readysettech/readyset/commit/9a05b631cb4de13d23696200caa6aa64944007c9)
+- Added replication support for the Postgres `TRUNCATE` statement. [405ac80](https://github.com/readysettech/readyset/commit/405ac8085a4a3d03ef01ea4d038f39357470a78f)
+- Renamed the `NORIA_DEPLOYMENT` environment variable to `DEPLOYMENT` to match the `--deployment` flag. [7ac9220](https://github.com/readysettech/readyset/commit/7ac922083fe4aee6b1d3c61753416851b190056a)
+- Renamed the Prometheus metrics endpoint from `/prometheus` to `/metrics`. [d10d142](https://github.com/readysettech/readyset/commit/d10d142fb4b12fa4f0d355a543c925e2e8103b6f)
+- Fixed a bug with caching the Postgres `CHAR` data type. [9f151f6](https://github.com/readysettech/readyset/commit/9f151f60c3a3e14c994abc8964765a315214312e)
+- Fixed a bug that could lead to missing cache data and/or crashes after inserting large amounts of table data with the Postgres `COPY` or `\copy` commands. [daa5e1c](https://github.com/readysettech/readyset/commit/daa5e1c610d2341c6452de0f389e7fdbeb38fa29)
+- Fixed a panic that could be triggered when using Postgres as the upstream database. [58c3bd3](https://github.com/readysettech/readyset/commit/58c3bd3b770bd70f8688e86377a418629865b134)
+- Fixed a bug where tables and views that failed to replicate from the upstream database would not participate in schema resolution, which could cause certain queries with non-schema-qualified table references to read from a table in the wrong schema rather than being proxied to the upstream database. [c8e5c6b](https://github.com/readysettech/readyset/commit/c8e5c6b7bddc7c02f724120e3bd23082b2750d2e)
+- Fixed a bug where a query that projects two columns with the same name but different tables would return values from the first of the two columns twice. [6054a1e](https://github.com/readysettech/readyset/commit/6054a1e562ad7328af9434b8edb5de11e6ce18cf)
 
 ## beta-2022-11-16
 
