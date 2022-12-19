@@ -4,6 +4,8 @@ This page shows you how to test ReadySet on your local machine using Docker.
 
 You'll start a Postgres database, load sample data into it, connect ReadySet, cache some queries, and test how fast ReadySet returns results compared to Postgres. You'll then write to the database and see how ReadySet keeps your cache up-to-date automatically, with no changes to your application code.
 
+<a class="md-button md-button--primary" href="../demo-interactive/" target="_blank" rel="noopener">Run this in your browser &rarr;</a>
+
 ## Before you begin
 
 Make sure you have [Docker](https://docs.docker.com/engine/install/) installed and running.
