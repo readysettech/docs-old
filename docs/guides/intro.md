@@ -40,7 +40,7 @@ Integrating with ReadySet is straight-forward:
 
 1.  This is the only required change to your application.   
 
-To run through this process on your local machine, see the [Quickstart](quickstart.md).  
+To run through this process on your local machine, see the [Quickstart](quickstart.md) or [Demo](demo.md).  
 
 To run through this process in a cloud deployment, see [Deploy with ReadySet Cloud](deploy-readyset-cloud.md) or [Deploy with Kubernetes](deploy-readyset-kubernetes.md).
 

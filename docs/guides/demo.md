@@ -196,7 +196,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
     exit
     ```
 
-## Step 2. Connect ReadySet
+## Step 2. Start ReadySet
 
 Now that you have a live database with sample data, you'll connect ReadySet to the database and watch it take a snapshot of your tables. This snapshot will be the basis for ReadySet to cache query results, and ReadySet will keep its snapshot and cache up-to-date automatically by listening to the database's replication stream.
 
@@ -210,11 +210,11 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --platform=linux/amd64 \
     --volume='readyset:/state' \
     --pull=always \
-    -e DEPLOYMENT_ENV=quickstart_docker \
+    -e DEPLOYMENT_ENV=demo_docker \
     -e RSA_API_KEY \
     public.ecr.aws/readyset/readyset:latest \
     --standalone \
-    --deployment='quickstart-postgres' \
+    --deployment='demo-postgres' \
     --database-type=postgresql \
     --upstream-db-url=postgresql://postgres:readyset@postgres:5432/imdb \
     --address=0.0.0.0:5433 \
