@@ -48,6 +48,7 @@ nav:
   - Intro:
     - What is ReadySet?: guides/intro.md
     - Quickstart: guides/quickstart.md
+    - Tutorial: guides/tutorial.md
   - Run ReadySet:
     - Deploy with ReadySet Cloud: guides/deploy-readyset-cloud.md
     - Deploy with Kubernetes: guides/deploy-readyset-kubernetes.md

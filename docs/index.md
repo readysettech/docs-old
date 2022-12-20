@@ -10,11 +10,17 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
 
     Learn how ReadySet works and when it's a good fit for an application
 
--   :material-clock-fast:{ .lg .middle } [__Quickstart in 5 minutes__](guides/quickstart.md)
+-   :material-clock-fast:{ .lg .middle } [__Quickstart__](guides/quickstart.md)
 
     ---
 
-    Test the ReadySet caching engine in a local deployment
+    Connect ReadySet to a local Postgres or MySQL database
+
+-   :material-play-circle-outline:{ .lg .middle } [__Tutorial__](guides/tutorial.md)
+
+    ---
+
+    Run through a hands-on demonstration of ReadySet's capabilities and features
 
 -   :material-cloud-outline:{ .lg .middle } [__Run with ReadySet Cloud__](guides/deploy-readyset-cloud.md)
 
@@ -27,12 +33,6 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
     ---
 
     Deploy ReadySet on Amazon EKS (Elastic Kubernetes Service)
-
--   :material-link-variant:{ .lg .middle } [__Connect an app__](guides/connect-an-app.md)
-
-    ---
-
-    Get code samples for connecting from various ORMs and SQL drivers
 
 -   :material-check:{ .lg .middle } [__SQL support__](reference/sql-support.md)
 
