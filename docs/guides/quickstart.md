@@ -209,7 +209,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --volume='readyset:/state' \
     --pull=always \
     -e DEPLOYMENT_ENV=quickstart_docker \
-    -e RSA_API_KEY \
+    -e RS_API_KEY \
     public.ecr.aws/readyset/readyset:latest \
     --standalone \
     --deployment='quickstart-postgres' \
