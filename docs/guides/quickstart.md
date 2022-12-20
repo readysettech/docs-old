@@ -1,14 +1,14 @@
 # Quickstart with ReadySet
 
-This page shows you how to run ReadySet locally against an existing Postgres or MySQL database.
+This page shows you how to run ReadySet against a Postgres or MySQL database.
 
 !!! tip
 
-    For a demonstration of ReadySet's capabilities and features, see the [ReadySet Demo](demo.md) instead.
+    For a walk-through of ReadySet's capabilities and features, see the [ReadySet Demo](demo.md) instead.
 
 ## Before you begin
 
-If you don't have an existing database to run ReadySet against, start [Docker](https://docs.docker.com/engine/install/) and run the following command to create a new, empty database:
+If you don't already have a Postgres or MySQL database running locally, start [Docker](https://docs.docker.com/engine/install/) and create a new database:
 
 === "Postgres"
 
@@ -17,7 +17,7 @@ If you don't have an existing database to run ReadySet against, start [Docker](h
     --name=postgres \
     --publish=5432:5432 \
     -e POSTGRES_PASSWORD=readyset \
-    -e POSTGRES_DB=imdb \
+    -e POSTGRES_DB=testdb \
     postgres:14 \
     -c wal_level=logical
     ```
@@ -25,8 +25,15 @@ If you don't have an existing database to run ReadySet against, start [Docker](h
 === "MySQL"
 
     ``` sh
-
+    docker run -d \
+    --name=mysql \
+    --publish=3306:3306 \
+    -e MYSQL_ROOT_PASSWORD=readyset \
+    -e MYSQL_DATABASE=testdb \
+    mysql
     ```
+
+This command starts the database with the correct configuration for ReadySet, so skip directly to [Step 2. Start ReadySet](#step-2-start-readyset).
 
 ## Step 1. Configure your database
 
@@ -36,17 +43,17 @@ In this step, you'll ensure replication is enabled.
 
 === "Postgres"
 
-    1. Connect the `psql` shell to your database, replacing placeholders with your database connection details:
+    1. Connect the `psql` shell to your database, replacing the example values with your database connection details:
 
         ``` sh
-        PGPASSWORD=<password> psql \
-        --host=localhost \
+        PGPASSWORD=readyset psql \
+        --host=127.0.0.1 \
         --port=5432 \
-        --username=<username> \
-        --dbname=<database_name>
+        --username=postgres \
+        --dbname=testdb
         ```
 
-    1. Check if logical replication is enabled:
+    1. Check if replication is enabled:
 
         ``` sql
         SELECT name,setting
@@ -54,7 +61,7 @@ In this step, you'll ensure replication is enabled.
           WHERE name = 'wal_level';
         ```
 
-        If `wal_level` is set to `logical`, you're all set; skip to [Step 2](#step-2-connect-readyset):
+        If `wal_level` is `logical`, you're all set; skip to [Step 2](#step-2-start-readyset):
 
         ``` {.text .no-copy}
             name    | setting
@@ -63,18 +70,11 @@ In this step, you'll ensure replication is enabled.
          (1 row)
         ```
 
-        If `wal_level` is set to any other value (for example, `replica`), continue to the next step:
-
-        ``` {.text .no-copy}
-            name    | setting
-         -----------+---------
-          wal_level | replica
-         (1 row)
-        ```
+        If `wal_level` is set to any other value (for example, `replica`), continue to the next step.
 
     1. Stop the database.
 
-    1. Restart the database with logical replication enabled:
+    1. Restart the database with replication enabled:
 
         ``` sh
         postgres -c wal_level=logical <other flags>
@@ -88,98 +88,122 @@ In this step, you'll ensure replication is enabled.
 
 === "MySQL"
 
+    1. Connect the `mysql` shell to your database, replacing the example values with your database connection details:
 
-## Step 2. Connect ReadySet
+        ``` sh
+        mysql \
+        --host=127.0.0.1 \
+        --port=3306 \
+        --user=root \
+        --password=readyset \
+        --database=testdb
+        ```
 
+    1. Check if replication is enabled with the `ROW` logging format:
 
-=== "Docker"
+        ``` sql
+        SHOW VARIABLES LIKE 'log_bin';
+        SHOW VARIABLES LIKE 'binlog_format';
+        ```
 
-Make sure you have [Docker](https://docs.docker.com/engine/install/) installed and running.
+        If `log_bin` is `ON` and `binlog_format` is `ROW`, you're all set; skip to [Step 2. Start ReadySet](#step-2-start-readyset):
 
-=== "Binary"
+        ``` {.text .no-copy}
+        +---------------+-------+
+        | Variable_name | Value |
+        +---------------+-------+
+        | log_bin       | ON    |
+        +---------------+-------+
+        1 row in set (0.01 sec)
 
-Now that you have a live database with sample data, you'll connect ReadySet to the database and watch it take a snapshot of your tables. This snapshot will be the basis for ReadySet to cache query results, and ReadySet will keep its snapshot and cache up-to-date automatically by listening to the database's replication stream.
+        +---------------+-------+
+        | Variable_name | Value |
+        +---------------+-------+
+        | binlog_format | ROW   |
+        +---------------+-------+
+        1 row in set (0.01 sec)
+        ```
 
-1. Create a third container and start ReadySet inside it, connecting ReadySet to your Postgres database via the connection string in `--upstream-db-url`:
+        If either is set to any other value, continue to the next step.
 
-    ``` sh
-    docker run -d \
-    --name=readyset \
-    --publish=5433:5433 \
-    --network=readyset-net \
-    --platform=linux/amd64 \
-    --volume='readyset:/state' \
-    --pull=always \
-    -e DEPLOYMENT_ENV=quickstart_docker \
-    -e RSA_API_KEY \
-    public.ecr.aws/readyset/readyset:latest \
-    --standalone \
-    --deployment='quickstart-postgres' \
-    --database-type=postgresql \
-    --upstream-db-url=postgresql://postgres:readyset@postgres:5432/imdb \
-    --address=0.0.0.0:5433 \
-    --username='postgres' \
-    --password='readyset' \
-    --query-caching='explicit' \
-    --db-dir='/state'
-    ```
+    1. Stop the database.
 
-2. This `docker run` command is similar to the one you used to start Postgres. However, the flags following the `readyset` image are specific to ReadySet. Take a moment to understand them:
+    1. Restart the database with replication enabled and the logging format set to `ROW`:
 
-    Flag | Details
-    -----|--------
-    `-e` |  For this tutorial, you also set an environment variable to allow ReadySet to categorize your deployment as a quickstart experience in anonymous [telemetry](../reference/telemetry.md) data.
-    `--standalone` | <p>For [production deployments](deploy-readyset-kubernetes.md), you run the ReadySet Server and Adapter as separate processes. For local testing, however, you can run the Server and Adapter as a single process by passing the `--standalone` flag to the `readyset` command.</p>
-    `--deployment` | A unique identifier for the ReadySet deployment.
-    `--database-type` | The `readyset` image works with both Postgres and MySQL. You set this flag to specify which one you're using.
-    `--upstream-db-url` | <p>The URL for connecting ReadySet to Postgres. This connection URL includes the username and password for ReadySet to authenticate with as well as the database to replicate.</p><div class="admonition tip"><p class="admonition-title">Tip</p><p>By default, ReadySet replicates all tables in all schemas of the specified Postgres database. For this tutorial, that's fine. However, in future deployments, if the queries you want to cache access only a specific schema or specific tables in a schema, or if some tables can't be replicated by ReadySet because they contain [data types](../reference/sql-support/#data-types) that ReadySet does not support, you can narrow the scope of replication by passing `--replication-tables=<schema.table>,<schema.table>`.</p>
-    `--address` | The IP and port that ReadySet listens on. For this tutorial, ReadySet is running locally on a different port than Postgres, so connecting `psql` to ReadySet is just a matter of changing the port from `5432` to `5433`.</p>       
-    `--username`<br>`--password`| The username and password for connecting clients to ReadySet. For this tutorial, you're using the same username and password for both Postgres and ReadySet.
-    `--query-caching` | <p>The query caching mode for ReadySet.</p><p>For this tutorial, you've set this to `explicit`, which means you must run a specific command to have ReadySet cache a query (covered in [Step 3](#step-3-cache-queries)). The other options are `inrequestpath` and `async`. `inrequestpath` caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready. `async` also caches supported queries automatically but proxies queries to the upstream database until the cache is ready. For most deployments, the `explicit` option is recommended, as it gives you the most flexibility and control.</p>
-    `--db-dir` | The directory in which to store replicated table data. For this tutorial, you're using a Docker volume that will persist after the container is stopped.
+        ``` sh
+        mysql --log-bin --binlog-format=ROW <other flags>
+        ```
 
-3. Watch as ReadySet takes a snapshot of your tables:
+## Step 2. Start ReadySet
 
-    !!! note
+1. Make sure you have [Docker](https://docs.docker.com/engine/install/) installed and running.
 
-        Snapshotting will take a few minutes. For each table, you'll see the progress and the estimated time remaining in the log messages (e.g., `progress=84.13% estimate=00:00:23`).
+1. Start ReadySet, replacing the `--upstream-db-url` value with your database connection string and the `--username` and `--password` values with your database credentials:
 
-    ``` sh
-    docker logs readyset | grep 'Snapshotting table'
-    ```
+    === "Postgres"
 
-    ``` {.text .no-copy}
-    2022-12-13T16:02:48.142605Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "quickstart-postgres"})
-    2022-12-13T16:02:48.202895Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "quickstart-postgres"})
-    2022-12-13T16:02:48.357445Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "quickstart-postgres"}) rows=1246402
-    2022-12-13T16:02:48.921839Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "quickstart-postgres"}) rows=5159701
-    2022-12-13T16:03:11.155418Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1246402
-    2022-12-13T16:03:19.927790Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1126400 progress=21.83% estimate=00:01:51
-    2022-12-13T16:03:50.933060Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=2282496 progress=44.24% estimate=00:01:18
-    2022-12-13T16:04:21.932289Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=3433014 progress=66.54% estimate=00:00:46
-    2022-12-13T16:04:52.932615Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=4604034 progress=89.23% estimate=00:00:14
-    2022-12-13T16:05:07.837214Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=5159701
-    ```
+        ``` sh
+        docker run -d \
+        --name=readyset \
+        --publish=5433:5433 \
+        --platform=linux/amd64 \
+        --volume='readyset:/state' \
+        --pull=always \
+        -e DEPLOYMENT_ENV=quickstart_docker \
+        -e RSA_API_KEY \
+        public.ecr.aws/readyset/readyset:latest \
+        --standalone \
+        --deployment='quickstart-postgres' \
+        --database-type=postgresql \
+        --upstream-db-url=postgresql://postgres:readyset@172.17.0.1:5432/testdb \
+        --address=0.0.0.0:5433 \
+        --username='postgres' \
+        --password='readyset' \
+        --query-caching='explicit' \
+        --db-dir='/state'
+        ```
 
-    Don't continue to the next step until you see `Snapshotting finished` for both `title_ratings` and `title_basics`:
+    === "MySQL"
 
-    ``` sh
-    docker logs readyset | grep 'Snapshotting finished'
-    ```
+        ``` sh
+        docker run -d \
+        --name=readyset \
+        --publish=3307:3307 \
+        --platform=linux/amd64 \
+        --volume='readyset:/state' \
+        --pull=always \
+        -e DEPLOYMENT_ENV=quickstart_docker \
+        -e RSA_API_KEY \
+        public.ecr.aws/readyset/readyset:latest \
+        --standalone \
+        --deployment='quickstart-mysql' \
+        --database-type=mysql \
+        --upstream-db-url=mysql://root:readyset@172.17.0.1:3306/testdb \
+        --address=0.0.0.0:5433 \
+        --username='root' \
+        --password='readyset' \
+        --query-caching='explicit' \
+        --db-dir='/state'
+        ```
 
-    ``` {.text .no-copy}
-    2022-12-13T16:03:11.155418Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1246402
-    2022-12-13T16:05:07.837214Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=5159701
-    ```
+    !!! tip
 
-## Step 3. Run some queries
+        For details about the `readyset` command above, see the [ReadySet Demo](demo.md#step-2-start-readyset).
 
 ## Next steps
 
-- [Connect an app](connect-an-app.md)
+- Connect an app
 
-- [Review query support](../reference/sql-support.md)
+    Once you have a ReadySet instance up and running, the next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. See [Connect an App](connect-an-app.md) for examples.
 
-- [Learn how ReadySet works under the hood](../concepts/overview.md)
+    !!! note
 
-- [Deploy with ReadySet Cloud](deploy-readyset-cloud.md)
+        By default, ReadySet will proxy all queries to the database, so changing your app to connect to ReadySet should not impact performance. You will explicitly tell ReadySet which queries to cache.   
+
+- Profile and cache queries
+
+    Once you're running queries against ReadySet, connect a database SQL shell to ReadySet and use the custom [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) SQL command to view the queries that ReadySet has proxied to your upstream database and identify which queries are supported by ReadySet. Then use the custom [`CREATE CACHE`](cache-queries.md#cache-queries_1) SQL command to cache supported queries.
+
+    !!! note
+
+        To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support.md).
