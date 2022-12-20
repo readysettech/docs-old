@@ -1,4 +1,4 @@
-# ReadySet Demo
+# ReadySet Tutorial
 
 This page walks you through an end-to-end local deployment of ReadySet.
 
@@ -6,7 +6,7 @@ This page walks you through an end-to-end local deployment of ReadySet.
 - Next, you'll connect ReadySet, cache some queries, and test how fast ReadySet returns results compared to Postgres.
 - Finally, you'll write to the database and see how ReadySet keeps your cache up-to-date automatically, with no changes to your application code.
 
-<a class="md-button md-button--primary" href="../demo-interactive/" target="_blank" rel="noopener">Run this in your browser &rarr;</a>
+<a class="md-button md-button--primary" href="../tutorial-interactive/" target="_blank" rel="noopener">Run this in your browser &rarr;</a>
 
 ## Before you begin
 
@@ -210,11 +210,11 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --platform=linux/amd64 \
     --volume='readyset:/state' \
     --pull=always \
-    -e DEPLOYMENT_ENV=demo_docker \
+    -e DEPLOYMENT_ENV=tutorial_docker \
     -e RS_API_KEY \
     public.ecr.aws/readyset/readyset:latest \
     --standalone \
-    --deployment='demo-postgres' \
+    --deployment='tutorial-postgres' \
     --database-type=postgresql \
     --upstream-db-url=postgresql://postgres:readyset@postgres:5432/imdb \
     --address=0.0.0.0:5433 \
