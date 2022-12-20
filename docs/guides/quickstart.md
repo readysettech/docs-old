@@ -8,7 +8,25 @@ This page shows you how to run ReadySet locally against an existing Postgres or 
 
 ## Before you begin
 
-- Make sure you have an existing Postgres or MySQL database running locally.
+If you don't have an existing database to run ReadySet against, start [Docker](https://docs.docker.com/engine/install/) and run the following command to create a new, empty database:
+
+=== "Postgres"
+
+    ``` sh
+    docker run -d \
+    --name=postgres \
+    --publish=5432:5432 \
+    -e POSTGRES_PASSWORD=readyset \
+    -e POSTGRES_DB=imdb \
+    postgres:14 \
+    -c wal_level=logical
+    ```
+
+=== "MySQL"
+
+    ``` sh
+
+    ```
 
 ## Step 1. Configure your database
 
