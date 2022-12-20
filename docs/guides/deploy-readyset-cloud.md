@@ -20,7 +20,9 @@ This page shows you how to get up and running with a fully-managed deployment of
 
     If you want to integrate with another variant of Postgres or MySQL, please [contact ReadySet](mailto:info@readyset.io).
 
-- Note that ReadySet does not currently support [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html).
+- Note that ReadySet does not currently support [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html). Make sure any RLS policies are disabled.
+
+- For Amazon RDS for Postgres and Supabase, make sure tables without primary keys have [`REPLICA IDENTITY FULL`](https://www.postgresql.org/docs/current/sql-altertable.html#SQL-ALTERTABLE-REPLICA-IDENTITY) before connecting ReadySet. Otherwise, Postgres will block writes and deletes on those tables.
 
 ## Step 1. Get early access
 
