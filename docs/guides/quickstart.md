@@ -4,7 +4,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
 
 !!! tip
 
-    For a walk-through of ReadySet's capabilities and features, see the [ReadySet Demo](demo.md) instead.
+    For a walk-through of ReadySet's capabilities and features, see the [ReadySet Tutorial](tutorial.md) instead.
 
 ## Before you begin
 
@@ -188,7 +188,7 @@ In this step, you'll ensure replication is enabled.
 
     !!! tip
 
-        For details about the `readyset` command above, see the [ReadySet Demo](demo.md#step-2-start-readyset).
+        For details about the `readyset` command above, see the [ReadySet Tutorial](tutorial.md#step-2-start-readyset).
 
 ## Next steps
 
