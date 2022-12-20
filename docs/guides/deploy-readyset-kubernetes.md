@@ -12,21 +12,45 @@ This page shows you how to run ReadySet yourself on [Amazon EKS](https://aws.ama
 
 ## Before you begin
 
-- Make sure you have an existing [Amazon RDS for Postgres](https://aws.amazon.com/rds/postgresql/) or [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) database.
+=== "RDS Postgres"
 
-    ReadySet can be run in front of other versions of Postgres and MySQL. However, this tutorial focuses on RDS.
+    - Make sure you have an existing [Amazon RDS for Postgres](https://aws.amazon.com/rds/postgresql/) database.
 
-- Make sure there are no DDL statements in progress.
+        ReadySet can be run in front of other versions of Postgres and MySQL. However, this tutorial focuses on RDS.
 
-    ReadySet will take an initial snapshot of your data. Until the entire snapshot is finished, which can take between a few minutes to several hours depending on the size of your dataset, DDL statements (e.g., `ALTER` and `DROP`) against tables in your snapshot will be blocked. In MySQL, `INSERT` and `UPDATE` statements will also be blocked, but only while a given table is being snapshotted.
+    - Make sure there are no DDL statements in progress.
 
-- Complete the steps described in the [EKS Getting Started](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) documentation.
+        ReadySet will take an initial snapshot of your data. Until the entire snapshot is finished, which can take between a few minutes to several hours depending on the size of your dataset, DDL statements (e.g., `ALTER` and `DROP`) against tables in your snapshot will be blocked.
 
-    This includes installing and configuring `eksctl`, the command-line tool for creating and deleting Kubernetes clusters on EKS, and `kubectl`, the command-line tool for managing Kubernetes from your workstation.
+    - Make sure tables without primary keys have [`REPLICA IDENTITY FULL`](https://www.postgresql.org/docs/current/sql-altertable.html#SQL-ALTERTABLE-REPLICA-IDENTITY).
 
-- Make sure you meet the [EKS requirements for using an existing VPC](https://eksctl.io/usage/vpc-configuration/#use-existing-vpc-other-custom-configuration).
+        If the database you want ReadySet to replicate includes tables without primary keys, make sure you alter those tables with `REPLICA IDENTITY FULL` before connection ReadySet. Otherwise, Postgres will block writes and deletes on those tables.
 
-    For efficient networking and security, you'll deploy your Kubernetes cluster into the same VPC as your database.
+    - Complete the steps described in the [EKS Getting Started](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) documentation.
+
+        This includes installing and configuring `eksctl`, the command-line tool for creating and deleting Kubernetes clusters on EKS, and `kubectl`, the command-line tool for managing Kubernetes from your workstation.
+
+    - Make sure you meet the [EKS requirements for using an existing VPC](https://eksctl.io/usage/vpc-configuration/#use-existing-vpc-other-custom-configuration).
+
+        For efficient networking and security, you'll deploy your Kubernetes cluster into the same VPC as your database.
+
+=== "RDS MySQL"
+
+    - Make sure you have an existing [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) database.
+
+        ReadySet can be run in front of other versions of Postgres and MySQL. However, this tutorial focuses on RDS.
+
+    - Make sure there are no DDL statements in progress.
+
+        ReadySet will take an initial snapshot of your data. Until the entire snapshot is finished, which can take between a few minutes to several hours depending on the size of your dataset, DDL statements (e.g., `ALTER` and `DROP`) against tables in your snapshot will be blocked. `INSERT` and `UPDATE` statements will also be blocked, but only while a given table is being snapshotted.
+
+    - Complete the steps described in the [EKS Getting Started](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) documentation.
+
+        This includes installing and configuring `eksctl`, the command-line tool for creating and deleting Kubernetes clusters on EKS, and `kubectl`, the command-line tool for managing Kubernetes from your workstation.
+
+    - Make sure you meet the [EKS requirements for using an existing VPC](https://eksctl.io/usage/vpc-configuration/#use-existing-vpc-other-custom-configuration).
+
+        For efficient networking and security, you'll deploy your Kubernetes cluster into the same VPC as your database.
 
 ## Step 1. Start Kubernetes
 
