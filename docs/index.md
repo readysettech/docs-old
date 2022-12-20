@@ -20,7 +20,7 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
 
     ---
 
-    Experience a hands-on demonstration of ReadySet's capabilities and features
+    Run through a hands-on demonstration of ReadySet's capabilities and features
 
 -   :material-cloud-outline:{ .lg .middle } [__Run with ReadySet Cloud__](guides/deploy-readyset-cloud.md)
 
