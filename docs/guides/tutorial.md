@@ -212,7 +212,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --pull=always \
     -e DEPLOYMENT_ENV=tutorial_docker \
     -e RS_API_KEY \
-    public.ecr.aws/readyset/readyset:nightly-2022-12-22 \
+    public.ecr.aws/readyset/readyset:nightly-2022-12-21 \
     --standalone \
     --deployment='tutorial-postgres' \
     --database-type=postgresql \
