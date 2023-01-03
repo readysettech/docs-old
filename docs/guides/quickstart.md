@@ -151,7 +151,7 @@ In this step, you'll ensure replication is enabled.
         --pull=always \
         -e DEPLOYMENT_ENV=quickstart_docker \
         -e RS_API_KEY \
-        public.ecr.aws/readyset/readyset:latest \
+        public.ecr.aws/readyset/readyset:beta-2022-12-15 \
         --standalone \
         --deployment='quickstart-postgres' \
         --database-type=postgresql \
@@ -174,7 +174,7 @@ In this step, you'll ensure replication is enabled.
         --pull=always \
         -e DEPLOYMENT_ENV=quickstart_docker \
         -e RSA_API_KEY \
-        public.ecr.aws/readyset/readyset:latest \
+        public.ecr.aws/readyset/readyset:beta-2022-12-15 \
         --standalone \
         --deployment='quickstart-mysql' \
         --database-type=mysql \
