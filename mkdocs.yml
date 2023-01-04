@@ -15,8 +15,11 @@ theme:
     - navigation.top
     - header.autohide
     - content.tabs.link
+    - content.code.copy
     - content.code.annotate
     - content.tooltips
+    - content.action.edit
+    - content.action.view
   font:
     # Fonts for everything but headings
     # Heading fonts defined in stylesheets/extra.css
