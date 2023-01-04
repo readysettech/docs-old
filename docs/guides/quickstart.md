@@ -8,137 +8,195 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
 
 ## Before you begin
 
-If you don't already have a Postgres or MySQL database running locally, start [Docker](https://docs.docker.com/engine/install/) and create a new database:
-
-=== "Postgres"
-
-    ``` sh
-    docker run -d \
-    --name=postgres \
-    --publish=5432:5432 \
-    -e POSTGRES_PASSWORD=readyset \
-    -e POSTGRES_DB=testdb \
-    postgres:14 \
-    -c wal_level=logical
-    ```
-
-=== "MySQL"
-
-    ``` sh
-    docker run -d \
-    --name=mysql \
-    --publish=3306:3306 \
-    -e MYSQL_ROOT_PASSWORD=readyset \
-    -e MYSQL_DATABASE=testdb \
-    mysql
-    ```
-
-This command starts the database with the correct configuration for ReadySet, so skip directly to [Step 2. Start ReadySet](#step-2-start-readyset).
+- Install and start [Docker](https://docs.docker.com/engine/install/) for your OS.
+- Install the [`psql` shell](https://www.postgresql.org/docs/current/app-psql.html) or the [`mysql` shell](https://dev.mysql.com/doc/refman/8.0/en/mysql.html).
 
 ## Step 1. Configure your database
 
-ReadySet uses your database's replication stream to automatically keep your cache up-to-date as the database changes. In Postgres, the replication stream is called [logical replication](https://www.postgresql.org/docs/current/logical-replication.html). In MySQL, the replication stream is called the [binary log](https://dev.mysql.com/doc/refman/5.7/en/binary-log.html).
+=== "Use a new database"
 
-In this step, you'll ensure replication is enabled.
+    If you don't already have a Postgres or MySQL database running locally, start a new database and load some sample data.
 
-=== "Postgres"
+    === "Postgres"
 
-    1. Connect the `psql` shell to your database, replacing the example values with your database connection details:
+        1. Create a Docker container and start Postgres inside it:
 
-        ``` sh
-        PGPASSWORD=readyset psql \
-        --host=127.0.0.1 \
-        --port=5432 \
-        --username=postgres \
-        --dbname=testdb
-        ```
+            ``` sh
+            docker run -d \
+            --name=postgres \
+            --publish=5432:5432 \
+            -e POSTGRES_PASSWORD=readyset \
+            -e POSTGRES_DB=testdb \
+            postgres:14 \
+            -c wal_level=logical
+            ```
 
-    1. Check if replication is enabled:
+            This command starts the database with the correct configuration for ReadySet.
 
-        ``` sql
-        SELECT name,setting
-          FROM pg_settings
-          WHERE name = 'wal_level';
-        ```
+        1. Download a sample data file:
 
-        If `wal_level` is `logical`, you're all set; skip to [Step 2](#step-2-start-readyset):
+            ``` sh
+            curl -O https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/quickstart-data-postgres.sql
+            ```
 
-        ``` {.text .no-copy}
-            name    | setting
-         -----------+---------
-          wal_level | logical
-         (1 row)
-        ```
+        1. Connect the `psql` shell to your database:
 
-        If `wal_level` is set to any other value (for example, `replica`), continue to the next step.
+            ``` sh
+            PGPASSWORD=readyset psql \
+            --host=127.0.0.1 \
+            --port=5432 \
+            --username=postgres \
+            --dbname=testdb
+            ```
 
-    1. Stop the database.
+        1. Load the sample data into your database:
 
-    1. Restart the database with replication enabled:
+            ``` sh
+            \i quickstart-data-postgres.sql
+            ```
 
-        ``` sh
-        postgres -c wal_level=logical <other flags>
-        ```
+    === "MySQL"
 
-        Alternately, you can add the following to the `postgresql.conf` file and then restart the database:
+        1. Create a Docker container and start MySQL inside it:
 
-        ``` sh
-        wal_level = logical
-        ```
+            ``` sh
+            docker run -d \
+            --name=mysql \
+            --publish=3306:3306 \
+            -e MYSQL_ROOT_PASSWORD=readyset \
+            -e MYSQL_DATABASE=testdb \
+            mysql
+            ```
 
-=== "MySQL"
+            This command starts the database with the correct configuration for ReadySet.
 
-    1. Connect the `mysql` shell to your database, replacing the example values with your database connection details:
+        1. Download a sample data file:
 
-        ``` sh
-        mysql \
-        --host=127.0.0.1 \
-        --port=3306 \
-        --user=root \
-        --password=readyset \
-        --database=testdb
-        ```
+            ``` sh
+            curl -O https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/quickstart-data-mysql.sql
+            ```
 
-    1. Check if replication is enabled with the `ROW` logging format:
+        1. Connect the `mysql` shell to your database:
 
-        ``` sql
-        SHOW VARIABLES LIKE 'log_bin';
-        SHOW VARIABLES LIKE 'binlog_format';
-        ```
+            ``` sh
+            mysql \
+            --host=127.0.0.1 \
+            --port=3306 \
+            --user=root \
+            --password=readyset \
+            --database=testdb
+            ```
 
-        If `log_bin` is `ON` and `binlog_format` is `ROW`, you're all set; skip to [Step 2. Start ReadySet](#step-2-start-readyset):
+        1. Load the sample data into your database:
 
-        ``` {.text .no-copy}
-        +---------------+-------+
-        | Variable_name | Value |
-        +---------------+-------+
-        | log_bin       | ON    |
-        +---------------+-------+
-        1 row in set (0.01 sec)
+            ``` sh
+            source quickstart-data-mysql.sql;
+            ```
 
-        +---------------+-------+
-        | Variable_name | Value |
-        +---------------+-------+
-        | binlog_format | ROW   |
-        +---------------+-------+
-        1 row in set (0.01 sec)
-        ```
+=== "Use an existing database"
 
-        If either is set to any other value, continue to the next step.
+    ReadySet uses your database's replication stream to automatically keep your cache up-to-date as the database changes. In Postgres, the replication stream is called [logical replication](https://www.postgresql.org/docs/current/logical-replication.html). In MySQL, the replication stream is called the [binary log](https://dev.mysql.com/doc/refman/5.7/en/binary-log.html).
 
-    1. Stop the database.
+    In this step, you'll ensure replication is enabled.
 
-    1. Restart the database with replication enabled and the logging format set to `ROW`:
+    === "Postgres"
 
-        ``` sh
-        mysql --log-bin --binlog-format=ROW <other flags>
-        ```
+        1. Connect the `psql` shell to your database, replacing the example values with your database connection details:
+
+            ``` sh
+            PGPASSWORD=readyset psql \
+            --host=127.0.0.1 \
+            --port=5432 \
+            --username=postgres \
+            --dbname=testdb
+            ```
+
+        1. Check if replication is enabled:
+
+            ``` sql
+            SELECT name,setting
+              FROM pg_settings
+              WHERE name = 'wal_level';
+            ```
+
+            If `wal_level` is `logical`, you're all set; skip to [Step 2](#step-2-start-readyset):
+
+            ``` {.text .no-copy}
+                name    | setting
+             -----------+---------
+              wal_level | logical
+             (1 row)
+            ```
+
+            If `wal_level` is set to any other value (for example, `replica`), continue to the next step.
+
+        1. Stop the database.
+
+        1. Restart the database with replication enabled:
+
+            ``` sh
+            postgres -c wal_level=logical <other flags>
+            ```
+
+            Alternately, you can add the following to the `postgresql.conf` file and then restart the database:
+
+            ``` sh
+            wal_level = logical
+            ```
+
+    === "MySQL"
+
+        1. Connect the `mysql` shell to your database, replacing the example values with your database connection details:
+
+            ``` sh
+            mysql \
+            --host=127.0.0.1 \
+            --port=3306 \
+            --user=root \
+            --password=readyset \
+            --database=testdb
+            ```
+
+        1. Check if replication is enabled with the `ROW` logging format:
+
+            ``` sql
+            SHOW VARIABLES LIKE 'log_bin';
+            SHOW VARIABLES LIKE 'binlog_format';
+            ```
+
+            If `log_bin` is `ON` and `binlog_format` is `ROW`, you're all set; skip to [Step 2. Start ReadySet](#step-2-start-readyset):
+
+            ``` {.text .no-copy}
+            +---------------+-------+
+            | Variable_name | Value |
+            +---------------+-------+
+            | log_bin       | ON    |
+            +---------------+-------+
+            1 row in set (0.01 sec)
+
+            +---------------+-------+
+            | Variable_name | Value |
+            +---------------+-------+
+            | binlog_format | ROW   |
+            +---------------+-------+
+            1 row in set (0.01 sec)
+            ```
+
+            If either is set to any other value, continue to the next step.
+
+        1. Stop the database.
+
+        1. Restart the database with replication enabled and the logging format set to `ROW`:
+
+            ``` sh
+            mysql --log-bin --binlog-format=ROW <other flags>
+            ```
 
 ## Step 2. Start ReadySet
 
-1. Make sure you have [Docker](https://docs.docker.com/engine/install/) installed and running.
+=== "Use a new database"
 
-1. Start ReadySet, replacing the `--upstream-db-url` value with your database connection string and the `--username` and `--password` values with your database credentials:
+    Create a Docker container and start ReadySet inside it, connecting ReadySet to the database via the connection string in `--upstream-db-url`:
 
     === "Postgres"
 
@@ -173,7 +231,7 @@ In this step, you'll ensure replication is enabled.
         --volume='readyset:/state' \
         --pull=always \
         -e DEPLOYMENT_ENV=quickstart_docker \
-        -e RSA_API_KEY \
+        -e RS_API_KEY \
         public.ecr.aws/readyset/readyset:beta-2022-12-15 \
         --standalone \
         --deployment='quickstart-mysql' \
@@ -186,9 +244,62 @@ In this step, you'll ensure replication is enabled.
         --db-dir='/state'
         ```
 
-    !!! tip
+=== "Use an existing database"
 
-        For details about the `readyset` command above, see the [ReadySet Tutorial](tutorial.md#step-2-start-readyset).
+    Create a Docker container and start ReadySet inside it:
+
+    !!! note
+
+        Be sure to update `--upstream-db-url`, `--username` and `--password` with your database connection string and credentials.
+
+    === "Postgres"
+
+        ``` sh
+        docker run -d \
+        --name=readyset \
+        --publish=5433:5433 \
+        --platform=linux/amd64 \
+        --volume='readyset:/state' \
+        --pull=always \
+        -e DEPLOYMENT_ENV=quickstart_docker \
+        -e RS_API_KEY \
+        public.ecr.aws/readyset/readyset:beta-2022-12-15 \
+        --standalone \
+        --deployment='quickstart-postgres' \
+        --database-type=postgresql \
+        --upstream-db-url=postgresql://postgres:readyset@172.17.0.1:5432/testdb \
+        --address=0.0.0.0:5433 \
+        --username='postgres' \
+        --password='readyset' \
+        --query-caching='explicit' \
+        --db-dir='/state'
+        ```
+
+    === "MySQL"
+
+        ``` sh
+        docker run -d \
+        --name=readyset \
+        --publish=3307:3307 \
+        --platform=linux/amd64 \
+        --volume='readyset:/state' \
+        --pull=always \
+        -e DEPLOYMENT_ENV=quickstart_docker \
+        -e RS_API_KEY \
+        public.ecr.aws/readyset/readyset:beta-2022-12-15 \
+        --standalone \
+        --deployment='quickstart-mysql' \
+        --database-type=mysql \
+        --upstream-db-url=mysql://root:readyset@172.17.0.1:3306/testdb \
+        --address=0.0.0.0:5433 \
+        --username='root' \
+        --password='readyset' \
+        --query-caching='explicit' \
+        --db-dir='/state'
+        ```
+
+For details about the `readyset` command above, see the [ReadySet Tutorial](tutorial.md#step-2-start-readyset).
+
 
 ## Next steps
 
