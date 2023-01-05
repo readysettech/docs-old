@@ -313,8 +313,31 @@ For details about the `readyset` command above, see the [ReadySet Tutorial](tuto
 
 - Profile and cache queries
 
-    Once you're running queries against ReadySet, connect a database SQL shell to ReadySet and use the custom [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) SQL command to view the queries that ReadySet has proxied to your upstream database and identify which queries are supported by ReadySet. Then use the custom [`CREATE CACHE`](cache-queries.md#cache-queries_1) SQL command to cache supported queries.
+    Once you are running queries against ReadySet, connect a database SQL shell to ReadySet and use the custom [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) SQL command to view the queries that ReadySet has proxied to your upstream database and identify which queries are supported by ReadySet. Then use the custom [`CREATE CACHE`](cache-queries.md#cache-queries_1) SQL command to cache supported queries.
 
     !!! note
 
         To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support.md).
+
+- Tear down
+
+    When you are done testing, stop and remove the ReadySet container and volume:
+
+    ```
+    docker rm -f readyset \
+    && docker volume rm readyset
+    ```
+
+    If you started a new database, also stop and remove its container:
+
+    === "Postgres"
+
+        ```
+        docker rm -f postgres
+        ```
+
+    === "MySQL"
+
+        ```
+        docker rm -f mysql
+        ```

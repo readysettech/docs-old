@@ -724,19 +724,9 @@ python3 quickstart-app.py \
 When you are done testing, use the following commands to stop and remove the resources used in this tutorial:
 
 ``` sh
-docker stop readyset postgres psql app
-```
-
-``` sh
-docker rm readyset postgres psql app
-```
-
-``` sh
-docker volume rm readyset
-```
-
-``` sh
-docker network rm readyset-net
+docker rm -f readyset postgres psql app \
+&& docker volume rm readyset \
+&& docker network rm readyset-net
 ```
 
 ## Next steps
