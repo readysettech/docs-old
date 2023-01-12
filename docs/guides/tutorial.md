@@ -206,6 +206,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     docker run -d \
     --name=readyset \
     --publish=5433:5433 \
+    --publish=6034:6034 \
     --network=readyset-net \
     --platform=linux/amd64 \
     --volume='readyset:/state' \
@@ -221,7 +222,9 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --username='postgres' \
     --password='readyset' \
     --query-caching='explicit' \
-    --db-dir='/state'
+    --db-dir='/state' \
+    --query-log \
+    --query-log-ad-hoc
     ```
 
 2. This `docker run` command is similar to the one you used to start Postgres. However, the flags following the `readyset` image are specific to ReadySet. Take a moment to understand them:
@@ -236,7 +239,8 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     `--address` | The IP and port that ReadySet listens on. For this tutorial, ReadySet is running locally on a different port than Postgres, so connecting `psql` to ReadySet is just a matter of changing the port from `5432` to `5433`.</p>       
     `--username`<br>`--password`| The username and password for connecting clients to ReadySet. For this tutorial, you're using the same username and password for both Postgres and ReadySet.
     `--query-caching` | <p>The query caching mode for ReadySet.</p><p>For this tutorial, you've set this to `explicit`, which means you must run a specific command to have ReadySet cache a query (covered in [Step 3](#step-3-cache-queries)). The other options are `inrequestpath` and `async`. `inrequestpath` caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready. `async` also caches supported queries automatically but proxies queries to the upstream database until the cache is ready. For most deployments, the `explicit` option is recommended, as it gives you the most flexibility and control.</p>
-    `--db-dir` | The directory in which to store replicated table data. For this tutorial, you're using a Docker volume that will persist after the container is stopped.
+    `--db-dir` | The directory in which to store replicated table data. For this tutorial, you're using a Docker volume that will persist after the container is stopped. 
+    `--query-log`<br>`--query-log-ad-hoc` | Enables logging individual queries and exposes per-query execution metrics at the `/metrics` endpoint.
 
 3. Watch as ReadySet takes a snapshot of your tables:
 
