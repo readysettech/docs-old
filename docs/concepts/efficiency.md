@@ -10,14 +10,13 @@ useful (i.e., the subset of the results that are commonly read).
 
 What does this look like in practice? Let's come back to the query in the prior section:
 
-```
+```sql
 SELECT id, author, title, url, vcount
 FROM stories
 JOIN (SELECT story_id, COUNT(*) AS vcount
             FROM votes GROUP BY story_id)  
 AS VoteCount
 ON VoteCount.story_id = stories.id WHERE stories.id = ?;
-
 ```
 
 Without partial materialization, ReadySet would have to compute the results for this query for every possible
