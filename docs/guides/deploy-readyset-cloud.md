@@ -323,7 +323,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
 
         By default, ReadySet will proxy all queries to the upstream database, so changing your app to connect to ReadySet should not impact performance. You will explicitly tell ReadySet which queries to cache.   
 
-2. Use your preferred montoring tool to identify slow queries.
+2. Use your preferred monitoring tool to identify slow queries.
 
 3. For each query you want to cache:
 
@@ -365,7 +365,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
         SHOW CACHES;
         ```
 
-4. Use your preferred montoring tool to check how fast results are now returning for your cached queries.
+4. Use your preferred monitoring tool to check how fast results are now returning for your cached queries.
 
 ## Next steps
 
