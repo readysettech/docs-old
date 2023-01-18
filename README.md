@@ -1,16 +1,22 @@
 # ReadySet Docs
 
-This repository contains the source files for the ReadySet user documentation
-available at https://docs.readyset.io/.
+This repository contains the source files for the ReadySet documentation available at [docs.readyset.io](https://docs.readyset.io/).
 
-More info coming soon.
+## Suggest Improvements
 
-### Installation
-To run this site locally, first use pip to install `mkdocs` and `mkdocs-material`. Run
+Want a topic added to the docs? Need additional details or clarification? See an error or other problem? Please [open an issue](https://github.com/readysettech/docs/issues).
 
-```
-pip3 install mkdocs
-pip3 install mkdocs-material
-```
+## Write Docs
 
-then, to run the docs site locally, run `mkdocs serve` or `python3 -m mkdocs serve`
+Want to contribute to the docs? See [CONTRIBUTING](CONTRIBUTING.md) for details about setting yourself up and getting started.
+
+## Join the Community
+
+For questions or support, join us on the [ReadySet Community Discord](https://discord.gg/readyset), post questions on our [Github forum](https://github.com/readysettech/readyset/discussions), or schedule an [office hours chat](https://calendly.com/d/d5n-y44-mbg/office-hours-with-ready-set) with our team.
+
+Everyone is welcome!
+
+## Resources
+
+- [Code of conduct](CODE_OF_CONDUCT.md)
+- [Contributing](CONTRIBUTING.md)
