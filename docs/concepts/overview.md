@@ -92,4 +92,4 @@ Most web applications have a high read-to-write traffic ratio, and therefore fit
 performance improvements in these contexts.
 
 ## Can I try it?
-Yes! ReadySet is source-available under the BSL 1.1 license. Check out our [Github](https://github.com/readysettech/readyset) for more info.
+Yes! ReadySet is source-available under the BSL 1.1 license. Check out our [GitHub](https://github.com/readysettech/readyset) for more info.
