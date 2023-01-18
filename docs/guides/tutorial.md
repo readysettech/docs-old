@@ -235,7 +235,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     `--standalone` | <p>For [production deployments](deploy-readyset-kubernetes.md), you run the ReadySet Server and Adapter as separate processes. For local testing, however, you can run the Server and Adapter as a single process by passing the `--standalone` flag to the `readyset` command.</p>
     `--deployment` | A unique identifier for the ReadySet deployment.
     `--database-type` | The `readyset` image works with both Postgres and MySQL. You set this flag to specify which one you're using.
-    `--upstream-db-url` | <p>The URL for connecting ReadySet to Postgres. This connection URL includes the username and password for ReadySet to authenticate with as well as the database to replicate.</p><div class="admonition tip"><p class="admonition-title">Tip</p><p>By default, ReadySet replicates all tables in all schemas of the specified Postgres database. For this tutorial, that's fine. However, in future deployments, if the queries you want to cache access only a specific schema or specific tables in a schema, or if some tables can't be replicated by ReadySet because they contain [data types](../reference/sql-support/#data-types) that ReadySet does not support, you can narrow the scope of replication by passing `--replication-tables=<schema.table>,<schema.table>`.</p>
+    `--upstream-db-url` | <p>The URL for connecting ReadySet to Postgres. This connection URL includes the username and password for ReadySet to authenticate with as well as the database to replicate.</p><div class="admonition tip"><p class="admonition-title">Tip</p><p>By default, ReadySet replicates all tables in all schemas of the specified Postgres database. For this tutorial, that's fine. However, in future deployments, if the queries you want to cache access only a specific schema or specific tables in a schema, or if some tables can't be replicated by ReadySet because they contain [data types](../reference/sql-support.md#data-types) that ReadySet does not support, you can narrow the scope of replication by passing `--replication-tables=<schema.table>,<schema.table>`.</p>
     `--address` | The IP and port that ReadySet listens on. For this tutorial, ReadySet is running locally on a different port than Postgres, so connecting `psql` to ReadySet is just a matter of changing the port from `5432` to `5433`.</p>       
     `--username`<br>`--password`| The username and password for connecting clients to ReadySet. For this tutorial, you're using the same username and password for both Postgres and ReadySet.
     `--query-caching` | <p>The query caching mode for ReadySet.</p><p>For this tutorial, you've set this to `explicit`, which means you must run a specific command to have ReadySet cache a query (covered in [Step 3](#step-3-cache-queries)). The other options are `inrequestpath` and `async`. `inrequestpath` caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready. `async` also caches supported queries automatically but proxies queries to the upstream database until the cache is ready. For most deployments, the `explicit` option is recommended, as it gives you the most flexibility and control.</p>
@@ -309,7 +309,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
      (1 row)
     ```
 
-3. Because the query is not yet cached, ReadySet proxied it to the upstream database. Use ReadySet's custom [`SHOW PROXIED QUERIES`](../cache-queries/#identify-queries-to-cache) command to check if ReadySet can cache the query:
+3. Because the query is not yet cached, ReadySet proxied it to the upstream database. Use ReadySet's custom [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) command to check if ReadySet can cache the query:
 
     ``` sql
     SHOW PROXIED QUERIES;
@@ -326,7 +326,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
 
     !!! tip
 
-        To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support/#query-caching).
+        To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support.md#query-caching).
 
 4. Cache the query in ReadySet:
 
@@ -370,7 +370,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
     (10 rows)
     ```
 
-6. Use the [`SHOW PROXIED QUERIES`](../cache-queries/#identify-queries-to-cache) command to check if ReadySet can cache the query:
+6. Use the [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) command to check if ReadySet can cache the query:
 
     ``` sql
     SHOW PROXIED QUERIES;
@@ -401,7 +401,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
 
         Again, caching will take a few minutes, as it constructs the initial dataflow graph for the query and adds indexes to the relevant ReadySet table snapshots, as necessary. The `CREATE CACHE` command will return once this is complete.
 
-8. Use ReadySet's custom [`SHOW CACHES`](../cache-queries/#cache-queries_1) command to verify that caches have been created for your two queries:
+8. Use ReadySet's custom [`SHOW CACHES`](cache-queries.md#cache-queries_1) command to verify that caches have been created for your two queries:
 
     ``` sql
     SHOW CACHES;
@@ -693,7 +693,7 @@ In the `psql` shell, after running the query, run `SHOW PROXIED QUERIES` and che
 
 - If the value is `pending`, check again until you see `yes` or `no`.
 - If the value is `yes`, ReadySet can cache the query.
-- If the value is `no`, ReadySet cannot cache the query due to missing support for SQL features in the query. Check the [SQL Support](../reference/sql-support/#query-caching) page for insights, and if the unsupported features are important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).
+- If the value is `no`, ReadySet cannot cache the query due to missing support for SQL features in the query. Check the [SQL Support](../reference/sql-support.md#query-caching) page for insights, and if the unsupported features are important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).
 
 **To cache a query in ReadySet:**
 
