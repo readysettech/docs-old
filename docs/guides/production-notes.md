@@ -15,7 +15,7 @@ A ReadySet deployment sits between your application and database and contains th
 
 Depending on your workload and needs, these components can be deployed in various ways:
 
-- [Basic](#basic)
+- [Standard](#standard)
 - [Scale out](#scale-out)
 - [Multi-region](#multi-region)
 
@@ -57,7 +57,7 @@ When your application is running across multiple regions, you can run a ReadySet
 
 ReadySet is a memory-intensive application. Size your hardware to comfortably hold your working data in memory.
 
-For testing ReadySet in the [Basic](#basic) deployment pattern, start with 2 GiB of RAM and 2 vCPUs (e.g., the `t3.small` instance on AWS) and scale up with increased data size and workload.
+For testing ReadySet in the [Standard](#standard) deployment pattern, start with 2 GiB of RAM and 2 vCPUs (e.g., the `t3.small` instance on AWS) and scale up with increased data size and workload.
 
 ## Storage
 
