@@ -213,7 +213,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --pull=always \
     -e DEPLOYMENT_ENV=tutorial_docker \
     -e RS_API_KEY \
-    public.ecr.aws/readyset/readyset:beta-2022-12-15 \
+    public.ecr.aws/readyset/readyset:beta-2023-01-18 \
     --standalone \
     --deployment='tutorial-postgres' \
     --database-type=postgresql \
@@ -239,7 +239,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     `--address` | The IP and port that ReadySet listens on. For this tutorial, ReadySet is running locally on a different port than Postgres, so connecting `psql` to ReadySet is just a matter of changing the port from `5432` to `5433`.</p>       
     `--username`<br>`--password`| The username and password for connecting clients to ReadySet. For this tutorial, you're using the same username and password for both Postgres and ReadySet.
     `--query-caching` | <p>The query caching mode for ReadySet.</p><p>For this tutorial, you've set this to `explicit`, which means you must run a specific command to have ReadySet cache a query (covered in [Step 3](#step-3-cache-queries)). The other options are `inrequestpath` and `async`. `inrequestpath` caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready. `async` also caches supported queries automatically but proxies queries to the upstream database until the cache is ready. For most deployments, the `explicit` option is recommended, as it gives you the most flexibility and control.</p>
-    `--db-dir` | The directory in which to store replicated table data. For this tutorial, you're using a Docker volume that will persist after the container is stopped. 
+    `--db-dir` | The directory in which to store replicated table data. For this tutorial, you're using a Docker volume that will persist after the container is stopped.
     `--query-log`<br>`--query-log-ad-hoc` | Enables logging individual queries and exposes per-query execution metrics at the `/metrics` endpoint.
 
 3. Watch as ReadySet takes a snapshot of your tables:
