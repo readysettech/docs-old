@@ -23,7 +23,7 @@ Depending on your workload and needs, these components can be deployed in variou
 
     For all patterns, make sure your application has failover logic to route queries directly to the upstream database in the case that ReadySet becomes unavailable.
 
-### Basic
+### Standard
 
 When your application is running in a single region, it's usually sufficient to run the ReadySet Server and ReadySet Adapter as a single process on a single machine:
 
