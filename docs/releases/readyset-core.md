@@ -6,6 +6,60 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 
     Beta versions of ReadySet are backward-incompatible. To upgrade between beta versions, you must therefore clear all data files. Rolling upgrades will be supported with future ReadySet major releases.
 
+## beta-2023-01-18
+
+### Downloads
+
+=== ":material-linux: Linux"
+
+    !!! note
+
+        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
+
+    Binary (linux-x84_64) | Sha256Sum
+    ----------------------|----------
+    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-server-beta-2023-01-18.x86_64.tar.gz) | d56e663e6fab9b83b12dbe03008623c7c4e3e19bb3ba14eb1c7d45d2b3c5b9d7
+    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-beta-2023-01-18.x86_64.tar.gz) | 696308d6720b16515aa9ab7587766c858d12910c00f4760f756d9630b44011f8
+
+=== ":material-apple: Mac"
+
+    Binary (darwin-arm64) | Sha256Sum
+    ------------------------------|----------
+    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-server-beta-2023-01-18.arm64.tar.gz) | 0289a07e7dde2fcf94718680328b09300a0f92915be24dcbb00160692d0b40f1
+    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-beta-2023-01-18.arm64.tar.gz) | eb287021e25ce7e46386b8bb9629000f4328464796caed43d08cd7c33def83d0
+
+=== ":material-docker: Docker"
+
+    - ReadySet Server (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset-server:beta-2023-01-18
+        ```
+
+    - ReadySet Adapter (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset:beta-2023-01-18
+        ```
+
+=== ":material-source-repository: Source"
+
+    - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-01-18.zip)
+    - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-01-18.tar.gz)
+
+### Changes
+
+- The new custom `SHOW READYSET TABLES` SQL command returns a list of all tables ReadySet is aware of, along with their snapshotting status if they are being replicated by ReadySet, or "Not replicated" if ReadySet is not replicating them either because the table is unsupported or because the table was not specified as part of `--replication-tables`. [764f0ed](https://github.com/readysettech/readyset/commit/764f0edbf55c5c648229df2c25751c36b88cb831)
+- ReadySet now always successfully snapshots SQL views that select from other views. [85d89ed](https://github.com/readysettech/readyset/commit/85d89ed6930d6b6e1fbfded615c0dfc3cb281297)
+- When running the `readyset` binary, set the new `-V`/`--version` option to output build/release information. [0d54fc6](https://github.com/readysettech/readyset/commit/0d54fc64bcc36a8b9eb40e8620ad0b38f6b0467e)
+- ReadySet now correctly handles MySQL clients setting the database in the initial connection handshake. Previously, this was ignored and the client would instead be connected to the default database specified in the `--upstream-db-url` option. [3ace2e6](https://github.com/readysettech/readyset/commit/3ace2e651108dda9e2b9ed1874ebe1428d448872)
+- Added caching support for the MySQL `JSON_OVERLAPS()` function. [56e2710](https://github.com/readysettech/readyset/commit/56e2710da416ee8104a7568e6b8467c29fb0139c)
+- Added caching support for the MySQL `JSON_QUOTE()` function. [67a7051](https://github.com/readysettech/readyset/commit/67a70513c98704e26d15e7a502b8a41273458593)
+- Added caching support for the PostgreSQL `JSONB_SET_LAX()` function. [d461cdb](https://github.com/readysettech/readyset/commit/d461cdb558852017d72cc253d8056fc93b6fe1b0)
+- Fixed a bug that could cause snapshotting and replication to stall after encountering certain types of errors while loading a view from the upstream database. [3107da9](https://github.com/readysettech/readyset/commit/3107da98fa2a83f2d272016e5db5b04bd9503313)
+- Fixed a bug that caused replication to fail on Aurora Postgres version 13 databases. [9be6443](https://github.com/readysettech/readyset/commit/9be644320a7521d8f2c30c3fda811c7736c4fb26)
+- Fixed a bug that could cause a failure loop when replicating a table. [adc8f25](https://github.com/readysettech/readyset/commit/adc8f25e01f4e14b2b99e764785ec9b4dd6e7daa)
+- Fixed an issue where ReadySet would not correctly write out the row description or correct tag for `SELECT`s that return no results. [02b3fb6](https://github.com/readysettech/readyset/commit/02b3fb6b6c8a21509f6922956dd978e39105425c)
+
+
 ## beta-2022-12-15
 
 ### Downloads

@@ -230,10 +230,10 @@ When ReadySet receives the following schema change commands via the replication 
     | `ALTER TABLE` | `ALTER COLUMN` | ReadySet supports only `SET DEFAULT [literal]` and `DROP DEFAULT`. |
     | `ALTER TABLE` | `CHANGE COLUMN` | |
     | `ALTER TABLE` | `MODIFY COLUMN` | ReadySet does not support `FIRST` or `AFTER`. |
-    | `ALTER TYPE` | `ADD VALUE` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
-    | `ALTER TYPE` | `RENAME TO` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
-    | `ALTER TYPE` | `RENAME VALUE` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
-    | `ALTER TYPE` | `SET SCHEMA` | ReadySet removes the caches of queries referencing the type but does not update the snapshot of tables including the type. |
+    | `ALTER TYPE` | `ADD VALUE` | ReadySet removes the caches of queries referencing the type. |
+    | `ALTER TYPE` | `RENAME TO` | ReadySet removes the caches of queries referencing the type. |
+    | `ALTER TYPE` | `RENAME VALUE` | ReadySet removes the caches of queries referencing the type. |
+    | `ALTER TYPE` | `SET SCHEMA` | ReadySet removes the caches of queries referencing the type. |
 
 ### Namespaces
 
@@ -381,26 +381,34 @@ ReadySet supports the following components of the SQL expression language:
 - `CAST`
 - `CASE`
 - Built-in functions <!-- http://docs/rustdoc/dataflow_expression/enum.BuiltinFunction.html -->
-    - `CONVERT_TZ()`
-    - `DAYOFWEEK()`
-    - `IFNULL()`
-    - `MONTH()`
-    - `TIMEDIFF()`
     - `ADDTIME()`
+    - `ARRAY_TO_STRING()`
+    - `COALESCE()`
+    - `CONVERT_TZ()`
     - `DATE_FORMAT()`
-    - `ROUND()`
+    - `DAYOFWEEK()`
+    - `GREATEST()`
+    - `IFNULL()`
     - `JSON_DEPTH()`
+    - `JSON_OVERLAPS()`
+    - `JSON_QUOTE()`
     - `JSON_TYPEOF()`
     - `JSON_VALID()`
-    - `JSONB_TYPEOF()`
+    - `JSONB_ARRAY_LENGTH()`
+    - `JSONB_EXTRACT_PATH()`
+    - `JSONB_EXTRACT_PATH_TEXT()`
     - `JSONB_INSERT()`
-    - `JSONB_SET()`
     - `JSONB_PRETTY()`
-    - `COALESCE()`
-    - `SUBSTR()` and `SUBSTRING()`
+    - `JSONB_SET()`
+    - `JSONB_SET_LAX()`
+    - `JSONB_STRIP_NULLS()`
+    - `JSONB_TYPEOF()`
+    - `LEAST()`    
+    - `MONTH()`
+    - `ROUND()`
     - `SPLIT_PART()`
-    - `GREATEST()`
-    - `LEAST()`
+    - `SUBSTR()` and `SUBSTRING()`
+    - `TIMEDIFF()`
 - Aggregate functions (see [Aggregations](#aggregations))  
 
 ReadySet does not support the following components of the SQL expression language (this is not an exhaustive list):
