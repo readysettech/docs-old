@@ -18,15 +18,15 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 
     Binary (linux-x84_64) | Sha256Sum
     ----------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-server.x86_64.tar.gz) | TBD
-    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset.x86_64.tar.gz) | TBD
+    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-server-beta-2023-01-18.x86_64.tar.gz) | d56e663e6fab9b83b12dbe03008623c7c4e3e19bb3ba14eb1c7d45d2b3c5b9d7
+    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-beta-2023-01-18.x86_64.tar.gz) | 696308d6720b16515aa9ab7587766c858d12910c00f4760f756d9630b44011f8
 
 === ":material-apple: Mac"
 
     Binary (darwin-arm64) | Sha256Sum
     ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-server.arm64.tar.gz) | TBD
-    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset.arm64.tar.gz) | TBD
+    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-server-beta-2023-01-18.arm64.tar.gz) | 0289a07e7dde2fcf94718680328b09300a0f92915be24dcbb00160692d0b40f1
+    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-beta-2023-01-18.arm64.tar.gz) | eb287021e25ce7e46386b8bb9629000f4328464796caed43d08cd7c33def83d0
 
 === ":material-docker: Docker"
 
