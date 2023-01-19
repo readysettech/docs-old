@@ -209,7 +209,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
         --pull=always \
         -e DEPLOYMENT_ENV=quickstart_docker \
         -e RS_API_KEY \
-        public.ecr.aws/readyset/readyset:beta-2022-12-15 \
+        public.ecr.aws/readyset/readyset:beta-2023-01-18 \
         --standalone \
         --deployment='quickstart-postgres' \
         --database-type=postgresql \
@@ -232,7 +232,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
         --pull=always \
         -e DEPLOYMENT_ENV=quickstart_docker \
         -e RS_API_KEY \
-        public.ecr.aws/readyset/readyset:beta-2022-12-15 \
+        public.ecr.aws/readyset/readyset:beta-2023-01-18 \
         --standalone \
         --deployment='quickstart-mysql' \
         --database-type=mysql \
@@ -263,7 +263,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
         --pull=always \
         -e DEPLOYMENT_ENV=quickstart_docker \
         -e RS_API_KEY \
-        public.ecr.aws/readyset/readyset:beta-2022-12-15 \
+        public.ecr.aws/readyset/readyset:beta-2023-01-18 \
         --standalone \
         --deployment='quickstart-postgres' \
         --database-type=postgresql \
@@ -286,7 +286,7 @@ This page shows you how to run ReadySet against a Postgres or MySQL database.
         --pull=always \
         -e DEPLOYMENT_ENV=quickstart_docker \
         -e RS_API_KEY \
-        public.ecr.aws/readyset/readyset:beta-2022-12-15 \
+        public.ecr.aws/readyset/readyset:beta-2023-01-18 \
         --standalone \
         --deployment='quickstart-mysql' \
         --database-type=mysql \
