@@ -57,6 +57,7 @@ nav:
     - Deploy with ReadySet Cloud: guides/deploy-readyset-cloud.md
     - Deploy with Kubernetes: guides/deploy-readyset-kubernetes.md
     - Connect an App: guides/connect-an-app.md
+    - Check Snapshotting: guides/check-snapshotting.md
     - Cache Queries: guides/cache-queries.md
   # - Manage ReadySet:
   #   - Upgrade ReadySet: guides/upgrade-readyset.md

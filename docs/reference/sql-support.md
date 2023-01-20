@@ -501,11 +501,12 @@ ReadySet uses the **parameters** in a prepared statement, specified either posit
 
 ## SQL extensions
 
-ReadySet supports the following custom SQL commands for viewing queries that ReadySet has proxied to the upstream database, caching supported queries, viewing cached queries, and dropping caches:
+ReadySet supports the following custom SQL commands:
 
-- `SHOW PROXIED QUERIES`
-- `CREATE CACHE`
-- `SHOW CACHES`
-- `DROP CACHE`
-
-For more details about these commands, see [Cache Queries](../guides/cache-queries.md).
+Command | Description
+--------|------------
+[`SHOW READYSET TABLES`](../guides/check-snapshotting.md) | Check the snapshotting status of tables.
+[`SHOW PROXIED QUERIES`](../guides/cache-queries.md#identify-queries-to-cache) | View the queries that ReadySet has proxied to the upstream database and identify whether such queries can be cached with ReadySet.
+[`CREATE CACHE`](../guides/cache-queries.md#cache-queries_1) | Cache a query in ReadySet.
+[`SHOW CACHES`](../guides/cache-queries.md#view-cached-queries) | Show all queries that have been cached in ReadySet.
+[`DROP CACHE`](../guides/cache-queries.md#remove-cached-queries) | Remove a cache from ReadySet.
