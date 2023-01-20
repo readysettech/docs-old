@@ -71,7 +71,7 @@ For more demanding workloads, ReadySet can be run with multiple Adapters. Please
 2. Identify the region where your database is running:
 
     1. In the RDS Console, select your database.
-    2. Under **Summary**, note the region portion of **Region & AZ**.
+    2. Under **Summary**, note the region portion of **Region & AZ**. For example, `us-east-1` is the region portion of `us-east-1f`.
 
 3. From your local workstation, create a Kubernetes cluster, replacing the `<db-region` and `<db-subnet>` placeholders with the details from the previous steps:
 
@@ -90,12 +90,16 @@ For more demanding workloads, ReadySet can be run with multiple Adapters. Please
     | -----| ------------------------------------ |
     | `--name` | The name of the cluster.  |
     | `--region` | The [region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) where your database is running and where you will run your EKS cluster. It is necessary to run your cluster in the same region as your database in order to have access to the same VPC. |
-    | `--nodegroup-name` | The name of the pool of nodes for the cluster. |
+    | `--nodegroup-name` | <p>The name of the node group for the cluster.</p><p>This node group should be created automatically along with the cluster. However, if cluster creation fails because a node group could not be created, you will need to [create a managed node group](https://docs.aws.amazon.com/eks/latest/userguide/create-managed-node-group.html) manually and reference it in the `--nodegroup-name` flag.</p> |
     | `--nodes` | <p>The number of nodes in the cluster.</p><p>3 is the minimum required for a simple ReadySet deployment of one ReadySet Server, one ReadySet Adapter, and one instance of Consul.</p> |
     | `--node-type` | <p>The [instance type](https://www.amazonaws.cn/en/ec2/instance-types/) to use for the nodes.</p><p>The `c5.2xlarge` type is fine for testing ReadySet; however, ReadySet is a memory-intensive application, so you should use memory-optimized instances (`r5.2xlarge` or larger) for production deployments.</p> |
     | `--vpc-private-subnets` | <p>The subnets of your database's VPC.</p><p>If you do not want to create the cluster in the same VPC as your database (e.g., you plan to set up [VPC peering](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-peering.html) between Kubernetes and the database), remove this flag and `--node-private-networking`.   |
 
     Cluster provisioning usually takes between 10 and 15 minutes. Do not move on to the next step until you see a message like `[✔] EKS cluster "readyset" in "us-east-1" region is ready` and details about your cluster.
+
+    !!! tip
+
+        If cluster creation fails, you may need to [create a managed node group](https://docs.aws.amazon.com/eks/latest/userguide/create-managed-node-group.html) manually and reference it in the `--nodegroup-name` flag.
 
 3. Check that you can connect to the database from your EKS cluster.
 
@@ -529,40 +533,31 @@ In this step, you'll configure your database so that ReadySet can consume the da
 
 In this step, you'll download and edit the configuration files for deploying ReadySet.
 
-2. Clone the [`readyset` GitHub repository](https://github.com/readysettech/readyset):
+1. Clone the [`readyset` GitHub repository](https://github.com/readysettech/readyset):
 
     ``` sh
     git clone git@github.com:readysettech/readyset.git
     ```
 
-3. Move into to the `readysettech/readyset/helm/readyset` directory. This directory contains the `Chart.yaml` and `values.yaml` files that Helm needs to deploy ReadySet.
+1. Move into to the `readysettech/readyset/helm/readyset` directory. This directory contains the `Chart.yaml` and `values.yaml` files that Helm needs to deploy ReadySet.
 
-4. By default, Helm uses the `latest` docker image tag for the ReadySet Server and Adapter. This tag is updated nightly and so represents different versions of ReadySet over time. To ensure that you deploy a fixed version of ReadySet, it's important to use the tag for a specific version.
+1. Edit the `values.yaml` file as follows:
 
-    1. Get the available image tags for the ReadySet Server and Adapter:
+    1. Choose a unique identifier for your ReadySet deployment:
 
-        ``` sh
-        TOKEN=$(curl -k https://public.ecr.aws/token/ | jq -r '.token')
+        ``` sh hl_lines="5"
+        config:
+
+          # -- Name of the ReadySet deployment. Should be unique within the context
+          # of the chosen Consul cluster to avoid key collisions.
+          deploymentName: "readyset-helm-test""
         ```
 
-        ``` sh
-        curl -k -H "Authorization: Bearer $TOKEN" \
-        https://public.ecr.aws/v2/readyset/readyset-server/tags/list
-        ```
+    1. Change the image tags for the ReadySet Server and Adapter from `latest` to the [latest release of the ReadySet Server and Adapter](../releases/readyset-core.md#docker) (e.g., `beta-2023-01-18`):
 
-        ``` sh
-        curl -k -H "Authorization: Bearer $TOKEN" \
-        https://public.ecr.aws/v2/readyset/readyset/tags/list
-        ```
+        !!! note
 
-        The results will look like this:
-
-        ``` {.text .no-copy}
-        {"name":"readyset/readyset-server","tags":["nightly-2022-11-17","3de80e7d15f1dba1aa5817c78a78cbabb6cdbdc0","nightly-2022-11-04","b2a352d2085c83ac56fb5a5d75aaf96342dbc3c0","nightly-2022-11-03","nightly-2022-11-11","nightly-2022-11-29","nightly-2022-12-08.1","latest",...]}
-        {"name":"readyset/readyset","tags":["nightly-2022-12-07","0.1.0","nightly-2022-12-08.1","latest","nightly-2022-12-07.1","nightly-2022-12-06.2","nightly-2022-12-06.1","nightly-2022-12-08","beta-2022-12-07"]}
-        ```
-
-    2. In `values.yaml`, change the image tags for the ReadySet Server and Adapter from `latest` to the [most recent version](../releases/readyset-core.md):
+            The `latest` docker image tag is updated nightly and so represents different versions of ReadySet over time. To ensure that you deploy a fixed version of ReadySet, it's important to use the tag for a specific version. It's also important the same tag for the ReadySet Server and Adapter.
 
         ``` sh hl_lines="9"
         # -- Container image settings for ReadySet server.
@@ -588,98 +583,94 @@ In this step, you'll download and edit the configuration files for deploying Rea
           tag: "latest"
         ```
 
-        !!! warning
+    1. Configure your deployment to use the ReadySet Adapter for your database:
 
-            The ReadySet Server and Adapter must run the same version of ReadySet, so be sure to use matching image tags for the Server and Adapter.
+        === "RDS Postgres"
 
-5. In `values.yaml`, configure your deployment to use the ReadySet Adapter for your database:
+            ``` sh hl_lines="4"
+            # -- Flag to instruct readyset binary which adapter binary to use.
+            # -- Also used to configure listening port for the helm chart.
+            # Supported values: mysql, postgresql
+            database_type: "postgresql"
+            ```
 
-    === "RDS Postgres"
+            ``` sh hl_lines="3"
+            # -- Entrypoint arguments for ReadySet adapter containers.
+            # -- database-type possible values: mysql, postgresql
+            args: ["--prometheus-metrics", "--database-type", "postgresql"]
+            ```
 
-        ``` sh hl_lines="4"
-        # -- Flag to instruct readyset binary which adapter binary to use.
-        # -- Also used to configure listening port for the helm chart.
-        # Supported values: mysql, postgresql
-        database_type: "postgresql"
+        === "RDS MySQL"
+
+            ``` sh hl_lines="4"
+            # -- Flag to instruct readyset binary which adapter binary to use.
+            # -- Also used to configure listening port for the helm chart.
+            # Supported values: mysql, postgresql
+            database_type: "mysql"
+            ```
+
+            ``` sh hl_lines="3"
+            # -- Entrypoint arguments for ReadySet adapter containers.
+            # -- database-type possible values: mysql, postgresql
+            args: ["--prometheus-metrics", "--database-type", "mysql"]
+            ```
+
+    1. Change the storage size to be 2x the size of your database:
+
+        ``` sh hl_lines="10"
+        volumeClaimTemplates:
+        - metadata:
+            name: state
+          spec:
+            storageClassName: gp2
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 250Gi
         ```
 
-        ``` sh hl_lines="3"
-        # -- Entrypoint arguments for ReadySet adapter containers.
-        # -- database-type possible values: mysql, postgresql
-        args: ["--prometheus-metrics", "--database-type", "postgresql"]
-        ```
+        !!! note
 
-    === "RDS MySQL"
+            The `values.yaml` file contains the CPU, memory, and storage specifications for the components of your deployment. The default values are suitable for testing purposes only. For production deployments, you'll need to substitute values that are appropriate for your database and workload. Please [reach out](mailto:info@readyset.io) to ReadySet for guidance.
 
-        ``` sh hl_lines="4"
-        # -- Flag to instruct readyset binary which adapter binary to use.
-        # -- Also used to configure listening port for the helm chart.
-        # Supported values: mysql, postgresql
-        database_type: "mysql"
-        ```
-
-        ``` sh hl_lines="3"
-        # -- Entrypoint arguments for ReadySet adapter containers.
-        # -- database-type possible values: mysql, postgresql
-        args: ["--prometheus-metrics", "--database-type", "mysql"]
-        ```
-
-6. In `values.yaml`, change the storage size to be 2x the size of your database:
-
-    ``` sh hl_lines="10"
-    volumeClaimTemplates:
-    - metadata:
-        name: state
-      spec:
-        storageClassName: gp2
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 250Gi
-    ```
-
-    !!! note
-
-        The `values.yaml` file contains the CPU, memory, and storage specifications for the components of your deployment. The default values are suitable for testing purposes only. For production deployments, you'll need to substitute values that are appropriate for your database and workload. Please [reach out](mailto:info@readyset.io) to ReadySet for guidance.
-
-7. In `values.yaml`, set environment variables to disable verification of SSL certifications on the ReadySet Server and ReadySet adapter. This is necessary because ReadySet cannot currently verify Amazon's self-signed certificates.
-
-    ``` sh hl_lines="4"
-    # -- Static environment variables to be applied to ReadySet server containers.
-    extraEnvironmentVars:
-
-      DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
-    ```
-
-    ``` sh hl_lines="4-5"
-    # -- Static environment variables applied to ReadySet adapter containers.
-    extraEnvironmentVars:
-
-      DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
-    ```
-
-8. By default, ReadySet will replicate all data in the database specified in the ReadySet secret that you created earlier. If the queries you want to cache with ReadySet touch only specific tables in the database, you can set the `REPLICATION_TABLES` environment variable to restrict the replication scope accordingly:
-
-    === "RDS Postgres"
+    1. Set environment variables to disable verification of SSL certifications on the ReadySet Server and ReadySet adapter. This is necessary because ReadySet cannot currently verify Amazon's self-signed certificates.
 
         ``` sh hl_lines="4"
         # -- Static environment variables to be applied to ReadySet server containers.
         extraEnvironmentVars:
 
-          REPLICATION_TABLES: "<schmema>.<table>,<schmema>.<table>"
+          DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
         ```
 
-        To replicate all tables in a schema, use `<schema>.*`.
-
-    === "RDS MySQL"
-
-        ``` sh hl_lines="4"
-        # -- Static environment variables to be applied to ReadySet server containers.
+        ``` sh hl_lines="4-5"
+        # -- Static environment variables applied to ReadySet adapter containers.
         extraEnvironmentVars:
 
-          REPLICATION_TABLES: "<database>.<table>,<database>.<table>"
+          DISABLE_UPSTREAM_SSL_VERIFICATION: "1"
         ```
+
+    1. By default, ReadySet will replicate all data in the database specified in the ReadySet secret that you created earlier. If the queries you want to cache with ReadySet touch only specific tables in the database, you can set the `REPLICATION_TABLES` environment variable to restrict the replication scope accordingly:
+
+        === "RDS Postgres"
+
+            ``` sh hl_lines="4"
+            # -- Static environment variables to be applied to ReadySet server containers.
+            extraEnvironmentVars:
+
+              REPLICATION_TABLES: "<schmema>.<table>,<schmema>.<table>"
+            ```
+
+            To replicate all tables in a schema, use `<schema>.*`.
+
+        === "RDS MySQL"
+
+            ``` sh hl_lines="4"
+            # -- Static environment variables to be applied to ReadySet server containers.
+            extraEnvironmentVars:
+
+              REPLICATION_TABLES: "<database>.<table>,<database>.<table>"
+            ```
 
 ## Step 5. Start ReadySet
 
