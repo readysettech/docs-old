@@ -61,6 +61,7 @@ nav:
     - Connect an App: guides/connect-an-app.md
     - Check Snapshotting: guides/check-snapshotting.md
     - Cache Queries: guides/cache-queries.md
+    - Profile Queries: guides/profile-queries.md
   # - Manage ReadySet:
   #   - Upgrade ReadySet: guides/upgrade-readyset.md
   #   - Scale ReadySet: guides/scale-readyset.md
