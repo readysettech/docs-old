@@ -22,7 +22,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
     docker network create -d bridge readyset-net
     ```
 
-2. Create a new container and start Postgres inside it:
+1. Create a new container and start Postgres inside it:
 
     ``` sh
     docker run -d \
@@ -35,7 +35,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
     -c wal_level=logical
     ```
 
-2. Take a moment to understand the flags you used:
+1. Take a moment to understand the flags you used:
 
     <style>
       table thead tr th:first-child {
@@ -50,9 +50,9 @@ ReadySet sits between your database and application, so in this step, you'll sta
     `--publish` | Maps the Postgres port from the container to the host so you can access the database from outside of Docker.
     `--network` | Connects the container to the bridge network you created earlier.
     `-e` | Sets environment variables to create a password for the default `postgres` user and to create a database. You'll use these details when connecting to Postgres.
-    `-c` |  Turns on Postgres [logical replication](https://www.postgresql.org/docs/current/logical-replication.html). Once ReadySet has taken an initial snapshot of the database, it uses the logical replication stream to keep its snapshot and caches up-to-date as the database changes. You'll see this in action in [Step 5](#step-5-cause-a-cache-refresh).   
+    `-c` |  Turns on Postgres [logical replication](https://www.postgresql.org/docs/current/logical-replication.html). Once ReadySet has taken an initial snapshot of the database, it uses the logical replication stream to keep its snapshot and caches up-to-date as the database changes. You'll see this in action in [Step 6](#step-6-cause-a-cache-refresh).   
 
-3. Create a second container for downloading sample data and running the `psql` client:
+1. Create a second container for downloading sample data and running the `psql` client:
 
     ``` sh
     docker run -dit \
@@ -62,7 +62,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
     bash
     ```
 
-4. Get into the container and install some dependencies for downloading the sample data:
+1. Get into the container and install some dependencies for downloading the sample data:
 
     ``` sh
     docker exec -it psql bash
@@ -73,14 +73,14 @@ ReadySet sits between your database and application, so in this step, you'll sta
     && apt-get -y install curl unzip
     ```
 
-5. Download CSV files containing data for these tables from the [IMDb dataset](https://www.imdb.com/interfaces/):
+1. Download CSV files containing data for these tables from the [IMDb dataset](https://www.imdb.com/interfaces/):
 
     ``` sh
     curl -O https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/quickstart_sample_data.zip \
     && unzip quickstart_sample_data.zip
     ```
 
-6. Use the `psql` client to create the schema for 2 tables, `title_basics` and `title_ratings`:
+1. Use the `psql` client to create the schema for 2 tables, `title_basics` and `title_ratings`:
 
     ``` sh
     PGPASSWORD=readyset psql \
@@ -114,7 +114,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
         );"
     ```
 
-7. Load the data into each table:
+1. Load the data into each table:
 
     !!! note
 
@@ -142,7 +142,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
         with DELIMITER E'\t'"
     ```
 
-8. Open the `psql` shell and get a sense of the data in each table:
+1. Open the `psql` shell and get a sense of the data in each table:
 
     ``` sh
     PGPASSWORD=readyset psql \
@@ -186,7 +186,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
     (1 row)    
     ```
 
-9. Exit the `psql` shell and container:
+1. Exit the `psql` shell and container:
 
     ``` sql
     \q
@@ -198,7 +198,7 @@ ReadySet sits between your database and application, so in this step, you'll sta
 
 ## Step 2. Start ReadySet
 
-Now that you have a live database with sample data, you'll connect ReadySet to the database and watch it take a snapshot of your tables. This snapshot will be the basis for ReadySet to cache query results, and ReadySet will keep its snapshot and cache up-to-date automatically by listening to the database's replication stream.
+Now that you have a live database with sample data, you'll connect ReadySet to the database.
 
 1. Create a third container and start ReadySet inside it, connecting ReadySet to your Postgres database via the connection string in `--upstream-db-url`:
 
@@ -227,7 +227,7 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     --query-log-ad-hoc
     ```
 
-2. This `docker run` command is similar to the one you used to start Postgres. However, the flags following the `readyset` image are specific to ReadySet. Take a moment to understand them:
+1. This `docker run` command is similar to the one you used to start Postgres. However, the flags following the `readyset` image are specific to ReadySet. Take a moment to understand them:
 
     Flag | Details
     -----|--------
@@ -238,47 +238,15 @@ Now that you have a live database with sample data, you'll connect ReadySet to t
     `--upstream-db-url` | <p>The URL for connecting ReadySet to Postgres. This connection URL includes the username and password for ReadySet to authenticate with as well as the database to replicate.</p><div class="admonition tip"><p class="admonition-title">Tip</p><p>By default, ReadySet replicates all tables in all schemas of the specified Postgres database. For this tutorial, that's fine. However, in future deployments, if the queries you want to cache access only a specific schema or specific tables in a schema, or if some tables can't be replicated by ReadySet because they contain [data types](../reference/sql-support.md#data-types) that ReadySet does not support, you can narrow the scope of replication by passing `--replication-tables=<schema.table>,<schema.table>`.</p>
     `--address` | The IP and port that ReadySet listens on. For this tutorial, ReadySet is running locally on a different port than Postgres, so connecting `psql` to ReadySet is just a matter of changing the port from `5432` to `5433`.</p>       
     `--username`<br>`--password`| The username and password for connecting clients to ReadySet. For this tutorial, you're using the same username and password for both Postgres and ReadySet.
-    `--query-caching` | <p>The query caching mode for ReadySet.</p><p>For this tutorial, you've set this to `explicit`, which means you must run a specific command to have ReadySet cache a query (covered in [Step 3](#step-3-cache-queries)). The other options are `inrequestpath` and `async`. `inrequestpath` caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready. `async` also caches supported queries automatically but proxies queries to the upstream database until the cache is ready. For most deployments, the `explicit` option is recommended, as it gives you the most flexibility and control.</p>
+    `--query-caching` | <p>The query caching mode for ReadySet.</p><p>For this tutorial, you've set this to `explicit`, which means you must run a specific command to have ReadySet cache a query (covered in [Step 4](#step-4-cache-queries)). The other options are `inrequestpath` and `async`. `inrequestpath` caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready. `async` also caches supported queries automatically but proxies queries to the upstream database until the cache is ready. For most deployments, the `explicit` option is recommended, as it gives you the most flexibility and control.</p>
     `--db-dir` | The directory in which to store replicated table data. For this tutorial, you're using a Docker volume that will persist after the container is stopped.
     `--query-log`<br>`--query-log-ad-hoc` | Enables logging individual queries and exposes per-query execution metrics at the `/metrics` endpoint.
 
-3. Watch as ReadySet takes a snapshot of your tables:
+## Step 3. Check snapshotting
 
-    !!! note
+As soon as ReadySet connects to the database, it starts storing a snapshot of your database tables on disk. This snapshot will be the basis for ReadySet to cache query results, and ReadySet will keep its snapshot and cache up-to-date automatically by listening to the database's replication stream.
 
-        Snapshotting will take a few minutes. For each table, you'll see the progress and the estimated time remaining in the log messages (e.g., `progress=84.13% estimate=00:00:23`).
-
-    ``` sh
-    docker logs readyset | grep 'Snapshotting table'
-    ```
-
-    ``` {.text .no-copy}
-    2022-12-13T16:02:48.142605Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "quickstart-postgres"})
-    2022-12-13T16:02:48.202895Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "quickstart-postgres"})
-    2022-12-13T16:02:48.357445Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "quickstart-postgres"}) rows=1246402
-    2022-12-13T16:02:48.921839Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "quickstart-postgres"}) rows=5159701
-    2022-12-13T16:03:11.155418Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1246402
-    2022-12-13T16:03:19.927790Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1126400 progress=21.83% estimate=00:01:51
-    2022-12-13T16:03:50.933060Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=2282496 progress=44.24% estimate=00:01:18
-    2022-12-13T16:04:21.932289Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=3433014 progress=66.54% estimate=00:00:46
-    2022-12-13T16:04:52.932615Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=4604034 progress=89.23% estimate=00:00:14
-    2022-12-13T16:05:07.837214Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=5159701
-    ```
-
-    Don't continue to the next step until you see `Snapshotting finished` for both `title_ratings` and `title_basics`:
-
-    ``` sh
-    docker logs readyset | grep 'Snapshotting finished'
-    ```
-
-    ``` {.text .no-copy}
-    2022-12-13T16:03:11.155418Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1246402
-    2022-12-13T16:05:07.837214Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=5159701
-    ```
-
-## Step 3. Cache queries
-
-With snapshotting finished, ReadySet is ready for caching, so in this step, you'll run some queries, check if ReadySet supports them, and then cache them.   
+Snapshotting can take between a few minutes to several hours, depending on the size of your dataset. In this tutorial, snapshotting should take just a few minutes. Check the status of snapshotting, and make sure it's complete, before continuing to the next step.
 
 1. Get back into the `psql` container and connect it to ReadySet instead of the database:
 
@@ -294,7 +262,87 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
     --dbname=imdb
     ```
 
-2. Run a query that joins results from `title_ratings` and `title_basics` to count how many titles released in 2000 have an average rating higher than 5:
+1. Use ReadySet's custom [`SHOW READYSET TABLES`](check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
+
+    ``` sql
+    SHOW READYSET TABLES;
+    ```
+
+    ``` {.text .no-copy}
+             table            |    status
+    --------------------------+--------------
+     `public`.`title_basics`  | Snapshotting
+     `public`.`title_ratings` | Snapshotting
+     (2 rows)
+    ```
+
+    At first, the status will be `Snapshotting`. Don't continue to the next step until you see `Snapshotted` for both `title_basics` and `title_ratings`.
+
+    If you'd like to track snapshotting progress in greater detail:
+
+    1. Exit the `psql` shell and container:
+
+        ``` sql
+        \q
+        ```
+
+        ``` sh
+        exit
+        ```
+
+    1. Check the ReadySet logs:
+
+        !!! note
+
+            For each table, you'll see the progress and the estimated time remaining in the log messages (e.g., `progress=84.13% estimate=00:00:23`).
+
+        ``` sh
+        docker logs readyset | grep 'Snapshotting table'
+        ```
+
+        ``` {.text .no-copy}
+        2022-12-13T16:02:48.142605Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "quickstart-postgres"})
+        2022-12-13T16:02:48.202895Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "quickstart-postgres"})
+        2022-12-13T16:02:48.357445Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "quickstart-postgres"}) rows=1246402
+        2022-12-13T16:02:48.921839Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "quickstart-postgres"}) rows=5159701
+        2022-12-13T16:03:11.155418Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1246402
+        2022-12-13T16:03:19.927790Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1126400 progress=21.83% estimate=00:01:51
+        2022-12-13T16:03:50.933060Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=2282496 progress=44.24% estimate=00:01:18
+        2022-12-13T16:04:21.932289Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=3433014 progress=66.54% estimate=00:00:46
+        2022-12-13T16:04:52.932615Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting progress context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=4604034 progress=89.23% estimate=00:00:14
+        2022-12-13T16:05:07.837214Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=5159701
+        ```
+
+        Again, don't continue to the next step until you see `Snapshotting finished` for both `title_ratings` and `title_basics`:
+
+        ``` sh
+        docker logs readyset | grep 'Snapshotting finished'
+        ```
+
+        ``` {.text .no-copy}
+        2022-12-13T16:03:11.155418Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=1246402
+        2022-12-13T16:05:07.837214Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting finished context=LogContext({"deployment": "quickstart-postgres"}) rows_replicated=5159701
+        ```
+
+## Step 4. Cache queries
+
+With snapshotting finished, ReadySet is ready for caching, so in this step, you'll run some queries, check if ReadySet supports them, and then cache them.   
+
+1. Get back into the `psql` container and connect it to ReadySet:
+
+    ``` sh
+    docker exec -it psql bash
+    ```
+
+    ``` sh
+    PGPASSWORD=readyset psql \
+    --host=readyset \
+    --port=5433 \
+    --username=postgres \
+    --dbname=imdb
+    ```
+
+1. Run a query that joins results from `title_ratings` and `title_basics` to count how many titles released in 2000 have an average rating higher than 5:
 
     ``` sql
     SELECT count(*) FROM title_ratings
@@ -309,7 +357,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
      (1 row)
     ```
 
-3. Because the query is not yet cached, ReadySet proxied it to the upstream database. Use ReadySet's custom [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) command to check if ReadySet can cache the query:
+1. Because the query is not yet cached, ReadySet proxied it to the upstream database. Use ReadySet's custom [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) command to check if ReadySet can cache the query:
 
     ``` sql
     SHOW PROXIED QUERIES;
@@ -328,7 +376,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
 
         To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support.md#query-caching).
 
-4. Cache the query in ReadySet:
+1. Cache the query in ReadySet:
 
     ``` sql
     CREATE CACHE FROM -- (1)
@@ -343,7 +391,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
 
         Caching will take a few minutes, as it constructs the initial dataflow graph for the query and adds indexes to the relevant ReadySet table snapshots, as necessary. The `CREATE CACHE` command will return once this is complete.
 
-5. Run a second query, this time joining results from your two tables to get the title and average rating of the 10 top-rated movies from 1950:
+1. Run a second query, this time joining results from your two tables to get the title and average rating of the 10 top-rated movies from 1950:
 
     ``` sql
     SELECT title_basics.originaltitle, title_ratings.averagerating
@@ -370,7 +418,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
     (10 rows)
     ```
 
-6. Use the [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) command to check if ReadySet can cache the query:
+1. Use the [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) command to check if ReadySet can cache the query:
 
     ``` sql
     SHOW PROXIED QUERIES;
@@ -385,7 +433,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
 
     You should see `yes` under `readyset supported`. If the value is `pending`, check again until you see `yes` or `no`.
 
-7. Cache the query in ReadySet:
+1. Cache the query in ReadySet:
 
     ``` sql
     CREATE CACHE FROM
@@ -401,7 +449,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
 
         Again, caching will take a few minutes, as it constructs the initial dataflow graph for the query and adds indexes to the relevant ReadySet table snapshots, as necessary. The `CREATE CACHE` command will return once this is complete.
 
-8. Use ReadySet's custom [`SHOW CACHES`](cache-queries.md#cache-queries_1) command to verify that caches have been created for your two queries:
+1. Use ReadySet's custom [`SHOW CACHES`](cache-queries.md#cache-queries_1) command to verify that caches have been created for your two queries:
 
     ``` sql
     SHOW CACHES;
@@ -415,7 +463,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
     (2 rows)        
     ```
 
-9. Exit the `psql` shell and container:
+1. Exit the `psql` shell and container:
 
     ``` sql
     \q
@@ -425,7 +473,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
     exit
     ```
 
-## Step 4. Check latencies
+## Step 5. Check latencies
 
 Now you'll use a simple Python application to run your queries against both the database and ReadySet and compare how fast results are returned.
 
@@ -439,7 +487,7 @@ Now you'll use a simple Python application to run your queries against both the 
     bash
     ```
 
-2. Get into the container and install some dependencies for running the app:
+1. Get into the container and install some dependencies for running the app:
 
     ``` sh
     docker exec -it app bash
@@ -451,7 +499,7 @@ Now you'll use a simple Python application to run your queries against both the 
     && pip3 install psycopg2 numpy
     ```
 
-3. Download the Python app:
+1. Download the Python app:
 
     ``` sh
     curl -O https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/quickstart-app.py
@@ -463,7 +511,7 @@ Now you'll use a simple Python application to run your queries against both the 
     cat quickstart-app.py
     ```
 
-4. Run the first `JOIN` query against the database:
+1. Run the first `JOIN` query against the database:
 
     ``` sh
     python3 quickstart-app.py \
@@ -490,7 +538,7 @@ Now you'll use a simple Python application to run your queries against both the 
 
     Note the latencies when results are returned from the database.
 
-5. Run the same `JOIN` again, but this time against ReadySet:
+1. Run the same `JOIN` again, but this time against ReadySet:
 
     !!! tip
 
@@ -520,7 +568,7 @@ Now you'll use a simple Python application to run your queries against both the 
 
     As you can see, ReadySet returns results much faster. In the example here, the p50 latency went from 239.92ms to 0.37ms.
 
-6. Now run the second `JOIN` query against the database:
+1. Now run the second `JOIN` query against the database:
 
     ``` sh
     python3 quickstart-app.py \
@@ -556,7 +604,7 @@ Now you'll use a simple Python application to run your queries against both the 
 
     Note the latencies when results are returned from the database.
 
-7. Run the same `JOIN` again, but this time against ReadySet:
+1. Run the same `JOIN` again, but this time against ReadySet:
 
     ``` sh
     python3 quickstart-app.py \
@@ -591,13 +639,13 @@ Now you'll use a simple Python application to run your queries against both the 
 
     Again, ReadySet returns results much faster. In this case, p50 latency went from 172.65 ms to 0.40 ms.
 
-8. Exit the `app` container:
+1. Exit the `app` container:
 
     ``` sh
     exit
     ```
 
-## Step 5. Cause a cache refresh
+## Step 6. Cause a cache refresh
 
 One of ReadySet's most important features is its ability to keep your cache up-to-date as writes are applied to the upstream database. In this step, you'll see this in action.
 
@@ -607,7 +655,7 @@ One of ReadySet's most important features is its ability to keep your cache up-t
     docker exec -it psql bash
     ```
 
-2. Insert new rows that will change the count returned by your first `JOIN` query:
+1. Insert new rows that will change the count returned by your first `JOIN` query:
 
     ``` sh
     PGPASSWORD=readyset psql \
@@ -621,19 +669,19 @@ One of ReadySet's most important features is its ability to keep your cache up-t
           VALUES ('tt9999998', 10, 1000000);"
     ```
 
-3. Exit the `psql` container:
+1. Exit the `psql` container:
 
     ``` sh
     exit
     ```
 
-4. Get back into the `app` container:
+1. Get back into the `app` container:
 
     ``` sh
     docker exec -it app bash
     ```
 
-5. Run the `JOIN` against ReadySet again:
+1. Run the `JOIN` against ReadySet again:
 
     ``` sh
     python3 quickstart-app.py \
@@ -661,13 +709,13 @@ One of ReadySet's most important features is its ability to keep your cache up-t
 
         Previously, the count was 14144. Now, the count is 14145, and the query latencies are virtually unchanged. This shows how ReadySet automatically updates your cache, using the database's replication stream, with no action needed on your part to keep the database and cache in sync.
 
-6. Exit the `app` container:
+1. Exit the `app` container:
 
     ``` sh
     exit
     ```
 
-## Step 6. Test more queries
+## Step 7. Test more queries
 
 Before tearing down your deployment, feel free to test more queries to see if they're supported by ReadySet and, if so, to see how much of a performance boost you get when the queries are cached.
 
@@ -723,7 +771,7 @@ python3 quickstart-app.py \
 --query="<query text>"
 ```
 
-## Step 7. Tear down
+## Step 8. Tear down
 
 When you are done testing, use the following commands to stop and remove the resources used in this tutorial:
 
