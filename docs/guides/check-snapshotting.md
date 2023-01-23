@@ -1,11 +1,11 @@
 # Check Snapshotting
 
-When you first connect ReadySet to your database, ReadySet stores a snapshot of your database tables on disk and then keeps this snapshot up-to-date by listening to your database's replication stream. Queries can be cached in ReadySet only once the tables they access have finished the initial snapshotting process.
+When you first connect ReadySet to your database, ReadySet stores a snapshot of your database tables on disk and then keeps this snapshot up-to-date by listening to your database's replication stream. Queries can be cached in ReadySet only once all tables have finished the initial snapshotting process.
 
 Since snapshotting can take between a few minutes to several hours, depending on the size of your dataset, ReadySet gives you a few ways to check the snapshotting status:
 
 - [Check overall status](#use-a-sql-command): Run a custom SQL command to check the overall snapshotting status of tables.
-- [Track detailed progress](#check-log-messages): Check log messages to track the snapshotting progress and estimated time remaining for each table. 
+- [Track detailed progress](#check-log-messages): Check log messages to track the snapshotting progress and estimated time remaining for each table.
 
 ## Check overall status
 
@@ -36,9 +36,9 @@ This command returns a virtual table with 2 columns:
 
 !!! note
 
-    This method is not available on ReadySet Cloud, as ReadySet Cloud users do not have access to logs.
+    This method is not currently available on ReadySet Cloud, as ReadySet Cloud users do not have access to logs.
 
-To track the progress and estimated time remaining for each table, `grep` the ReadySet logs for `Snapshotting tables` (Postgres) or `taking database snapshot` (MySQL):
+To track the progress and estimated time remaining for each table, `grep` the ReadySet logs for `Snapshotting table` (Postgres) or `taking database snapshot` (MySQL):
 
 === "Postgres"
 
