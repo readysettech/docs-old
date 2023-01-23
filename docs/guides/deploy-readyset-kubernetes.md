@@ -723,7 +723,7 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
 
 ## Step 6. Check snapshotting
 
-As soon as ReadySet is connected to the database, it starts storing a snapshot of your database tables on disk. This snapshot will be the basis for ReadySet to cache query results, and ReadySet will keep its snapshot and cache up-to-date automatically by listening to the database's replication stream. Queries can be cached in ReadySet only once the tables they access have finished the initial snapshotting process.
+As soon as ReadySet is connected to the database, it starts storing a snapshot of your database tables on disk. This snapshot will be the basis for ReadySet to cache query results, and ReadySet will keep its snapshot and cache up-to-date automatically by listening to the database's replication stream. Queries can be cached in ReadySet only once all tables have finished the initial snapshotting process.
 
 In this step, you'll check the status of the snapshotting process. Snapshotting can take between a few minutes to several hours, depending on the size of your dataset.
 
@@ -773,7 +773,9 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
         - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
         - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because the table contains [unsupported data types](../reference/sql-support.md#data-types) or has been intentionally excluded from ReadySet replication (via the `--replication-tables` option).
 
-        Once a table shows the `Snapshotted` status, you can cache queries that access that table in ReadySet.
+        !!! info
+
+            You can start [caching queries](cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
 
     1. If you'd like to track snapshotting progress in greater detail, exit the temporary pod, and then check the ReadySet logs:
 
@@ -868,7 +870,9 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
         - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
         - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because the table contains [unsupported data types](../reference/sql-support.md#data-types) or has been intentionally excluded from ReadySet replication (via the `REPLICATION_TABLES` environment variable).
 
-        Once a table shows the `Snapshotted` status, you can cache queries that access that table in ReadySet.
+        !!! info
+
+            You can start [caching queries](cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
 
     1. If you'd like to track snapshotting progress in greater detail, exit the temporary pod, and then check the ReadySet logs:
 
@@ -920,7 +924,6 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
             ``` sh
             kubectl logs ${ADAPTER} -c readyset-adapter -f
             ```        
-
 
 ## Next steps
 
