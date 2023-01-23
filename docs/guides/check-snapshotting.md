@@ -4,10 +4,8 @@ When you first connect ReadySet to your database, ReadySet stores a snapshot of 
 
 Since snapshotting can take between a few minutes to several hours, depending on the size of your dataset, ReadySet gives you a few ways to check the snapshotting status:
 
-- [Check overall status](#use-a-sql-command): You can use a custom SQL command to check the overall snapshotting status of tables.
-- [Track detailed progress](#check-log-messages): You can check log messages to track the snapshotting progress and estimated time remaining for each table.
-
-
+- [Check overall status](#use-a-sql-command): Run a custom SQL command to check the overall snapshotting status of tables.
+- [Track detailed progress](#check-log-messages): Check log messages to track the snapshotting progress and estimated time remaining for each table. 
 
 ## Check overall status
 
@@ -35,6 +33,10 @@ This command returns a virtual table with 2 columns:
     - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because the table contains [unsupported data types](../reference/sql-support.md#data-types) or has been intentionally excluded from ReadySet replication (via the `--replication-tables` option).
 
 ## Track detailed progress
+
+!!! note
+
+    This method is not available on ReadySet Cloud, as ReadySet Cloud users do not have access to logs.
 
 To track the progress and estimated time remaining for each table, `grep` the ReadySet logs for `Snapshotting tables` (Postgres) or `taking database snapshot` (MySQL):
 
