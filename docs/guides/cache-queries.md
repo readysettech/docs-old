@@ -4,7 +4,7 @@ Once you've started running queries against ReadySet, you can use custom SQL com
 
 ## Identify queries to cache
 
-To view the queries that ReadySet has proxied to the upstream database and identify whether such queries can be cached with ReadySet, use:
+To view the queries that ReadySet has proxied to the upstream database and check if such queries can be cached with ReadySet, use:
 
 ``` sql
 SHOW PROXIED QUERIES;
@@ -15,6 +15,13 @@ This command returns a virtual table with 3 columns:
 - **QueryID:** A unique identifier for the query.
 - **Proxied Query:** The text of the query being proxied.
 - **ReadySet supported:** Whether or not ReadySet can cache the query.
+    - If the value is `pending`, check again until you see `yes` or `no`.
+    - If the value is `yes`, ReadySet can cache the query.
+    - If the value is `no`, ReadySet cannot cache the query.
+
+    !!! note
+
+        To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support/#query-caching). If an unsupported feature is important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).
 
 ## Cache queries
 
