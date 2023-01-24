@@ -24,7 +24,7 @@ This page shows you how to run ReadySet yourself on [Amazon EKS](https://aws.ama
 
     - Make sure tables without primary keys have [`REPLICA IDENTITY FULL`](https://www.postgresql.org/docs/current/sql-altertable.html#SQL-ALTERTABLE-REPLICA-IDENTITY).
 
-        If the database you want ReadySet to replicate includes tables without primary keys, make sure you alter those tables with `REPLICA IDENTITY FULL` before connection ReadySet. Otherwise, Postgres will block writes and deletes on those tables.
+        If the database you want ReadySet to replicate includes tables without primary keys, make sure you alter those tables with `REPLICA IDENTITY FULL` before connecting ReadySet. Otherwise, Postgres will block writes and deletes on those tables.
 
     - Complete the steps described in the [EKS Getting Started](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) documentation.
 
@@ -57,7 +57,7 @@ This page shows you how to run ReadySet yourself on [Amazon EKS](https://aws.ama
 In this step, you'll create a Kubernetes cluster on Amazon EKS in the same VPC as your database. Your cluster will contain 3 nodes to accommodate a simple ReadySet deployment of one ReadySet Server, one ReadySet Adapter, and one instance of Consul.(1)
 { .annotate }
 
-1.  - The ReadySet Server makes a copy of your underlying database, listens to the database's replication stream for updates, and keeps queries cached in an in-memory dataflow graph.
+1.  - The ReadySet Server takes a snapshot of your underlying database, listens to the database's replication stream for updates, and keeps queries cached in an in-memory dataflow graph.
       - The ReadySet Adapter handles connections from SQL clients and ORMs, forwarding uncached queries upstream and running cached queries against the ReadySet Server.
       - Consul handles internal cluster state.
 
@@ -709,11 +709,75 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
     pvc-ddf75696-9eb7-4e28-a846-2110e889c8de   250Gi      RWO            Delete           Bound    default/state-readyset-readyset-server-0        gp2                     5m
     ```
 
-5. Depending on the size of your dataset, it can take ReadySet between a few minutes to several hours to create an initial snapshot. Until the entire snapshot is finished, DDL statements (e.g., `ALTER` and `DROP`) against tables in your snapshot will be blocked. In MySQL, `INSERT` and `UPDATE` statements will also be blocked, but only while a given table is being snapshotted.
+7. Confirm that a load balancer service was created successfully:
 
-    Check on the snapshotting process:
+    ``` sh
+    kubectl get service/readyset-readyset-adapter
+    ```
 
-    === "RDS Postgres"
+    ```
+    NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP                                                                    PORT(S)                         AGE
+    readyset-readyset-adapter   LoadBalancer   10.100.46.222   k8s-default-readyset-3cab417124-2b191c9917ce4d43.elb.us-east-1.amazonaws.com   3306:30336/TCP,5432:30185/TCP   5m
+    ```
+    Do not move on to the next step until an `EXTERNAL-IP` has been assigned to the load balancer. This may take a few minutes.
+
+## Step 6. Check snapshotting
+
+As soon as ReadySet is connected to the database, it starts storing a snapshot of your database tables on disk. This snapshot will be the basis for ReadySet to cache query results, and ReadySet will keep its snapshot and cache up-to-date automatically by listening to the database's replication stream. Queries can be cached in ReadySet only once all tables have finished the initial snapshotting process.
+
+In this step, you'll check the status of the snapshotting process. Snapshotting can take between a few minutes to several hours, depending on the size of your dataset.
+
+=== "RDS Postgres"
+
+    1. In your EKS cluster, create a temporary pod containing the `psql` client:
+
+        ``` sh
+        kubectl run rs-postgres-client \
+        --rm --tty -i \
+        --restart='Never' \
+        --image=postgres \
+        --namespace=default \
+        --command -- bash
+        ```
+
+    1. Start `psql`, replacing the `--host` placeholder with the external IP of your load balancer, and replacing the other placeholders with your database connection details:
+
+        ``` sh
+        PGPASSWORD=<password> psql \
+        --host=<external IP of load balancer> \
+        --port=<port> \
+        --username=<username> \
+        --dbname=<database_name>
+        ```
+
+        You should now be in the SQL shell.
+
+    1. Use ReadySet's custom [`SHOW READYSET TABLES`](check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
+
+        ``` sql
+        SHOW READYSET TABLES;
+        ```
+
+        ``` {.text .no-copy}
+                 table            |    status
+        ------------------------------------------
+        `public`.`title_basics`   | Snapshotting
+        `public`.`title_ratings`  | Snapshotted
+        `public`.`title_episodes` | Not Replicated
+        (3 rows)
+        ```
+
+        There are 3 possible statuses:
+
+        - **Snapshotting:** The initial snapshot of the table is in progress.
+        - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
+        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because the table contains [unsupported data types](../reference/sql-support.md#data-types) or has been intentionally excluded from ReadySet replication (via the `--replication-tables` option).
+
+        !!! info
+
+            You can start [caching queries](cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
+
+    1. If you'd like to track snapshotting progress in greater detail, exit the temporary pod, and then check the ReadySet logs:
 
         ``` sh
         export SERVER=$(kubectl get pods | grep readyset-server | cut -d' ' -f1);
@@ -723,7 +787,11 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         kubectl logs ${SERVER} -c readyset-server | grep 'Snapshotting table'
         ```
 
-        ```
+        !!! note
+
+            For each table, you'll see the progress and the estimated time remaining in the log messages (e.g., `progress=84.13% estimate=00:00:23`).
+
+        ``` {.text .no-copy}
         2022-12-13T16:02:48.142605Z  INFO Snapshotting table{table=`public`.`title_basics`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "readyset-helm-test"})
         2022-12-13T16:02:48.202895Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting table context=LogContext({"deployment": "readyset-helm-test"})
         2022-12-13T16:02:48.357445Z  INFO Snapshotting table{table=`public`.`title_ratings`}: replicators::postgres_connector::snapshot: Snapshotting started context=LogContext({"deployment": "readyset-helm-test"}) rows=1246402
@@ -733,11 +801,80 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         ...
         ```
 
-        !!! note
+        !!! tip
 
-            Do not move on to the next step until you see the `Snapshot finished` message.
+            To follow the full ReadySet Server logs, use:
 
-    === "RDS MySQL"
+            ``` sh
+            export SERVER=$(kubectl get pods | grep readyset-server | cut -d' ' -f1);
+            ```
+
+            ``` sh
+            kubectl logs ${SERVER} -c readyset-server -f
+            ```
+
+            To follow the ReadySet Adapter logs, use:
+
+            ``` sh
+            export ADAPTER=$(kubectl get pods | grep readyset-adapter | cut -d' ' -f1);
+            ```
+
+            ``` sh
+            kubectl logs ${ADAPTER} -c readyset-adapter -f
+            ```        
+
+=== "RDS MySQL"
+
+    1. In your EKS cluster, create a temporary pod containing the `mysql` client:
+
+        ``` sh
+        kubectl run rs-mysql-client \
+        --rm --tty -i \
+        --restart='Never' \
+        --image=docker.io/bitnami/mysql:8.0.30-debian-11-r6 \
+        --namespace=default \
+        --command -- bash
+        ```
+
+    1. Start `mysql`, replacing the `--host` placeholder with the external IP of your load balancer, and replacing the other placeholders with your database connection details:
+
+        ``` sh
+        mysql \
+        --host=<external IP of load balancer> \
+        --port=<port> \
+        --user=<username> \
+        --password=<password> \
+        --database=<database_name>
+        ```
+
+        You should now be in the SQL shell.
+
+    1. Use ReadySet's custom [`SHOW READYSET TABLES`](check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
+
+        ``` sql
+        SHOW READYSET TABLES;
+        ```
+
+        ``` {.text .no-copy}
+                 table            |    status
+        ------------------------------------------
+        `public`.`title_basics`   | Snapshotting
+        `public`.`title_ratings`  | Snapshotted
+        `public`.`title_episodes` | Not Replicated
+        (3 rows)
+        ```
+
+        There are 3 possible statuses:
+
+        - **Snapshotting:** The initial snapshot of the table is in progress.
+        - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
+        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because the table contains [unsupported data types](../reference/sql-support.md#data-types) or has been intentionally excluded from ReadySet replication (via the `REPLICATION_TABLES` environment variable).
+
+        !!! info
+
+            You can start [caching queries](cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
+
+    1. If you'd like to track snapshotting progress in greater detail, exit the temporary pod, and then check the ReadySet logs:
 
         ``` sh
         export SERVER=$(kubectl get pods | grep readyset-server | cut -d' ' -f1);
@@ -747,7 +884,11 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         kubectl logs ${SERVER} -c readyset-server | grep 'taking database snapshot'
         ```
 
-        ```
+        !!! note
+
+            For each table, you'll see the progress and the estimated time remaining in the log messages (e.g., `progress=84.13% estimate=00:00:23`).
+
+        ``` {.text .no-copy}
         2022-10-18T17:18:01.685613Z  INFO taking database snapshot: replicators::noria_adapter: Starting snapshot
         2022-10-18T17:18:01.803163Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Acquiring read lock table=`readyset`.`users`
         2022-10-18T17:18:01.807475Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Replicating table table=`readyset`.`users`
@@ -762,118 +903,27 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
         2022-10-18T17:18:01.966256Z  INFO taking database snapshot: replicators::noria_adapter: Snapshot finished
         ```
 
-        !!! note
+        !!! tip
 
-            Do not move on to the next step until you see the `Snapshot finished` message.
-
-6. Confirm that ReadySet is receiving the database's replication stream:
-
-    === "RDS Postgres"
-
-        ``` sh
-        kubectl logs ${SERVER} -c readyset-server | grep 'Streaming'
-        ```
-
-        ```
-        2022-09-27T18:13:10.971931Z  INFO replicators::noria_adapter: Streaming replication started
-        ```
-
-    === "RDS MySQL"
-
-        ``` sh
-        kubectl logs ${SERVER} -c readyset-server | grep 'MySQL connected'
-        ```
-
-        ```
-        2022-09-30T16:14:13.371646Z  INFO replicators::noria_adapter: MySQL connected
-        ```
-
-    !!! tip
-
-        To follow the full ReadySet Server logs, use:
-
-        ``` sh
-        export SERVER=$(kubectl get pods | grep readyset-server | cut -d' ' -f1);
-        ```
-
-        ``` sh
-        kubectl logs ${SERVER} -c readyset-server -f
-        ```
-
-        To follow the ReadySet Adapter logs, use:
-
-        ``` sh
-        export ADAPTER=$(kubectl get pods | grep readyset-adapter | cut -d' ' -f1);
-        ```
-
-        ``` sh
-        kubectl logs ${ADAPTER} -c readyset-adapter -f
-        ```        
-
-7. Confirm that a load balancer service was created successfully:
-
-    ``` sh
-    kubectl get service/readyset-readyset-adapter
-    ```
-
-    ```
-    NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP                                                                    PORT(S)                         AGE
-    readyset-readyset-adapter   LoadBalancer   10.100.46.222   k8s-default-readyset-3cab417124-2b191c9917ce4d43.elb.us-east-1.amazonaws.com   3306:30336/TCP,5432:30185/TCP   5m
-    ```
-    Do not move on to the next step until an `EXTERNAL-IP` has been assigned to the load balancer. This may take a few minutes.
-
-8. Check that you can connect to ReadySet via the load balancer.
-
-    === "RDS Postgres"
-
-        1. In your EKS cluster, create a temporary pod containing the `psql` client:
+            To follow the full ReadySet Server logs, use:
 
             ``` sh
-            kubectl run rs-postgres-client \
-            --rm --tty -i \
-            --restart='Never' \
-            --image=postgres \
-            --namespace=default \
-            --command -- bash
+            export SERVER=$(kubectl get pods | grep readyset-server | cut -d' ' -f1);
             ```
-
-        2. Start `psql`, replacing the `--host` placeholder with the external IP of your load balancer, and replacing the other placeholders with your database connection details:
 
             ``` sh
-            PGPASSWORD=<password> psql \
-            --host=<external IP of load balancer> \
-            --port=<port> \
-            --username=<username> \
-            --dbname=<database_name>
+            kubectl logs ${SERVER} -c readyset-server -f
             ```
 
-            You should now be in the SQL shell, where you can query your database.
-
-    === "RDS MySQL"
-
-        1. In your EKS cluster, create a temporary pod containing the `mysql` client:
+            To follow the ReadySet Adapter logs, use:
 
             ``` sh
-            kubectl run rs-mysql-client \
-            --rm --tty -i \
-            --restart='Never' \
-            --image=docker.io/bitnami/mysql:8.0.30-debian-11-r6 \
-            --namespace=default \
-            --command -- bash
+            export ADAPTER=$(kubectl get pods | grep readyset-adapter | cut -d' ' -f1);
             ```
-
-        2. Start `mysql`, replacing the `--host` placeholder with the external IP of your load balancer, and replacing the other placeholders with your database connection details:
 
             ``` sh
-            mysql \
-            --host=<external IP of load balancer> \
-            --port=<port> \
-            --user=<username> \
-            --password=<password> \
-            --database=<database_name>
-            ```
-
-            You should now be in the SQL shell, where you can query your database.
+            kubectl logs ${ADAPTER} -c readyset-adapter -f
+            ```        
 
 ## Next steps
 
@@ -943,4 +993,8 @@ In this step, you'll use the Helm package manager to deploy ReadySet into your E
 
 - Cache queries
 
-    Once you've identified queries to cache, use ReadySet's [custom SQL commands](cache-queries.md) to do so.
+    Once you've identified queries to cache, use ReadySet's [custom SQL commands](cache-queries.md) to check if ReadySet supports them and then cache them in ReadySet.
+
+    !!! note
+
+        To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support/#query-caching). If an unsupported feature is important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).
