@@ -16,7 +16,7 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
 
     Connect ReadySet to a local Postgres or MySQL database
 
--   :material-play-circle-outline:{ .lg .middle } [__Tutorial__](guides/tutorial.md)
+-   :material-play-circle-outline:{ .lg .middle } [__Demo__](guides/tutorial.md)
 
     ---
 

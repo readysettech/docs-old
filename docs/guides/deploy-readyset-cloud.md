@@ -8,7 +8,7 @@ This page shows you how to get up and running with a fully-managed deployment of
 
 !!! tip
 
-    If you are new to ReadySet, consider running through the [Quickstart](quickstart.md) or [Tutorial](tutorial.md) first.
+    If you are new to ReadySet, consider running through the [Quickstart](quickstart.md) or [Demo](tutorial.md) first.
 
 ## Before you begin
 

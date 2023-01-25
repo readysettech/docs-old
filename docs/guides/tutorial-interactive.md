@@ -1,4 +1,4 @@
-# ReadySet Tutorial
+# ReadySet Demo
 
 <style>
   .md-main__inner {

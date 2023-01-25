@@ -40,7 +40,7 @@ Integrating with ReadySet is straight-forward:
 
 1.  This is the only required change to your application.   
 
-To run through this process on your local machine, see the [Quickstart](quickstart.md) or [Tutorial](tutorial.md).  
+To run through this process on your local machine, see the [Quickstart](quickstart.md) or [Demo](tutorial.md).  
 
 To run through this process in a cloud deployment, see [Deploy with ReadySet Cloud](deploy-readyset-cloud.md) or [Deploy with Kubernetes](deploy-readyset-kubernetes.md).
 
@@ -52,7 +52,7 @@ Once you have a ReadySet instance up and running, the next step is to connect yo
 
 When you first connect ReadySet to your database, ReadySet stores a snapshot of your database tables on disk. This snapshot will be the basis for ReadySet to cache query results, and ReadySet will keep its snapshot and cache up-to-date automatically by listening to the database's replication stream. Queries can be cached in ReadySet once all tables have finished the initial snapshotting process.
 
-There are a few ways to check on the initial snapshotting process. See [Check Snapshotting](check-snapshotting.md) for more details. 
+There are a few ways to check on the initial snapshotting process. See [Check Snapshotting](check-snapshotting.md) for more details.
 
 ## How do you cache queries?
 

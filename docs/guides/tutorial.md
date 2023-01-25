@@ -1,4 +1,4 @@
-# ReadySet Tutorial
+# ReadySet Demo
 
 This page walks you through an end-to-end local deployment of ReadySet.
 
