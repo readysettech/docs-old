@@ -29,7 +29,7 @@ When your application is running in a single region, it's usually sufficient to 
 
 ![Basic deployment](../assets/deployment-pattern-basic.png)
 
-### Scale out
+### Scale-out
 
 When your single-region application is too demanding for a combined Server and Adapter deployment, you can run them as separate processes on separate machines:
 
@@ -57,7 +57,7 @@ When your application is running across multiple regions, you can run a ReadySet
 
 ReadySet is a memory-intensive application. Size your hardware to comfortably hold your working data in memory.
 
-For testing ReadySet in the [Standard](#standard) deployment pattern, start with 2 GiB of RAM and 2 vCPUs (e.g., the `t3.small` instance on AWS) and scale up with increased data size and workload.
+For running a [standard](#standard) deployment in production, start with 16 GiB of RAM and 4 vCPUs (e.g., the `m6a.xlarge` instance on AWS) and scale up with increased data size and workload.
 
 ## Storage
 
@@ -67,7 +67,7 @@ To accommodate growth in your dataset, size storage for the ReadySet Server to 2
 
 ## Networking
 
-For efficient and secure networking, deploy ReadySet into the same [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud) as your database. If that's not possible, deploy ReadySet into its own VPC and set up VPC peering between ReadySet, the upstream database, and your application.
+Configure your upstream database's network to allow ReadySet to connect, and configure ReadySet's network to allow SQL connections from your application and database clients.
 
 ## Database versions
 
@@ -88,7 +88,7 @@ The upstream database must be configured to allow ReadySet to connect to the dat
 
 ### Amazon RDS for Postgres
 
-- [Logical replication](https://www.postgresql.org/docs/current/logical-replication.html) must be enabled.
+- [Replication](https://www.postgresql.org/docs/current/logical-replication.html) must be enabled.
 
     ReadySet uses Postgres' logical replication feature to keep the cache up-to-date as the underlying database changes.
 
@@ -102,7 +102,7 @@ The upstream database must be configured to allow ReadySet to connect to the dat
 
 - [Automated backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.Enabling) must be enabled.
 
-    ReadySet uses the [binary log](https://dev.mysql.com/doc/refman/5.7/en/binary-log.html) to keep the cache up-to-date as the underlying database changes. In RDS MySQL, the binary log is enabled only when automated backups are also enabled.
+    ReadySet uses [replication](https://dev.mysql.com/doc/refman/5.7/en/replication.html) to keep the cache up-to-date as the underlying database changes. In RDS MySQL, replication is enabled only when automated backups are also enabled.
 
 - The [binary logging format](https://dev.mysql.com/doc/refman/5.7/en/binary-log-setting.html) must be set to `ROW`.
 
@@ -110,7 +110,7 @@ The upstream database must be configured to allow ReadySet to connect to the dat
 
 ### Supabase
 
-- In Supabase, [logical replication](https://www.postgresql.org/docs/current/logical-replication.html) is already enabled. However, you must change the `postgres` user's permissions to `SUPERUSER` so that ReadySet can create a replication slot.  
+- In Supabase, [replication](https://www.postgresql.org/docs/current/logical-replication.html) is already enabled. However, you must change the `postgres` user's permissions to `SUPERUSER` so that ReadySet can create a replication slot.  
 
 - ReadySet does not support [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html). Make sure any RLS policies are disabled.
 

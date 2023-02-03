@@ -2,10 +2,6 @@
 
 This page shows you how to get up and running with a fully-managed deployment of ReadySet on ReadySet Cloud.
 
-- First, you'll sign up for early access to ReadySet Cloud and collect database details that ReadySet needs.
-- Next, you'll have a call to share your database details and to configure your database to allow ReadySet Cloud to consume its replication stream.
-- Finally, when your deployment is ready, you'll connect your application and start caching queries.
-
 !!! tip
 
     If you are new to ReadySet, consider running through the [Quickstart](quickstart.md) or [Demo](tutorial.md) first.
@@ -89,7 +85,7 @@ Once you've signed up, ReadySet will schedule time to discuss your use case, giv
 
 ## Step 3. Configure your database
 
-ReadySet uses your database's replication stream to automatically keep your cache up-to-date as the database changes. In Postgres, the replication stream is called [logical replication](https://www.postgresql.org/docs/current/logical-replication.html). In MySQL, the replication stream is called the [binary log](https://dev.mysql.com/doc/refman/5.7/en/binary-log.html).
+ReadySet uses your database's replication stream to automatically keep your cache up-to-date as the database changes.
 
 On your call with ReadySet, you'll ensure replication is enabled. The steps are provided here for convenience.
 
@@ -107,7 +103,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
 
         1.  To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
 
-    1. Check if replication is enabled:
+    1. Check if [replication](https://www.postgresql.org/docs/current/logical-replication.html) is enabled:
 
         ``` sql
         SELECT name,setting
@@ -180,7 +176,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
 
 === "RDS MySQL"
 
-    1. In RDS MySQL, the [binary log](https://dev.mysql.com/doc/refman/5.7/en/binary-log.html) is enabled only when automated backups are also enabled. If you didn't enable automated backups when creating your database instance, [enable automated backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.Enabling) now.
+    1. In RDS MySQL, [replication](https://dev.mysql.com/doc/refman/5.7/en/replication.html) is enabled only when automated backups are also enabled. If you didn't enable automated backups when creating your database instance, [enable automated backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.Enabling) now.
 
         - Be sure to use the **Apply Immediately** option. The database must be rebooted in order for the change to take effect.
 
@@ -295,7 +291,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
 
 === "Supabase"
 
-    In Supabase, logical replication is already enabled. However, you must change the `postgres` user's permissions so that ReadySet can create a replication slot.  
+    In Supabase, [replication](https://www.postgresql.org/docs/current/logical-replication.html) is already enabled. However, you must change the `postgres` user's permissions so that ReadySet can create a replication slot.  
 
     1. In the Supabase Dashboard, go to the **SQL Editor**.
 

@@ -8,7 +8,7 @@ Telemetry is reported using the [Segment](https://segment.com) customer data pla
 
 ## Disabling telemetry
 
-Telemetry can be disabled by running ReadySet executables with the `--disable-telemetry` option.
+Telemetry can be disabled by running ReadySet executables with the [`--disable-telemetry`](cli/readyset.md#-disable-telemetry) option.
 
 ## Providing your own Segment source
 
