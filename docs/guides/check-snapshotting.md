@@ -30,7 +30,7 @@ This command returns a virtual table with 2 columns:
 - **Status:** The snapshotting status of the table. There are 3 possible statuses:
     - **Snapshotting:** The initial snapshot of the table is in progress.
     - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-    - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because the table contains [unsupported data types](../reference/sql-support.md#data-types) or has been intentionally excluded from ReadySet replication (via the `--replication-tables` option).
+    - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option).
 
 ## Track detailed progress
 
@@ -43,7 +43,7 @@ To track the progress and estimated time remaining for each table, `grep` the Re
 === "Postgres"
 
     ``` sh
-    cat readyset.log | grep 'Snapshotting table'
+    grep 'Snapshotting table' readyset.log
     ```
 
     ``` {.text .no-copy}
@@ -59,7 +59,7 @@ To track the progress and estimated time remaining for each table, `grep` the Re
 === "MySQL"
 
     ``` sh
-    cat readyset.log | grep 'taking database snapshot'
+    grep 'taking database snapshot' readyset.log
     ```
 
     ```
@@ -76,3 +76,7 @@ To track the progress and estimated time remaining for each table, `grep` the Re
     2022-10-18T17:18:01.864316Z  INFO taking database snapshot:replicating table: replicators::mysql_connector::snapshot: Replication finished rows_replicated=5000 table=`readyset`.`posts`
     2022-10-18T17:18:01.966256Z  INFO taking database snapshot: replicators::noria_adapter: Snapshot finished
     ```
+
+!!! tip
+
+    The frequency of these progress messages is controlled by the [`--snapshot-report-interval-secs`](../reference/cli/readyset.md#-snapshot-report-interval-secs) CLI option.
