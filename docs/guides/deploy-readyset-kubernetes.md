@@ -24,7 +24,7 @@ This page shows you how to run ReadySet with Kubernetes on [Amazon EKS](https://
 
         If the database you want ReadySet to replicate includes tables without primary keys, make sure you alter those tables with `REPLICA IDENTITY FULL` before connecting ReadySet. Otherwise, Postgres will block writes and deletes on those tables.
 
-    - Make sure [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) is disabled. ReadySet does not current support row-level security.
+    - Make sure [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) is disabled. ReadySet does not currently support row-level security.
 
     - Complete the steps described in the [EKS Getting Started](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) documentation.
 
