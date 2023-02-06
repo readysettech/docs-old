@@ -73,7 +73,7 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`INT`<br>`SMALLINT`<br>`BIGINT`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-INT) | :octicons-check-16: | ReadySet ignores the optional length field. |
-    | [`DECIMAL`<br>`NUMERIC`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) | :octicons-check-16: | |
+    | [`DECIMAL`<br>`NUMERIC`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) | :octicons-check-16: | ReadySet does not support `DECIMAL`/`NUMERIC` values with a scale greater than 28, i.e., with more than 28 digits to the right of the decimal point.|
     | [`FLOAT`<br>`DOUBLE PRECISION`<br>`REAL`](https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html) | :octicons-check-16: | |
     | [`SERIAL`<br>`SMALLSERIAL`<br>`BIGSERIAL`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-SERIAL) | :octicons-check-16: | |
 
