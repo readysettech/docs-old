@@ -22,7 +22,7 @@ This page shows you how to manually deploy ReadySet on Amazon EC2 in front of a 
 
     - Make sure [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) is disabled.
 
-        ReadySet does not current support row-level security.
+        ReadySet does not currently support row-level security.
 
 === "RDS Postgres"
 
@@ -38,7 +38,7 @@ This page shows you how to manually deploy ReadySet on Amazon EC2 in front of a 
 
     - Make sure [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) is disabled.
 
-        ReadySet does not current support row-level security.
+        ReadySet does not currently support row-level security.
 
 === "RDS MySQL"
 

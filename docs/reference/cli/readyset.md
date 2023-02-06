@@ -104,7 +104,7 @@ Don't sent anonymous [telemetry data](../telemetry.md) to ReadySet.
 #### `--disable-upstream-ssl-verification`
 
 <div class="option-details" markdown="1">
-Disable verification of SSL certificates supplied by the upstream database (Postgres only, ignored for MySQL).
+Disable verification of SSL certificates supplied by the upstream database on connections to replicate data and proxy queries (Postgres only, ignored for MySQL).
 
 **Env variable:** `DISABLE_UPSTREAM_SSL_VERIFICATION`
 
@@ -160,7 +160,7 @@ The `--forbid-full-materialization` option prevents ReadySet from caching querie
 
 !!! tip
 
-    Consider passing this option when [`--query-caching`](#-query-caching) is set to `"inrequestpath"` or `"async"`. In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can run into memory issues, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#-eviction-policy) applies only to partially materialized queries).
+    Consider passing this option when [`--query-caching`](#-query-caching) is set to `"inrequestpath"` or `"async"`. In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can exhaust memory, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#-eviction-policy) applies only to partially materialized queries).
 </div>
 
 #### `--help`, `-h`
@@ -352,9 +352,9 @@ The number of connections to the upstream database for snapshotting and replicat
 
 **Default:** `50`
 
-!!! note
+!!! warning
 
-    This can be set as high as the number of tables you want ReadySet to snapshot/replicate. However, note that the more connections you use for snapshotting/replication, the higher the load on your upstream database.  
+    This can be set as high as the number of tables you want ReadySet to snapshot/replicate. However, more connections will increase both the load on your upstream database and memory usage by ReadySet.
 </div>
 
 #### `--replication-tables`
@@ -379,6 +379,8 @@ The time, in seconds, between logging the [snapshotting progress](../../guides/c
 
 <div class="option-details" markdown="1">
 Path to the PEM or DER root certificate that the upstream database connection will trust.
+
+**Default:** System root store
 
 **Env variable:** `SSL_ROOT_CERT`
 </div>

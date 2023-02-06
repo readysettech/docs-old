@@ -11,7 +11,7 @@ This page introduces the `readyset` commands for running these components, as we
 
 !!! note
 
-    The ReadySet CLI is relevant only for users running ReadySet themselves. Users on ReadySet Cloud get a fully-managed deployment of ReadySet and do not need to run `readyset` commands.
+    Users on ReadySet Cloud get a fully-managed deployment of ReadySet and do not need to run `readyset` commands.
 
 ## Commands
 
