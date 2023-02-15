@@ -14,13 +14,13 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
 
     ---
 
-    Connect ReadySet to a local Postgres or MySQL database
+    Get started with a local deployment of Postgres and ReadySet
 
--   :octicons-play-24:{ .lg .middle } [__Demo__](guides/tutorial.md)
+-   :octicons-play-24:{ .lg .middle } [__Playground__](guides/playground.md)
 
     ---
 
-    Run through a hands-on demonstration of ReadySet's capabilities and features
+    Interact with ReadySet directly in your browser
 
 -   :octicons-cloud-24:{ .lg .middle } [__Run with ReadySet Cloud__](guides/deploy-readyset-cloud.md)
 

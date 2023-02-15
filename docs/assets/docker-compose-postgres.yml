@@ -1,0 +1,56 @@
+---
+services:
+  db:
+    container_name: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      start_period: 5s
+      timeout: 10s
+      retries: 5
+    image: "postgres:14"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: readyset
+      POSTGRES_DB: imdb
+    command:
+      - postgres
+      - "-c"
+      - wal_level=logical
+    volumes:
+      - ./imdb-postgres.sql:/docker-entrypoint-initdb.d/imdb-postgres.sql
+  cache:
+    container_name: readyset
+    image: "public.ecr.aws/readyset/readyset:beta-2023-01-18"
+    platform: linux/amd64
+    ports:
+      - "5433:5433"
+      - "6034:6034"
+    environment:
+      STANDALONE: "1"
+      DEPLOYMENT: "docs_quickstart_postgres"
+      DATABASE_TYPE: postgresql
+      UPSTREAM_DB_URL: "postgresql://postgres:readyset@postgres:5432/imdb"
+      LISTEN_ADDRESS: "0.0.0.0:5433"
+      ALLOWED_USERNAME: postgres
+      ALLOWED_PASSWORD: readyset
+      QUERY_CACHING: explicit
+      # PROMETHEUS_METRICS: "1"
+      QUERY_LOG: "1"
+      QUERY_LOG_AD_HOC: "1"
+      DB_DIR: "/state"
+      DEPLOYMENT_ENV: docs_quickstart_postgres
+      RS_API_KEY:
+    volumes:
+      - "readyset-state:/state"
+    depends_on:
+      db:
+        condition: service_healthy
+  app:
+    container_name: app
+    image: python:3.8-slim-buster
+    stdin_open: true
+    tty: true
+volumes:
+  readyset-state: ~
