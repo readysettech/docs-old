@@ -47,8 +47,7 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 
 ### Changes
 
-TODO: Check for commits after https://github.com/readysettech/readyset/commit/a1aea25882307307f0f6704a83d4f50cbc7f411c
-
+- Multiple instances of ReadySet can now be run against a single Postgres instance. [ab92510](https://github.com/readysettech/readyset/commit/ab92510e365bb585339c04e50c2acea2f7a71276)
 - The [`--eviction-policy`](../reference/cli/readyset.md#-eviction-policy) CLI option now defaults to `lru`, which performs best for most workloads. [998dd34](https://github.com/readysettech/readyset/commit/998dd341701e325ec2e951496b54c39c1306f629)
 - The [`--username`](../reference/cli/readyset.md#-username) and [`--password`](../reference/cli/readyset.md#-password) CLI options now default to the username and password for the upstream database in the [`--upstream-db-url`](../reference/cli/readyset.md#-upstream-db-url) option. [8989d30](https://github.com/readysettech/readyset/commit/8989d30ddb97da9fc6ab91fa528ba2b8abe6472b)
 - Added a new `--worker-request-timeout-seconds` CLI option and `WORKER_REQUEST_TIMEOUT_SECONDS` environment variable for configuring the timeout for requests made to workers. [875d0da](https://github.com/readysettech/readyset/commit/875d0da5f181d403372eca31920761cc7bc5b2fa)
@@ -65,6 +64,10 @@ shard tags, and have been renamed to have the `domain_` prefix removed:
 - When ReadySet receives an unsupported value in the replication stream (e.g., `infinity` or `-infinity` for a Postgres date or timestamp), ReadySet now stops replicating the affected table and removes all caches accessing that table. This allows ReadySet to continue with the replication of other tables instead of retrying that replication event infinitely. [bc47adf](https://github.com/readysettech/readyset/commit/bc47adf6bff87a39805c3a551d92e68fc83677b8)
 - Fixed a bug that could, in certain cases, cause ReadySet to panic when executing a query that ReadySet is unable to parse. [caacfca](https://github.com/readysettech/readyset/commit/caacfca6192e7d220a0e19a9b480ebd98498cd75)
 - Fixed a bug that could cause snapshotting and replication to fail for deeply nested `JSON` values. [551dda8](https://github.com/readysettech/readyset/commit/551dda850f22824ae6f61c98a2be7ea89a14b1a7)
+- Fixed an issue where the Postgres triggers that ReadySet installs for DDL replication could cause errors when attempting to create or alter types. [ef34ede](https://github.com/readysettech/readyset/commit/ef34ede425167f1958166f55992b42ea9eba1a72)
+- Fixed an error decoding parse messages with unspecified types. [9ca36fa](https://github.com/readysettech/readyset/commit/9ca36fa5e894dec278128db46447c98445c70cb1)
+- Fixed an issue where the ReadySet replicator wasn't gracefully handling every kind of Postgres connection failure. Now, the replicator will always retry in the event of a lost connection to the upstream database. [318be1d](https://github.com/readysettech/readyset/commit/318be1d00ed58b53bc1a67a51215f09ad4bb05b5)
+- Fixed an issue where executing prepared statements with `CITEXT` would fail with an unsupported error. [37ff026](https://github.com/readysettech/readyset/commit/37ff026b3a69d643b002e52eca41a265d1044a86)
 
 ## beta-2023-01-18
 
