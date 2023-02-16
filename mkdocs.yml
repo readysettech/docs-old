@@ -59,6 +59,7 @@ nav:
     - Deploy with Binary: guides/deploy-readyset-binary.md
   - Use ReadySet:
     - Connect an App: guides/connect-an-app.md
+    - Profile Queries: guides/profile-queries.md
     - Check Snapshotting: guides/check-snapshotting.md
     - Cache Queries: guides/cache-queries.md
   # - Manage ReadySet:

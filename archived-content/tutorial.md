@@ -361,7 +361,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
      (1 row)
     ```
 
-1. Because the query is not yet cached, ReadySet proxied it to the upstream database. Use ReadySet's custom [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) command to check if ReadySet can cache the query:
+1. Because the query is not yet cached, ReadySet proxied it to the upstream database. Use ReadySet's custom [`SHOW PROXIED QUERIES`](cache-queries.md#check-query-support) command to check if ReadySet can cache the query:
 
     ``` sql
     SHOW PROXIED QUERIES;
@@ -422,7 +422,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
     (10 rows)
     ```
 
-1. Use the [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) command to check if ReadySet can cache the query:
+1. Use the [`SHOW PROXIED QUERIES`](cache-queries.md#check-query-support) command to check if ReadySet can cache the query:
 
     ``` sql
     SHOW PROXIED QUERIES;

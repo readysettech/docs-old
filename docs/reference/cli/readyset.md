@@ -250,7 +250,7 @@ This option is ignored unless [`--prometheus-metrics`](#-prometheus-metrics) is 
 <div class="option-details" markdown="1">
 When [`--query-caching`](#-query-caching) is set to `"explicit"`, the frequency, in milliseconds, at which to check whether queries that ReadySet has proxied to the upstream database are [supported by ReadySet](../sql-support/#query-caching).
 
-After this check is run on a query, [`SHOW PROXIED QUERIES`](../../guides/cache-queries/#identify-queries-to-cache) returns either `yes` or `no` for `readyset supported`. Before this check is run on a query, or when this check fails for a query (e.g., because it references tables that have not finished snapshotting), `SHOW PROXIED QUERIES` returns `pending` for `readyset supported`.
+After this check is run on a query, [`SHOW PROXIED QUERIES`](../../guides/cache-queries/#check-query-support) returns either `yes` or `no` for `readyset supported`. Before this check is run on a query, or when this check fails for a query (e.g., because it references tables that have not finished snapshotting), `SHOW PROXIED QUERIES` returns `pending` for `readyset supported`.
 
 **Default:** `20000`
 
