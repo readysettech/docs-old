@@ -1,28 +1,53 @@
 # Profile Queries
 
-While running ReadySet, you can view that instance's metrics. Metrics are emitted for freed memory, packets sent, per-query metrics including latencies, and more.
+After [connecting your app](connect-an-app.md) to ReadySet, profile your app performance and identify queries to cache in ReadySet. Generally, it's best to focus on frequent queries that are too slow and/or that are putting unwanted load on your upstream database.  
 
-!!! note
-    To view metrics, the `--prometheus-metrics` flag must be enabled. To view per-query metrics, the `--query-log` and `--query-log-ad-hoc` flags must be passed.
+If you already have performance monitoring in place, use that tooling to identify queries that can benefit from caching in ReadySet. Otherwise, you can use ReadySet's own metrics endpoint to profile queries.
 
+## Enable ReadySet metrics
 
-## Viewing Metrics
+To enable ReadySet metrics, start ReadySet with the following options:
 
-Metrics are aggregated and available on port `6034` at the `/metrics` endpoint. If running ReadySet locally, navigate to `https://localhost:6034/metrics` in your browser.
+- [`--prometheus-metrics`](../reference/cli/readyset.md#-prometheus-metrics)
+- [`--metrics-address`](../reference/cli/readyset.md#-metrics-address)
 
-## Examining per-query metrics
+To include query-specific execution metrics, also pass:
 
-We have a metrics utility script written in Python that queries this metrics endpoint and displays latencies for queries received by ReadySet.
+- [`--query-log`](../reference/cli/readyset.md#-query-log)
+- [`--query-log-ad-hoc`](../reference/cli/readyset.md#-query-log-ad-hoc)
 
-To run the script, follow these steps.
+## Access ReadySet metrics
 
-1. Install dependencies by running `pip3 install urllib3 tabulate`.
+You can access ReadySet metrics at `<metrics address>/metrics`, where the metrics address is defined by the [`--metrics-address`](../reference/cli/readyset.md#-metrics-address) option (default: `0.0.0.0:6034/metrics`).
 
-2. Run the script with 
+!!! tip
 
-```
-curl -O https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/metrics.py \
-&& python3 metrics.py
-```
+    When [running ReadySet locally](quickstart.md), you can usually access ReadySet metrics at `https://127.0.0.1:6034/metrics` in your browser.
 
-NOTE: If you're running ReadySet in Docker, ensure that port 6034 is exposed.
+## Examine per-query metrics
+
+ReadySet metrics are formatted for easy integration with [Prometheus](https://prometheus.io/). However, the quickest way to examine per-query metrics is to use a simple metrics utility written in Python that queries the metrics endpoint and displays latencies for queries received by ReadySet.
+
+1. Download the metrics utility:
+
+    ``` sh
+    curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/metrics.py"
+    ```
+
+1. Install dependencies for the utility:
+
+    ``` sh
+    pip3 install urllib3 tabulate
+    ```
+
+1. Set the `HOST` environment variable to the IP address/hostname portion of [`--metrics-address`](../reference/cli/readyset.md#-metrics-address):
+
+    ``` sh
+    export HOST="<metrics-host>"
+    ```
+
+1. Run the script with
+
+    ``` sh
+    python3 metrics.py --host=${HOST}
+    ```
