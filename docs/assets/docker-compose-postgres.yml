@@ -40,7 +40,7 @@ services:
       QUERY_LOG: "1"
       QUERY_LOG_AD_HOC: "1"
       DB_DIR: "/state"
-      DEPLOYMENT_ENV: docs_quickstart_postgres
+      DEPLOYMENT_ENV: quickstart_docker
       RS_API_KEY:
     volumes:
       - "readyset-state:/state"
