@@ -58,9 +58,9 @@ nav:
     - Deploy with Kubernetes: guides/deploy-readyset-kubernetes.md
     - Deploy with Binary: guides/deploy-readyset-binary.md
   - Use ReadySet:
-    - Check Snapshotting: guides/check-snapshotting.md
     - Connect an App: guides/connect-an-app.md
     - Profile Queries: guides/profile-queries.md
+    - Check Snapshotting: guides/check-snapshotting.md
     - Cache Queries: guides/cache-queries.md
   # - Manage ReadySet:
   #   - Upgrade ReadySet: guides/upgrade-readyset.md

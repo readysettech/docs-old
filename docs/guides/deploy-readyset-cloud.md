@@ -329,7 +329,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
         psql '<ReadySet connection string>'
         ```
 
-    2. Run ReadySet's custom [`SHOW PROXIED QUERIES`](cache-queries.md#identify-queries-to-cache) command:
+    2. Run ReadySet's custom [`SHOW PROXIED QUERIES`](cache-queries.md#check-query-support) command:
 
         ``` sql
         SHOW PROXIED QUERIES;

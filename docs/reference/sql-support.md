@@ -243,7 +243,7 @@ ReadySet supports [Postgres schemas](https://www.postgresql.org/docs/current/ddl
 
 !!! tip
 
-    After running a query through ReadySet, you can use the [`SHOW PROXIED QUERIES`](../guides/cache-queries/#identify-queries-to-cache) command to check if ReadySet supports the query. ReadySet always proxies unsupported queries to the upstream database.
+    After running a query through ReadySet, you can use the [`SHOW PROXIED QUERIES`](../guides/cache-queries/#check-query-support) command to check if ReadySet supports the query. ReadySet always proxies unsupported queries to the upstream database.
 
 ### Clauses
 
@@ -506,7 +506,7 @@ ReadySet supports the following custom SQL commands:
 Command | Description
 --------|------------
 [`SHOW READYSET TABLES`](../guides/check-snapshotting.md) | Check the snapshotting status of tables.
-[`SHOW PROXIED QUERIES`](../guides/cache-queries.md#identify-queries-to-cache) | View the queries that ReadySet has proxied to the upstream database and identify whether such queries can be cached with ReadySet.
+[`SHOW PROXIED QUERIES`](../guides/cache-queries.md#check-query-support) | View the queries that ReadySet has proxied to the upstream database and identify whether such queries can be cached with ReadySet.
 [`CREATE CACHE`](../guides/cache-queries.md#cache-queries_1) | Cache a query in ReadySet.
 [`SHOW CACHES`](../guides/cache-queries.md#view-cached-queries) | Show all queries that have been cached in ReadySet.
 [`DROP CACHE`](../guides/cache-queries.md#remove-cached-queries) | Remove a cache from ReadySet.

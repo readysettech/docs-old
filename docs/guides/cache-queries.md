@@ -1,8 +1,12 @@
 # Cache Queries
 
-Once you've started running queries against ReadySet, you can use custom SQL commands to identify the queries that ReadySet supports, cache supported queries, view existing caches, and remove caches from ReadySet.
+Once you've [identified queries](profile-queries.md) that can benefit from caching in ReadySet, use ReadySet's custom SQL commands to check if the queries are supported and then to cache supported queries in ReadySet. There are also custom SQL commands for viewing queries that are already cached, and for removing caches from ReadySet.
 
-## Identify queries to cache
+!!! note
+
+    Queries can be cached in ReadySet only once all tables have finished the initial snapshotting process. To confirm that snapshotting has finished, see [Check Snapshotting](check-snapshotting.md).
+
+## Check query support
 
 To view the queries that ReadySet has proxied to the upstream database and check if such queries can be cached with ReadySet, use:
 
