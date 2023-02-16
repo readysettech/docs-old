@@ -1,6 +1,6 @@
 # Connect to ReadySet
 
-Once you have a ReadySet instance up and running, the next step is to connect your application. The easiest way to get up and running is to swap out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. Below are a few examples.
+Once you have a ReadySet instance up and running, the next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. Below are a few examples.
 
 ## Python
 
