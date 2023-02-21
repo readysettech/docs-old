@@ -26,7 +26,7 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
 
 === "MySQL"
 
-    **Numeric types**
+    #### Numeric types
 
     | Type | Supported | Notes |
     |------|------------|-------|
@@ -35,7 +35,7 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
     | [`FLOAT`<br>`DOUBLE`<br>`REAL`](https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html) | :octicons-check-16: | |
     | [`BIT`](https://dev.mysql.com/doc/refman/8.0/en/bit-type.html) | :octicons-check-16: | ReadySet ignores the optional length field. |
 
-    **Data and time types**
+    #### Data and time types
 
     | Type | Supported | Notes |
     |------|------------|-------|
@@ -43,7 +43,7 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
     | [`TIME`](https://dev.mysql.com/doc/refman/8.0/en/time.html) | :octicons-check-16: | |
     | [`YEAR`](https://dev.mysql.com/doc/refman/8.0/en/year.html) | :octicons-x-16:| |
 
-    **String types**
+    #### String types
 
     | Type | Supported | Notes |
     |------|------------|-------|
@@ -54,13 +54,13 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
     | [`ENUM`](https://dev.mysql.com/doc/refman/8.0/en/enum.html) | :octicons-check-16: | |
     | [`SET`](https://dev.mysql.com/doc/refman/8.0/en/set.html) | :octicons-x-16: | |
 
-    **JSON types**
+    #### JSON types
 
     | Type | Supported | Notes |
     |------|------------|-------|
     | [`JSON`](https://dev.mysql.com/doc/refman/8.0/en/json.html) | :octicons-check-16: | ReadySet represents this type internally as a normalized string. This can cause different behavior than in MySQL with respect to expressions or sorting. |
 
-    **Spatial types**
+    #### Spatial types
 
     | Type | Supported | Notes |
     |------|------------|-------|
@@ -68,22 +68,22 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
 
 === "Postgres"
 
-    **Numeric types**
+    #### Numeric types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`INT`<br>`SMALLINT`<br>`BIGINT`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-INT) | :octicons-check-16: | ReadySet ignores the optional length field. |
-    | [`DECIMAL`<br>`NUMERIC`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) | :octicons-check-16: | |
+    | [`DECIMAL`<br>`NUMERIC`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) | :octicons-check-16: | ReadySet does not support `DECIMAL`/`NUMERIC` values with a scale greater than 28, i.e., with more than 28 digits to the right of the decimal point.|
     | [`FLOAT`<br>`DOUBLE PRECISION`<br>`REAL`](https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html) | :octicons-check-16: | |
     | [`SERIAL`<br>`SMALLSERIAL`<br>`BIGSERIAL`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-SERIAL) | :octicons-check-16: | |
 
-    **Monetary types**
+    #### Monetary types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`MONEY`](https://www.postgresql.org/docs/current/datatype-money.html) | :octicons-x-16: |  |
 
-    **Character types**
+    #### Character types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
@@ -91,38 +91,38 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
     | [`"CHAR"`](https://www.postgresql.org/docs/current/datatype-character.html#DATATYPE-CHARACTER-SPECIAL-TABLE) | :octicons-check-16: | |
     | [`CITEXT`](https://www.postgresql.org/docs/15/citext.html) | :octicons-check-16: | |
 
-    **Binary types**
+    #### Binary types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`BYTEA`](https://www.postgresql.org/docs/current/datatype-binary.html) | :octicons-check-16: | |
 
-    **Date and time types**
+    #### Date and time types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`DATE`<br>`TIME`<br>`TIMETZ`<br>`TIMESTAMP`<br>`TIMESTAMPTZ`](https://www.postgresql.org/docs/current/datatype-datetime.html) | :octicons-check-16: | ReadySet ignores the optional precision field. |
     | [`INTERVAL`](https://www.postgresql.org/docs/current/datatype-datetime.html) | :octicons-x-16: | |
 
-    **Boolean types**
+    #### Boolean types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`BOOLEAN`](https://www.postgresql.org/docs/current/datatype-boolean.html) | :octicons-check-16: | |
 
-    **Enumerated types**
+    #### Enumerated types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`ENUM`](https://www.postgresql.org/docs/current/datatype-enum.html) | :octicons-check-16: | |
 
-    **Geometric types**
+    #### Geometric types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`POINT`<br>`LINE`<br>`LSEG`<br>`BOX`<br>`PATH`<br>`POLYGON`<br>`CIRCLE`](https://www.postgresql.org/docs/current/datatype-geometric.html) | :octicons-x-16: | |
 
-    **Network address types**
+    #### Network address types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
@@ -131,62 +131,62 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
     | [`MACADDR`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-MACADDR) | :octicons-check-16: | ReadySet represents this type internally as a normalized string. This can cause different behavior than in Postgres with respect to expressions or sorting.|
     | [`MACADDR8`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-MACADDR8) | :octicons-x-16: | |
 
-    **Bit string types**
+    #### Bit string types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`BIT`<br>`BIT VARYING`](https://www.postgresql.org/docs/current/datatype-bit.html) | :octicons-check-16: | ReadySet ignores the optional length field. |
 
-    **Text search types**
+    #### Text search types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`tsvector`](https://www.postgresql.org/docs/current/datatype-textsearch.html#DATATYPE-TSVECTOR) | :octicons-x-16: | |
     | [`tsquery`](https://www.postgresql.org/docs/current/datatype-textsearch.html#DATATYPE-TSQUERY) | :octicons-x-16: | |
 
-    **UUID types**
+    #### UUID types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`UUID`](https://www.postgresql.org/docs/current/datatype-uuid.html) | :octicons-check-16: | ReadySet represents this type internally as a normalized string. This can cause different behavior than in Postgres with respect to expressions or sorting. |
 
-    **XML types**
+    #### XML types
 
     | Type | Supported | Notes |
     |------|-----------|-------|
     | [`XML`](https://www.postgresql.org/docs/current/datatype-xml.html) | :octicons-x-16: | |
 
-    **JSON types**
+    #### JSON types
 
     | Type | Supported | Notes |
     |------|------------|-------|
     | [`JSON`<br>`JSONB`](https://www.postgresql.org/docs/current/datatype-json.html) | :octicons-check-16: | ReadySet represents this type internally as a normalized string. This can cause different behavior than in Postgres with respect to expressions or sorting. |
 
-    **Array types**
+    #### Array types
 
     | Type | Supported | Notes |
     |------|------------|-------|
     | [`ARRAY`](https://www.postgresql.org/docs/current/arrays.html) | :octicons-check-16:| |
 
-    **Composite data types**
+    #### Composite data types
 
     | Type | Supported | Notes |
     |------|------------|-------|
     | [`CREATE TYPE <name> AS`](https://www.postgresql.org/docs/current/rowtypes.html) | :octicons-x-16:| |
 
-    **Range types**
+    #### Range types
 
     | Type | Supported | Notes |
     |------|------------|-------|
     | [`INT4RANGE`<br>`INT8RANGE`<br>`NUMRANGE`<br>`TSRANGE`<br>`TSTZRANGE`<br>`DATERANGE`](https://www.postgresql.org/docs/current/rangetypes.html) | :octicons-x-16: | |
 
-    **Domain types**
+    #### Domain types
 
     | Type | Supported | Notes |
     |------|------------|-------|
     | [`CREATE TABLE <table> (col <domain>)`](https://www.postgresql.org/docs/current/domains.html) | :octicons-x-16: | |
 
-    **Object identifier types**
+    #### Object identifier types
 
     | Type | Supported | Notes |
     |------|------------|-------|

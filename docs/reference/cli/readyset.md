@@ -276,6 +276,8 @@ The password for authenticating connections to ReadySet. This can differ from th
 
 This option is ignored when [`--allow-unauthenticated-connections`](#-allow-unauthenticated-connections) is passed.    
 
+**Default:** The username for the upstream database in [`--upstream-db-url`](#-upstream-db-url).
+
 **Env variable:** `ALLOWED_PASSWORD`
 </div>
 
@@ -448,6 +450,8 @@ The URL for connecting ReadySet to to the upstream database. This connection URL
 The username for authenticating connections to ReadySet. This can differ from the username in the database connections string in [`--upstream-db-url`](#-upstream-db-url).
 
 This option is ignored when [`--allow-unauthenticated-connections`](#-allow-unauthenticated-connections) is passed.
+
+**Default:** The username for the upstream database in [`--upstream-db-url`](#-upstream-db-url).
 
 **Env variable:** `ALLOWED_USERNAME`
 </div>
