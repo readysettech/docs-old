@@ -22,7 +22,7 @@ services:
       - ./imdb-postgres.sql:/docker-entrypoint-initdb.d/imdb-postgres.sql
   cache:
     container_name: readyset
-    image: "public.ecr.aws/readyset/readyset:beta-2023-01-18"
+    image: "public.ecr.aws/readyset/readyset:beta-2023-02-15"
     platform: linux/amd64
     ports:
       - "5433:5433"
@@ -33,10 +33,8 @@ services:
       DATABASE_TYPE: postgresql
       UPSTREAM_DB_URL: "postgresql://postgres:readyset@postgres:5432/imdb"
       LISTEN_ADDRESS: "0.0.0.0:5433"
-      ALLOWED_USERNAME: postgres
-      ALLOWED_PASSWORD: readyset
       QUERY_CACHING: explicit
-      # PROMETHEUS_METRICS: "1"
+      PROMETHEUS_METRICS: "1"
       QUERY_LOG: "1"
       QUERY_LOG_AD_HOC: "1"
       DB_DIR: "/state"
