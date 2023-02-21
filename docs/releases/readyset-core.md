@@ -6,44 +6,30 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 
     Beta versions of ReadySet are backward-incompatible. To upgrade between beta versions, you must therefore clear all data files. Rolling upgrades will be supported with future ReadySet major releases.
 
-## beta-2023-02-16
+## beta-2023-02-15
 
 ### Downloads
-
-=== ":material-linux: Linux"
-
-    !!! note
-
-        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
-
-    Binary (linux-x84_64) | Sha256Sum
-    ----------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-02-16/readyset-server-beta-2023-02-168.x86_64.tar.gz) | TBD
-    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-02-16/readyset-beta-2023-02-16.x86_64.tar.gz) | TBD
-
-=== ":material-apple: Mac"
-
-    Binary (darwin-arm64) | Sha256Sum
-    ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-02-16/readyset-server-beta-2023-02-16.arm64.tar.gz) | TBD
-    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-02-16/readyset-beta-2023-02-16.arm64.tar.gz) | TBD
 
 === ":material-docker: Docker"
 
     - ReadySet Server (linux-x84_64)
         ``` sh
-        docker pull public.ecr.aws/readyset/readyset-server:beta-2023-02-16
+        docker pull public.ecr.aws/readyset/readyset-server:beta-2023-02-15
         ```
 
     - ReadySet Adapter (linux-x84_64)
         ``` sh
-        docker pull public.ecr.aws/readyset/readyset:beta-2023-02-16
+        docker pull public.ecr.aws/readyset/readyset:beta-2023-02-15
         ```
 
 === ":material-source-repository: Source"
 
-    - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-02-16.zip)
-    - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-02-16.tar.gz)
+    !!! note
+
+        This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development). 
+
+    - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-02-15.zip)
+    - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-02-15.tar.gz)
 
 ### Changes
 
