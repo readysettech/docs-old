@@ -459,7 +459,11 @@ This option is ignored when [`--allow-unauthenticated-connections`](#-allow-unau
 #### `--version`, `V`
 
 <div class="option-details" markdown="1">
-Print ReadySet version information.
+Print ReadySet version information. See the [example](#print-version-information) below.
+
+!!! tip
+
+    You can also use the custom `SHOW READYSET VERSION` SQL command to print ReadySet version information.
 </div>
 
 #### `--views-polling-interval`
@@ -554,16 +558,36 @@ To output ReadySet metrics to Prometheus, pass `--metrics-address` and `--promet
 
 ### Print version information
 
+To print ReadySet version information, pass the `--version` flag:
+
 ``` shell
 readyset --version
 ```
 
 ``` {.text .no-copy}
 readyset
-release-version: beta-2023-01-18
-commit_id:       de35883e248180c7e3f2f7913c0d1c2b371e53ec
-platform:        aarch64-apple-darwin
+release-version: beta-2023-02-15
+commit_id:       0f40cee0b4583d559d247077b7c140dce6977f00
+platform:        x86_64-unknown-linux-gnu
 rustc_version:   rustc 1.64.0-nightly (fe3342816 2022-08-01)
 profile:         release
 opt_level:       3
+```
+
+Alternatively, you can connect a SQL shell to ReadySet and run the following custom SQL command:
+
+``` sql
+SHOW READYSET VERSION;
+```
+
+``` {.text .no-copy}
+ReadySet      |             Version Information
+--------------------+---------------------------------------------
+release version    | beta-2023-02-15
+commit id          | 0f40cee0b4583d559d247077b7c140dce6977f00
+platform           | x86_64-unknown-linux-gnu
+rustc version      | rustc 1.64.0-nightly (fe3342816 2022-08-01)
+profile            | release
+optimization level | 3
+(6 rows)
 ```
