@@ -505,8 +505,10 @@ ReadySet supports the following custom SQL commands:
 
 Command | Description
 --------|------------
-[`SHOW READYSET TABLES`](../guides/check-snapshotting.md) | Check the snapshotting status of tables.
-[`SHOW PROXIED QUERIES`](../guides/cache-queries.md#check-query-support) | View the queries that ReadySet has proxied to the upstream database and identify whether such queries can be cached with ReadySet.
+[`SHOW READYSET STATUS`](../guides/check-snapshotting.md#check-overall-status) | Check ReadySet's overall snapshotting status.
+[`SHOW READYSET TABLES`](../guides/check-snapshotting.md#check-per-table-status) | Check the snapshotting status of each table in the database that ReadySet is connected to.
+[`SHOW PROXIED QUERIES`](../guides/cache-queries.md#check-query-support) | View the queries that ReadySet has proxied to the upstream database and check if they can be cached in ReadySet.
 [`CREATE CACHE`](../guides/cache-queries.md#cache-queries_1) | Cache a query in ReadySet.
 [`SHOW CACHES`](../guides/cache-queries.md#view-cached-queries) | Show all queries that have been cached in ReadySet.
 [`DROP CACHE`](../guides/cache-queries.md#remove-cached-queries) | Remove a cache from ReadySet.
+[`SHOW READYSET VERSION`](cli/readyset.md#print-version-information) | Prints ReadySet version information.
