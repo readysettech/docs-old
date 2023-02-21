@@ -38,11 +38,12 @@ This command returns a virtual table with 3 columns:
 To cache a query, use:
 
 ``` sql
-CREATE CACHE [<name>] FROM <query>;
+CREATE CACHE [ALWAYS] [<name>] FROM <query>;
 ```
 
 - `<name>` is optional. If a cache is not named, ReadySet automatically assigns an identifier.
 - `<query>` is the full text of the query or the unique identifier assigned to the query by ReadySet, as seen in output of `SHOW PROXIED QUERIES`.
+- `ALWAYS` is optional. If the `CREATE CACHE` command is executed inside a transaction (e.g., due to an ORM), use `ALWAYS` to run the command against ReadySet; otherwise, the command will be proxied to the upstream database with the rest of the transaction. 
 
 ## View cached queries
 
