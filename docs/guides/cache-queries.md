@@ -8,10 +8,16 @@ Once you've [identified queries](profile-queries.md) that can benefit from cachi
 
 ## Check query support
 
-To view the queries that ReadySet has proxied to the upstream database and check if such queries can be cached with ReadySet, use:
+To view all queries that ReadySet has proxied to the upstream database and check if they can be cached in ReadySet, use:
 
 ``` sql
 SHOW PROXIED QUERIES;
+```
+
+To check if a specific proxied query can be cached in ReadySet, use:
+
+``` sql
+SHOW PROXIED QUERIES where query_id = <query ID>;
 ```
 
 This command returns a virtual table with 3 columns:
@@ -44,6 +50,12 @@ To show all queries that have been cached, use:
 
 ``` sql
 SHOW CACHES;
+```
+
+To show a specific cached query, use:
+
+``` sql
+SHOW CACHES where query_id = <query ID>;
 ```
 
 This command returns a virtual table with 2 columns:
