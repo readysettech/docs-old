@@ -8,10 +8,12 @@ edit_uri: edit/main/docs/
 theme:
   name: material
   features:
-    # - navigation.tabs
+    - navigation.tabs
     - navigation.instant
-    - navigation.sections
+    # - navigation.sections
+    - navigation.expand
     - navigation.indexes
+    # - navigation.path
     - navigation.top
     - header.autohide
     - content.tabs.link
@@ -48,23 +50,29 @@ theme:
 
 # Page tree
 nav:
-  - Intro:
-    - What is ReadySet?: guides/intro.md
-    - Quickstart: guides/quickstart.md
-    - Playground: guides/playground.md
-  - Run ReadySet:
-    - Production Notes: guides/production-notes.md
-    - Deploy with ReadySet Cloud: guides/deploy-readyset-cloud.md
-    - Deploy with Kubernetes: guides/deploy-readyset-kubernetes.md
-    - Deploy with Binary: guides/deploy-readyset-binary.md
-  - Use ReadySet:
-    - Connect an App: guides/connect-an-app.md
-    - Profile Queries: guides/profile-queries.md
-    - Check Snapshotting: guides/check-snapshotting.md
-    - Cache Queries: guides/cache-queries.md
-  # - Manage ReadySet:
-  #   - Upgrade ReadySet: guides/upgrade-readyset.md
-  #   - Scale ReadySet: guides/scale-readyset.md
+  - Guides:
+    - Intro:
+      - What is ReadySet?: guides/intro/intro.md
+      - Quickstart: guides/intro/quickstart.md
+      - Playground: guides/intro/playground.md
+    - Deploy:
+      - Production Notes: guides/deploy/production-notes.md
+      - Deploy with ReadySet Cloud: guides/deploy/deploy-readyset-cloud.md
+      - Deploy with Kubernetes: guides/deploy/deploy-readyset-kubernetes.md
+      - Deploy with Binary: guides/deploy/deploy-readyset-binary.md
+    - Connect:
+      - guides/connect/index.md
+      - Node.js: guides/connect/nodejs.md
+      - Python: guides/connect/python.md
+      - Ruby: guides/connect/ruby.md
+      - Go: guides/connect/go.md
+    - Cache:
+      - Profile Queries: guides/cache/profile-queries.md
+      - Check Snapshotting: guides/cache/check-snapshotting.md
+      - Cache Queries: guides/cache/cache-queries.md
+    # - Manage ReadySet:
+    #   - Upgrade ReadySet: guides/upgrade-readyset.md
+    #   - Scale ReadySet: guides/scale-readyset.md
   - Reference:
     - SQL: reference/sql-support.md
     - CLI:

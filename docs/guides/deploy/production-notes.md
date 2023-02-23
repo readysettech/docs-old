@@ -27,7 +27,7 @@ Depending on your workload and needs, these components can be deployed in variou
 
 When your application is running in a single region, it's usually sufficient to run the ReadySet Server and ReadySet Adapter as a single process on a single machine:
 
-![Basic deployment](../assets/deployment-pattern-basic.png)
+![Basic deployment](../../assets/deployment-pattern-basic.png)
 
 ### Scale-out
 
@@ -37,11 +37,11 @@ When your single-region application is too demanding for a combined Server and A
 
     When running the Server and Adapter separately, ReadySet uses a third process, Consul, to handle internal cluster state and coordination across components. Consul is not depicted in the following diagrams.
 
-![Separate Adapter and Server](../assets/deployment-pattern-separate-adapter-server.png)
+![Separate Adapter and Server](../../assets/deployment-pattern-separate-adapter-server.png)
 
 For even more throughput, you can run multiple Adapters, with a load balancer distributing traffic evenly across them:
 
-![Scale out](../assets/deployment-pattern-scale-out.png)
+![Scale out](../../assets/deployment-pattern-scale-out.png)
 
 ### Multi-region
 
@@ -51,7 +51,7 @@ When your application is running across multiple regions, you can run a ReadySet
 
     This pattern has not been thoroughly tested by ReadySet. If you are interested in deploying ReadySet in a multi-region context, please [reach out](mailto:info@readyset.io) for guidance.
 
-![Multi-region](../assets/deployment-pattern-multi-server.png)
+![Multi-region](../../assets/deployment-pattern-multi-server.png)
 
 ## Hardware
 

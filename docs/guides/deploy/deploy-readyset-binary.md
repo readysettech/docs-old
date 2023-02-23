@@ -325,7 +325,7 @@ In this step, you'll provision and configure an EC2 instance for ReadySet.
 
 1. SSH to the EC2 instance for ReadySet.
 
-1. Download the latest [Readyset release](../releases/readyset-core.md) for Linux and extract the binary:
+1. Download the latest [Readyset release](../../releases/readyset-core.md) for Linux and extract the binary:
 
       ``` shell
       curl -sL https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-beta-2023-01-18.x86_64.tar.gz \
@@ -500,7 +500,7 @@ In this step, you'll provision and configure an EC2 instance for ReadySet.
             When connecting to ReadySet instead of to the database, you'll use these credentials.
 
 
-1. Run the [`readyset`](../reference/cli/readyset.md) command to start ReadySet:
+1. Run the [`readyset`](../../reference/cli/readyset.md) command to start ReadySet:
 
     === "Supabase Postgres"
 
@@ -524,7 +524,7 @@ In this step, you'll provision and configure an EC2 instance for ReadySet.
 
         !!! tip
 
-            For details about the `readyset` command options, see the [CLI reference docs](../reference/cli/readyset.md).
+            For details about the `readyset` command options, see the [CLI reference docs](../../reference/cli/readyset.md).
 
     === "RDS Postgres"
 
@@ -548,7 +548,7 @@ In this step, you'll provision and configure an EC2 instance for ReadySet.
 
         !!! tip
 
-            For details about the `readyset` command options, see the [CLI reference docs](../reference/cli/readyset.md).
+            For details about the `readyset` command options, see the [CLI reference docs](../../reference/cli/readyset.md).
 
     === "RDS MySQL"
 
@@ -572,7 +572,7 @@ In this step, you'll provision and configure an EC2 instance for ReadySet.
 
         !!! tip
 
-            For details about the `readyset` command options, see the [CLI reference docs](../reference/cli/readyset.md).
+            For details about the `readyset` command options, see the [CLI reference docs](../../reference/cli/readyset.md).
 
 ## Step 4. Check snapshotting
 
@@ -598,7 +598,7 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         You should now be in the SQL shell.
 
-    1. Use ReadySet's custom [`SHOW READYSET TABLES`](check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
+    1. Use ReadySet's custom [`SHOW READYSET TABLES`](../cache/check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
 
         ``` sql
         SHOW READYSET TABLES;
@@ -617,11 +617,11 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         - **Snapshotting:** The initial snapshot of the table is in progress.
         - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option).
+        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../../reference/cli/readyset.md#-replication-tables) option).
 
         !!! info
 
-            You can start [caching queries](cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
+            You can start [caching queries]((../cache/cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
 
     1. If you'd like to track snapshotting progress in greater detail, exit the SQL shell, SSH to the machine where ReadySet is running, and then check the ReadySet logs:
 
@@ -661,7 +661,7 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         You should now be in the SQL shell.
 
-    1. Use ReadySet's custom [`SHOW READYSET TABLES`](check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
+    1. Use ReadySet's custom [`SHOW READYSET TABLES`](../cache/check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
 
         ``` sql
         SHOW READYSET TABLES;
@@ -680,11 +680,11 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         - **Snapshotting:** The initial snapshot of the table is in progress.
         - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option).
+        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../../reference/cli/readyset.md#-replication-tables) option).
 
         !!! info
 
-            You can start [caching queries](cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
+            You can start [caching queries]((../cache/cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
 
     1. If you'd like to track snapshotting progress in greater detail, exit the SQL shell, SSH to the machine where ReadySet is running, and then check the ReadySet logs:
 
@@ -725,7 +725,7 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         You should now be in the SQL shell.
 
-    1. Use ReadySet's custom [`SHOW READYSET TABLES`](check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
+    1. Use ReadySet's custom [`SHOW READYSET TABLES`](../cache/check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
 
         ``` sql
         SHOW READYSET TABLES;
@@ -744,11 +744,11 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         - **Snapshotting:** The initial snapshot of the table is in progress.
         - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option).
+        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../../reference/cli/readyset.md#-replication-tables) option).
 
         !!! info
 
-            You can start [caching queries](cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
+            You can start [caching queries]((../cache/cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
 
     1. If you'd like to track snapshotting progress in greater detail, exit the SQL shell, SSH to the machine where ReadySet is running, and then check the ReadySet logs:
 
@@ -779,7 +779,7 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
 - Connect your app
 
-    The next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. See [Connect an App](connect-an-app.md) for examples.
+    The next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. See [Connect an App](../connect/index.md) for examples.
 
     !!! note
 
@@ -787,11 +787,11 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
 - Profile and cache queries
 
-    Once you are running queries against ReadySet, connect a database SQL shell to ReadySet and use the custom [`SHOW PROXIED QUERIES`](cache-queries.md#check-query-support) SQL command to view the queries that ReadySet has proxied to your upstream database and identify which queries are supported by ReadySet. Then use the custom [`CREATE CACHE`](cache-queries.md#cache-queries_1) SQL command to cache supported queries.
+    Once you are running queries against ReadySet, connect a database SQL shell to ReadySet and use the custom [`SHOW PROXIED QUERIES`]((../cache/cache-queries.md#check-query-support) SQL command to view the queries that ReadySet has proxied to your upstream database and identify which queries are supported by ReadySet. Then use the custom [`CREATE CACHE`]((../cache/cache-queries.md#cache-queries_1) SQL command to cache supported queries.
 
     !!! note
 
-        To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support.md).
+        To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../../reference/sql-support.md).
 
 - Set up monitoring
 

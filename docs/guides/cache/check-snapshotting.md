@@ -48,7 +48,7 @@ This command returns a virtual table with 2 columns:
 - **Status:** The snapshotting status of the table. There are 3 possible statuses:
     - **Snapshotting:** The initial snapshot of the table is in progress.
     - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-    - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option).
+    - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../../reference/cli/readyset.md#-replication-tables) option).
 
 ## Track detailed progress
 
@@ -97,4 +97,4 @@ To track the progress and estimated time remaining for each table, `grep` the Re
 
 !!! tip
 
-    The frequency of these progress messages is controlled by the [`--snapshot-report-interval-secs`](../reference/cli/readyset.md#-snapshot-report-interval-secs) CLI option.
+    The frequency of these progress messages is controlled by the [`--snapshot-report-interval-secs`](../../reference/cli/readyset.md#-snapshot-report-interval-secs) CLI option.

@@ -555,7 +555,7 @@ In this step, you'll download and edit the configuration files for deploying Rea
           deploymentName: "readyset-helm-test""
         ```
 
-    1. Change the image tags for the ReadySet Server and Adapter from `latest` to the [latest release of the ReadySet Server and Adapter](../releases/readyset-core.md#docker) (e.g., `beta-2023-01-18`):
+    1. Change the image tags for the ReadySet Server and Adapter from `latest` to the [latest release of the ReadySet Server and Adapter](../../releases/readyset-core.md#docker) (e.g., `beta-2023-01-18`):
 
         !!! note
 
@@ -754,7 +754,7 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         You should now be in the SQL shell.
 
-    1. Use ReadySet's custom [`SHOW READYSET TABLES`](check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
+    1. Use ReadySet's custom [`SHOW READYSET TABLES`](../cache/check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
 
         ``` sql
         SHOW READYSET TABLES;
@@ -773,11 +773,11 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         - **Snapshotting:** The initial snapshot of the table is in progress.
         - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option).
+        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../../reference/cli/readyset.md#-replication-tables) option).
 
         !!! info
 
-            You can start [caching queries](cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
+            You can start [caching queries](../cache/cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
 
     1. If you'd like to track snapshotting progress in greater detail, exit the temporary pod, and then check the ReadySet logs:
 
@@ -851,7 +851,7 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         You should now be in the SQL shell.
 
-    1. Use ReadySet's custom [`SHOW READYSET TABLES`](check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
+    1. Use ReadySet's custom [`SHOW READYSET TABLES`](../cache/check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
 
         ``` sql
         SHOW READYSET TABLES;
@@ -870,11 +870,11 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
         - **Snapshotting:** The initial snapshot of the table is in progress.
         - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option).
+        - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../../reference/cli/readyset.md#-replication-tables) option).
 
         !!! info
 
-            You can start [caching queries](cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
+            You can start [caching queries](../cache/cache-queries.md#cache-queries_1) in ReadySet only once all tables with the `Snapshotting` status have finished snapshotting and show the `Snapshotted` status.
 
     1. If you'd like to track snapshotting progress in greater detail, exit the temporary pod, and then check the ReadySet logs:
 
@@ -995,7 +995,7 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
 - Cache queries
 
-    Once you've identified queries to cache, use ReadySet's [custom SQL commands](cache-queries.md) to check if ReadySet supports them and then cache them in ReadySet.
+    Once you've identified queries to cache, use ReadySet's [custom SQL commands](../cache/cache-queries.md) to check if ReadySet supports them and then cache them in ReadySet.
 
     !!! note
 
