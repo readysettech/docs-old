@@ -4,7 +4,7 @@ This page shows you how to get up and running with a fully-managed deployment of
 
 !!! tip
 
-    If you are new to ReadySet, consider running through the [Quickstart](quickstart.md) first.
+    If you are new to ReadySet, consider running through the [Quickstart](../intro/quickstart.md) first.
 
 ## Before you begin
 
@@ -313,7 +313,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
 
 ## Step 4. Cache queries
 
-1. Once you have the ReadySet connection string, update your app to connect to ReadySet instead of the upstream database. See [Connect an App](connect-an-app.md) for client library and ORM examples.
+1. Once you have the ReadySet connection string, update your app to connect to ReadySet instead of the upstream database. See [Connect an App](../connect/index.md) for client library and ORM examples.
 
     !!! note
 
@@ -329,7 +329,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
         psql '<ReadySet connection string>'
         ```
 
-    2. Run ReadySet's custom [`SHOW PROXIED QUERIES`](cache-queries.md#check-query-support) command:
+    2. Run ReadySet's custom [`SHOW PROXIED QUERIES`](../cache/cache-queries.md#check-query-support) command:
 
         ``` sql
         SHOW PROXIED QUERIES;
@@ -345,7 +345,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
 
                 To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support/#query-caching). If an unsupported feature is important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).
 
-    4. If the query is supported, use ReadySet's custom [`CREATE CACHE`](cache-queries.md#cache-queries_1) command to cache the query results in ReadySet:
+    4. If the query is supported, use ReadySet's custom [`CREATE CACHE`](../cache/cache-queries.md#cache-queries_1) command to cache the query results in ReadySet:
 
         ``` sql
         CREATE CACHE FROM <query>; -- (1)
@@ -355,7 +355,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
 
         Caching will take a few minutes, as it constructs the initial dataflow graph for the query and adds indexes to the relevant ReadySet table snapshots, as necessary. The `CREATE CACHE` command will return once this is complete.    
 
-    5. Use ReadySet's custom [`SHOW CACHES`](cache-queries.md#view-cached-queries) command to verify that the cache has been created for your query:
+    5. Use ReadySet's custom [`SHOW CACHES`](../cache/cache-queries.md#view-cached-queries) command to verify that the cache has been created for your query:
 
         ``` sql
         SHOW CACHES;

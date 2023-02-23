@@ -44,7 +44,7 @@ Once you're ready to contribute:
     git checkout -b "<your branch name>"
     ```
 
-1. Make your changes in the text editor of your choice (e.g., [Atom](https://atom.io/), [Sublime Text](https://www.sublimetext.com/)).
+1. Make your changes in the text editor of your choice (e.g., [VS Code](https://code.visualstudio.com/), [Sublime Text](https://www.sublimetext.com/)).
 
 
 1. Check the files you've changed:
@@ -73,7 +73,7 @@ Once you're ready to contribute:
 
 1. [Push your local branch to your remote fork](https://help.github.com/articles/pushing-to-a-remote/).
 
-1. Back in your fork of the ReadySet docs repo in the GitHub UI, [open a pull request](https://github.com/readysettech/docs/pulls) and assign it to `jseldess`. If you check the `Allow edits from maintainers` option when creating your pull request, we'll be able to make minor edits or fixes directly, if it seems easier than commenting and asking you to make those revisions, which can streamline the review process.
+1. Back in your fork of the ReadySet docs repo in the GitHub UI, [open a pull request](https://github.com/readysettech/docs/pulls). If you check the `Allow edits from maintainers` option when creating your pull request, we'll be able to make minor edits or fixes directly, if it seems easier than commenting and asking you to make those revisions, which can streamline the review process.
 
 We'll review your changes, providing feedback and guidance as necessary.
 
