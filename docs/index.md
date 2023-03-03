@@ -52,3 +52,5 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
 
     Find out which parts of the SQL language are supported by ReadySet
 </div>
+
+<script async defer data-website-id="d654121f-0f12-4e71-87fe-97ac9a08e93f" src="http://umami.jesse.readyset.cloud:3000/umami.js"></script>

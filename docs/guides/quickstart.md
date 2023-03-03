@@ -521,3 +521,5 @@ docker-compose -f docker-compose-postgres.yml down -v
 - [Learn how ReadySet works under the hood](../concepts/overview.md)
 
 - [Deploy with ReadySet Cloud](deploy-readyset-cloud.md)
+
+<script async defer data-website-id="d654121f-0f12-4e71-87fe-97ac9a08e93f" src="http://umami.jesse.readyset.cloud:3000/umami.js"></script>
