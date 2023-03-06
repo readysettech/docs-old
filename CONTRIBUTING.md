@@ -4,7 +4,7 @@ The ReadySet docs are open source. We welcome your contributions!
 
 ## Setup
 
-This section helps you set up the tools you'll need to write the docs and use CockroachDB.
+This section helps you set up the tools you'll need to write the docs and use ReadySet.
 
 These instructions assume that you use macOS. If you use Linux, use your default package manager to install the packages mentioned in these steps, rather than Homebrew.
 
