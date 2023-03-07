@@ -56,12 +56,7 @@ This page shows you how to run ReadySet with Kubernetes on [Amazon EKS](https://
 
 ## Step 1. Start Kubernetes
 
-In this step, you'll create a Kubernetes cluster on Amazon EKS in the same VPC as your database. Your cluster will contain 3 nodes to accommodate a simple ReadySet deployment of one ReadySet Server, one ReadySet Adapter, and one instance of Consul.(1)
-{ .annotate }
-
-1.  - The ReadySet Server takes a snapshot of your underlying database, listens to the database's replication stream for updates, and keeps queries cached in an in-memory dataflow graph.
-      - The ReadySet Adapter handles connections from SQL clients and ORMs, forwarding uncached queries upstream and running cached queries against the ReadySet Server.
-      - Consul handles internal cluster state.
+In this step, you'll create a Kubernetes cluster on Amazon EKS in the same VPC as your database. Your cluster will contain 3 nodes to accommodate a simple ReadySet deployment of one ReadySet Server, one ReadySet Adapter, and one instance of Consul.
 
 For more demanding workloads, ReadySet can be run with multiple Adapters. Please [reach out](mailto:info@readyset.io) to ReadySet for guidance.
 
@@ -122,13 +117,15 @@ For more demanding workloads, ReadySet can be run with multiple Adapters. Please
 
             ``` sh
             PGPASSWORD=<password> psql \
-            --host=<database_endpoint> \ # (1)
+            --host=<database_endpoint> \
             --port=<port> \
             --username=<username> \
             --dbname=<database_name>
             ```
 
-            1.  To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
+            !!! tip 
+            
+                To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
 
             You should now be in the SQL shell, where you can query your database.
 
@@ -165,14 +162,16 @@ For more demanding workloads, ReadySet can be run with multiple Adapters. Please
 
             ``` sh
             mysql \
-            --host=<database_endpoint> \ # (1)
+            --host=<database_endpoint> \ 
             --port=<port> \
             --user=<username> \
             --password=<password> \
             --database=<database_name>
             ```
 
-            1.  To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
+            !!! tip 
+            
+                To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
 
             You should now be in the SQL shell, where you can query your database.
 
@@ -215,10 +214,12 @@ For more demanding workloads, ReadySet can be run with multiple Adapters. Please
             ```
 
             ``` sh
-            export RDS_ENDPOINT="<database_endpoint>" # (1)
+            export RDS_ENDPOINT="<database_endpoint>"
             ```
 
-            1.  To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
+            !!! tip 
+            
+                To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
 
             ```sh
             export CONN_STRING="postgresql://${DB_USERNAME}:${DB_PASSWORD}@${RDS_ENDPOINT}:5432/${DB_NAME}"
@@ -261,10 +262,12 @@ For more demanding workloads, ReadySet can be run with multiple Adapters. Please
             ```
 
             ``` sh
-            export RDS_ENDPOINT="<database_endpoint>" # (1)
+            export RDS_ENDPOINT="<database_endpoint>"
             ```
 
-            1.  To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
+            !!! tip 
+            
+                To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
 
             ```sh
             export CONN_STRING="mysql://${DB_USERNAME}:${DB_PASSWORD}@${RDS_ENDPOINT}:3306/${DB_NAME}"
@@ -324,13 +327,15 @@ In this step, you'll configure your database so that ReadySet can consume the da
 
         ``` sh
         PGPASSWORD=<password> psql \
-        --host=<database_endpoint> \ # (1)
+        --host=<database_endpoint> \ 
         --port=<port> \
         --username=<username> \
         --dbname=<database_name>
         ```
 
-        1.  To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
+        !!! tip 
+        
+            To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
 
     3. In the `psql` shell, check if [replication](https://www.postgresql.org/docs/current/logical-replication.html) is enabled:
 
@@ -426,14 +431,16 @@ In this step, you'll configure your database so that ReadySet can consume the da
 
         ``` sh
         mysql \
-        --host=<database_endpoint> \ # (1)
+        --host=<database_endpoint> \ 
         --port=<port> \
         --user=<username> \
         --password=<password> \
         --database=<database_name>
         ```
 
-        1.  To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
+        !!! tip 
+        
+            To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
 
 
     2. In the `mysql` shell, verify that replication is enabled:
@@ -555,7 +562,7 @@ In this step, you'll download and edit the configuration files for deploying Rea
           deploymentName: "readyset-helm-test""
         ```
 
-    1. Change the image tags for the ReadySet Server and Adapter from `latest` to the [latest release of the ReadySet Server and Adapter](../../releases/readyset-core.md#docker) (e.g., `beta-2023-01-18`):
+    1. Change the image tags for the ReadySet Server and Adapter from `latest` to the [latest release of the ReadySet Server and Adapter](../../releases/readyset-core.md) (e.g., `beta-2023-01-18`):
 
         !!! note
 
