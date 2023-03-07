@@ -34,7 +34,7 @@ In this step, you'll use Docker Compose to start Postgres, load some sample data
     Compose then does the following:
 
     - Starts Postgres in a container called `db` and imports two tables from the [IMDb dataset](https://www.imdb.com/interfaces/).
-    - Starts ReadySet in a container called `cache`. For details about the CLI options used to start ReadySet, see the [CLI reference docs](../reference/cli/readyset.md).   
+    - Starts ReadySet in a container called `cache`. For details about the CLI options used to start ReadySet, see the [CLI reference docs](../../reference/cli/readyset.md).   
     - Creates a container called `app` for running a sample Python app against ReadySet.
 
 ## Step 2. Check snapshotting
@@ -53,7 +53,7 @@ Snapshotting can take between a few minutes to several hours, depending on the s
     --dbname=imdb
     ```
 
-1. Run ReadySet's custom [`SHOW READYSET TABLES`](check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
+1. Run ReadySet's custom [`SHOW READYSET TABLES`](../cache/check-snapshotting.md#check-overall-status) command to check the snapshotting status of tables in the database ReadySet is connected to:
 
     ``` sql
     SHOW READYSET TABLES;
@@ -71,7 +71,7 @@ Snapshotting can take between a few minutes to several hours, depending on the s
 
     - **Snapshotting:** The initial snapshot of the table is in progress.
     - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-    - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../reference/cli/readyset.md#-replication-tables) option).
+    - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to [unsupported data types](../../reference/sql-support.md#data-types)) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](../../reference/cli/readyset.md#-replication-tables) option).
 
 1. If you'd like to track snapshotting progress in greater detail, open a new terminal, and check the ReadySet logs:
 
@@ -164,7 +164,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
      (1 row)
     ```
 
-1. Because the query is not yet cached, ReadySet proxied it to the upstream database. Use ReadySet's custom [`SHOW PROXIED QUERIES`](cache-queries.md#check-query-support) command to check if ReadySet can cache the query:
+1. Because the query is not yet cached, ReadySet proxied it to the upstream database. Use ReadySet's custom [`SHOW PROXIED QUERIES`](../cache/cache-queries.md#check-query-support) command to check if ReadySet can cache the query:
 
     ``` sql
     SHOW PROXIED QUERIES;
@@ -185,7 +185,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
 
     !!! tip
 
-        To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support.md#query-caching).
+        To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../../reference/sql-support.md#query-caching).
 
 1. Cache the query in ReadySet:
 
@@ -229,7 +229,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
       (10 rows)
     ```
 
-1. Use the [`SHOW PROXIED QUERIES`](cache-queries.md#check-query-support) command to check if ReadySet can cache the query:
+1. Use the [`SHOW PROXIED QUERIES`](../cache/cache-queries.md#check-query-support) command to check if ReadySet can cache the query:
 
     ``` sql
     SHOW PROXIED QUERIES;
@@ -262,7 +262,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
 
     Again, caching will take a few moments.
 
-1. Use ReadySet's custom [`SHOW CACHES`](cache-queries.md#cache-queries_1) command to verify that caches have been created for your two queries:
+1. Use ReadySet's custom [`SHOW CACHES`](../cache/cache-queries.md#cache-queries_1) command to verify that caches have been created for your two queries:
 
     ``` sql
     SHOW CACHES;
@@ -514,10 +514,10 @@ docker-compose -f docker-compose-postgres.yml down -v
 
 ## Next steps
 
-- [Connect an app](connect-an-app.md)
+- [Connect an app](../connect/index.md)
 
-- [Review query support](../reference/sql-support.md)
+- [Review query support](../../reference/sql-support.md)
 
-- [Learn how ReadySet works under the hood](../concepts/overview.md)
+- [Learn how ReadySet works under the hood](../../concepts/overview.md)
 
-- [Deploy with ReadySet Cloud](deploy-readyset-cloud.md)
+- [Deploy with ReadySet Cloud](../deploy/deploy-readyset-cloud.md)

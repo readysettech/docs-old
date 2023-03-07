@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "child-process": "latest",
+    "pg": "latest",
+    "pg-connection-string": "latest",
+    "prompt": "latest"
+  }
+}

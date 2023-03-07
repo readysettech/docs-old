@@ -26,7 +26,7 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 
     !!! note
 
-        This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development). 
+        This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development).
 
     - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-02-15.zip)
     - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-02-15.tar.gz)
@@ -322,7 +322,7 @@ Area | Description
 
 Area | Description
 -----|------------
-[Helm chart](../guides/deploy-readyset-kubernetes.md) | ReadySet's new Helm chart lets you quickly deploy ReadySet Core into a Kubernetes cluster in front of an existing Amazon RDS database. If you don't want to run ReadySet yourself, consider signing up for a fully-managed deployment on [ReadySet Cloud](../guides/deploy-readyset-cloud.md).
-[SSL verification](../guides/deploy-readyset-kubernetes.md#step-4-configure-readyset) | When starting the ReadySet Server and Adapter, you can now tell ReadySet where to find the root certificate for SSL verification using the `--ssl_root_cert` command-line flag or `SSL_ROOT_CERT` environment variable.
-[Cache location](../guides/deploy-readyset-kubernetes.md#step-4-configure-readyset) | When starting the ReadySet Server and Adapter, you can now choose to store cached query results on the Adapter rather than on the Server (the default behavior) by passing the `--embedded-readers` flag to the Adapter and the `--no-readers` flag to the Server.
-[Table replication scope](../guides/deploy-readyset-kubernetes.md#step-4-configure-readyset) | If the queries you want to cache with ReadySet touch only specific tables, when starting the ReadySet Server, you can now restrict the scope of replication accordingly using the `--replication_tables` command-line flag or `REPLICATION_TABLES` environment variable.
+[Helm chart](../guides/deploy/deploy-readyset-kubernetes.md) | ReadySet's new Helm chart lets you quickly deploy ReadySet Core into a Kubernetes cluster in front of an existing Amazon RDS database. If you don't want to run ReadySet yourself, consider signing up for a fully-managed deployment on [ReadySet Cloud](../guides/deploy/deploy-readyset-cloud.md).
+[SSL verification](../guides/deploy/deploy-readyset-kubernetes.md#step-4-configure-readyset) | When starting the ReadySet Server and Adapter, you can now tell ReadySet where to find the root certificate for SSL verification using the `--ssl_root_cert` command-line flag or `SSL_ROOT_CERT` environment variable.
+[Cache location](../guides/deploy/deploy-readyset-kubernetes.md#step-4-configure-readyset) | When starting the ReadySet Server and Adapter, you can now choose to store cached query results on the Adapter rather than on the Server (the default behavior) by passing the `--embedded-readers` flag to the Adapter and the `--no-readers` flag to the Server.
+[Table replication scope](../guides/deploy/deploy-readyset-kubernetes.md#step-4-configure-readyset) | If the queries you want to cache with ReadySet touch only specific tables, when starting the ReadySet Server, you can now restrict the scope of replication accordingly using the `--replication_tables` command-line flag or `REPLICATION_TABLES` environment variable.

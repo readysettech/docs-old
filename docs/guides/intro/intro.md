@@ -1,3 +1,9 @@
+---
+<!-- icon: material/door-open -->
+<!-- icon: material/play -->
+<!-- icon: material/play-outline -->
+---
+
 # What is ReadySet?
 
 ReadySet is a lightweight SQL caching engine that sits between your application and database and turns even the most complex SQL reads into lightning-fast lookups. Unlike other caching solutions, ReadySet keeps the cache up-to-date automatically and requires no changes to your application code.
@@ -12,9 +18,9 @@ This means:
 - No extra code to evict stale records
 - No TTLs to set - your cache is as up-to-date as your replication lag
 
-ReadySet is wire-compatible with MySQL and Postgres. For more on how ReadySet works under the hood, see [Concepts](../concepts/overview.md).
+ReadySet is wire-compatible with MySQL and Postgres. For more on how ReadySet works under the hood, see [Concepts](../../concepts/overview.md).
 
-![Architecture](../assets/readyset_arch.png)
+![Architecture](../../assets/readyset_arch.png)
 
 [^1]: See the [Noria](https://pdos.csail.mit.edu/papers/noria:osdi18.pdf) paper.
 
@@ -42,30 +48,30 @@ Integrating with ReadySet is straight-forward:
 
 To run through this process on your local machine on in your browser, see the [Quickstart](quickstart.md) or [Playground](playground.md).  
 
-To run through this process in a cloud deployment, see [Deploy with ReadySet Cloud](deploy-readyset-cloud.md), [Deploy with Kubernetes](deploy-readyset-kubernetes.md), or [Deploy with Binary](deploy-readyset-binary.md).
+To run through this process in a cloud deployment, see [Deploy with ReadySet Cloud](../deploy/deploy-readyset-cloud.md), [Deploy with Kubernetes](../deploy/deploy-readyset-kubernetes.md), or [Deploy with Binary](../deploy/deploy-readyset-binary.md).
 
 ## How do you connect to ReadySet?
 
-Once you have a ReadySet instance up and running, the next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. See [Connect an App](connect-an-app.md) for examples.
+Once you have a ReadySet instance up and running, the next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. See [Connect an App](../connect/index.md) for examples.
 
 ## When can you start caching queries?
 
 When you first connect ReadySet to your database, ReadySet stores a snapshot of your database tables on disk. This snapshot will be the basis for ReadySet to cache query results, and ReadySet will keep its snapshot and cache up-to-date automatically by listening to the database's replication stream. Queries can be cached in ReadySet once all tables have finished the initial snapshotting process.
 
-There are a few ways to check on the initial snapshotting process. See [Check Snapshotting](check-snapshotting.md) for more details.
+There are a few ways to check on the initial snapshotting process. See [Check Snapshotting](../cache/check-snapshotting.md) for more details.
 
 ## How do you cache queries?
 
-Once the initial snapshotting process is complete and queries are running against ReadySet, connect a database SQL shell to ReadySet and use the custom [`SHOW PROXIED QUERIES`](cache-queries.md#check-query-support) SQL command to view the queries that ReadySet has proxied to your upstream database and identify which queries are supported by ReadySet. Then use the custom [`CREATE CACHE`](cache-queries.md#cache-queries_1) SQL command to cache supported queries.
+Once the initial snapshotting process is complete and queries are running against ReadySet, connect a database SQL shell to ReadySet and use the custom [`SHOW PROXIED QUERIES`](../cache/cache-queries.md#check-query-support) SQL command to view the queries that ReadySet has proxied to your upstream database and identify which queries are supported by ReadySet. Then use the custom [`CREATE CACHE`](../cache/cache-queries.md#cache-queries_1) SQL command to cache supported queries.
 
 !!! note
 
-    To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../reference/sql-support.md).
+    To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](../../reference/sql-support.md).
 
 ## How do you check which queries are cached?
 
-To view a list of queries that are cached in ReadySet, connect a database SQL shell to ReadySet and run the custom [`SHOW CACHES`](cache-queries.md#view-cached-queries) SQL command.
+To view a list of queries that are cached in ReadySet, connect a database SQL shell to ReadySet and run the custom [`SHOW CACHES`](../cache/cache-queries.md#view-cached-queries) SQL command.
 
 ## How do you stop caching a query?
 
-To stop caching a query in ReadySet, connect a database SQL shell and run the the custom [`DROP CACHE`](cache-queries.md#remove-cached-queries) SQL command.
+To stop caching a query in ReadySet, connect a database SQL shell and run the the custom [`DROP CACHE`](../cache/cache-queries.md#remove-cached-queries) SQL command.
