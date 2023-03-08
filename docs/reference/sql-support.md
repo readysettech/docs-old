@@ -4,7 +4,7 @@ This page documents ReadySet's SQL support. There are 3 main areas of support:
 
 | Area | Details |
 |------|-------------|
-| [Table replication](#table-replication) | <p>ReadySet takes an initial snapshot of tables from the upstream MySQL or Postgres database and then uses the database's replication stream to keep the snapshot accurate as the tables change.</p><p>To successfully snapshot and replicate a table, ReadySet must support the data types of the columns, the character set in which the data is encoded, and changes to the table via writes and schema changes.</p> |
+| [Table replication](#table-replication) | <p>ReadySet takes an initial snapshot of tables from the upstream MySQL or Postgres database and then uses the database's replication stream to keep the snapshot up-to-date as the tables change.</p><p>To successfully snapshot and replicate a table, ReadySet must support the data types of the columns, the character set in which the data is encoded, and changes to the table via writes and schema changes.</p> |
 | [Query caching](#query-caching) | <p>Once ReadySet is replicating tables, ReadySet can cache the results of SQL queries run against those tables.</p><p>To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query.</p> |
 | [SQL extensions](#sql-extensions) | ReadySet supports custom SQL commands for viewing queries that ReadySet has proxied to the upstream database, caching supported queries, viewing caches, and removing caches. |
 
