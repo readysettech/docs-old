@@ -37,14 +37,9 @@ ReadySet is particularly well-suited for the following cases:
 
 Integrating with ReadySet is straight-forward:
 
-<div class="annotate" markdown>
-
 1. Deploy ReadySet and connect it to your MySQL or Postgres database.
-2. Change your application's connection string to point at ReadySet.(1)
+2. Change your application's connection string to point at ReadySet.
 3. Cache queries using ReadySet's custom SQL commands.
-</div>
-
-1.  This is the only required change to your application.   
 
 To run through this process on your local machine on in your browser, see the [Quickstart](quickstart.md) or [Playground](playground.md).  
 

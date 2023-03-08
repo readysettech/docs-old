@@ -95,13 +95,15 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
 
         ``` sh
         PGPASSWORD=<password> psql \
-        --host=<database_endpoint> \ # (1)
+        --host=<database_endpoint> \
         --port=<port> \
         --username=<username> \
         --dbname=<database_name>
         ```
 
-        1.  To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
+        !!! tip 
+        
+            To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
 
     1. Check if [replication](https://www.postgresql.org/docs/current/logical-replication.html) is enabled:
 
@@ -186,14 +188,16 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
 
         ``` sh
         mysql \
-        --host=<database_endpoint> \ # (1)
+        --host=<database_endpoint> \ 
         --port=<port> \
         --user=<username> \
         --password=<password> \
         --database=<database_name>
         ```
 
-        1.  To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
+        !!! tip 
+        
+            To find the database endpoint, select your database in the RDS Console, and look under **Connectivity & security**.
 
     1. In the `mysql` shell, verify that replication is enabled:
 
@@ -348,10 +352,12 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
     4. If the query is supported, use ReadySet's custom [`CREATE CACHE`](../cache/cache-queries.md#cache-queries_1) command to cache the query results in ReadySet:
 
         ``` sql
-        CREATE CACHE FROM <query>; -- (1)
+        CREATE CACHE FROM <query>;
         ```
 
-        1.   You can provide either the full `SELECT` text or the query ID listed in the `SHOW PROXIED QUERIES` output.
+        !!! tip 
+        
+            You can provide either the full `SELECT` text or the query ID listed in the `SHOW PROXIED QUERIES` output.
 
         Caching will take a few minutes, as it constructs the initial dataflow graph for the query and adds indexes to the relevant ReadySet table snapshots, as necessary. The `CREATE CACHE` command will return once this is complete.    
 
