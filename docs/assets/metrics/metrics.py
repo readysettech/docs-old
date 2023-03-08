@@ -10,6 +10,9 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--host",
 		    help="host for running ReadySet instance",
 					default="localhost")
+parser.add_argument("--filter-queries",
+		    help="filter output by piping in output from 'SHOW PROXIED QUERIES'/'SHOW CACHES'",
+					action="store_true")
 args = parser.parse_args()
 
 http = urllib3.PoolManager()
@@ -19,15 +22,16 @@ r = http.request('GET', metrics_endpoint)
 results = {}
 readyset_results = {}
 
-# We ignore the first two lines and the last two lines by slicing with the
-# range 2:-2 to remove the lines from the output that don't contain actual
-# data
-query_ids = set()
-for line in sys.stdin.readlines()[2:-2]:
-	print(line)
-	query_id = line.split("|")[0].strip().strip("`")
-	print(query_id)
-	query_ids.add(query_id)
+if args.filter_queries:
+	# We ignore the first two lines and the last two lines by slicing with the
+	# range 2:-2 to remove the lines from the output that don't contain actual
+	# data
+	query_ids = set()
+	for line in sys.stdin.readlines()[2:-2]:
+		print(line)
+		query_id = line.split("|")[0].strip().strip("`")
+		print(query_id)
+		query_ids.add(query_id)
 
 # Each "family" consists of every sample for a particular metric
 for family in text_string_to_metric_families(r.data.decode('utf-8')):
@@ -38,7 +42,7 @@ for family in text_string_to_metric_families(r.data.decode('utf-8')):
 		if sample.name == "query_log_execution_time":
 			labels = sample.labels
 
-			if labels["query_id"] in query_ids:
+			if not args.filter_queries or labels["query_id"] in query_ids:
 				latency = sample.value * 1000
 				database_type = labels["database_type"]
 				query_text = labels["query"]
@@ -57,7 +61,7 @@ for family in text_string_to_metric_families(r.data.decode('utf-8')):
 		elif sample.name == "query_log_execution_time_count":
 			labels = sample.labels
 
-			if labels["query_id"] in query_ids:
+			if not args.filter_queries or labels["query_id"] in query_ids:
 				query_count = int(sample.value)
 				database_type = labels["database_type"]
 				query_text = labels["query"]
