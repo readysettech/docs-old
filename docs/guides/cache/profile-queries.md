@@ -1,6 +1,6 @@
 # Profile Queries
 
-After [connecting your app](../connect/index.md) to ReadySet, profile your app performance and identify queries to cache in ReadySet. Generally, it's best to focus on frequent queries that are too slow and/or that are putting unwanted load on your upstream database.  
+After [connecting your app](../connect/index.md) to ReadySet, profile your app performance and identify queries to cache in ReadySet. Generally, it's best to focus on frequent queries that are too slow and/or that are putting unwanted load on your upstream database.
 
 If you already have performance monitoring in place, use that tooling to identify queries that can benefit from caching in ReadySet. Otherwise, you can use ReadySet's own metrics endpoint to profile queries.
 
@@ -28,16 +28,17 @@ You can access ReadySet metrics at `<metrics address>/metrics`, where the metric
 
 ReadySet metrics are formatted for easy integration with [Prometheus](https://prometheus.io/). However, the quickest way to examine per-query metrics is to use a simple metrics utility written in Python that queries the metrics endpoint and displays latencies for queries received by ReadySet.
 
-1. Download the metrics utility:
+1. Download the metrics utility and its `requirements.txt`:
 
     ``` sh
-    curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/metrics.py"
+    curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/metrics/metrics.py"
+    curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/metrics/requirements.txt"
     ```
 
 1. Install dependencies for the utility:
 
     ``` sh
-    pip3 install urllib3 tabulate
+    pip3 install -r requirements.txt
     ```
 
 1. Set the `HOST` environment variable to the IP address/hostname portion of [`--metrics-address`](../../reference/cli/readyset.md#-metrics-address):
@@ -50,4 +51,10 @@ ReadySet metrics are formatted for easy integration with [Prometheus](https://pr
 
     ``` sh
     python3 metrics.py --host=${HOST}
+    ```
+
+    You can filter the output of this script to show only queries displayed in [`SHOW PROXIED QUERIES`](../cache/cache-queries.md#check-query-support) or [`SHOW CACHES`](../cache/cache-queries.md#cache-queries_1) by passing the `--filter-queries` flag and piping the output of those ReadySet commands into the script like so:
+
+    ``` sh
+    PGPASSWORD=noria psql --host=127.0.0.1 --port=5433 --username=postgres --dbname=noria -c "SHOW CACHES" | python3 metrics.py --filter-queries
     ```
