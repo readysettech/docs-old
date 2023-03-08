@@ -12,14 +12,18 @@ First, install the dependencies:
 pip3 install -r requirements.txt
 ```
 
-To run the script, pipe the output of ReadySet's `SHOW PROXIED QUERIES` or
-`SHOW CACHES` commands like so, updating the database information to match your
+To view latency metrics for all queries, simply run:
+
+```bash
+python3 metrics.py
+```
+
+To view latency metrics only for queries that appear in ReadySet's
+`SHOW PROXIED QUERIES` or `SHOW CACHES` output, pipe the output of the
+`SHOW PROXIED QUERIES` or `SHOW CACHES` commands into the script with the
+`--filter-queries` flag, updating the database information to match your
 configuration:
 
 ```bash
-PGPASSWORD=noria psql --host=127.0.0.1 --port=5433 --username=postgres --dbname=noria -c "SHOW CACHES" | python3 metrics.py
+PGPASSWORD=noria psql --host=127.0.0.1 --port=5433 --username=postgres --dbname=noria -c "SHOW CACHES" | python3 metrics.py --filter-queries
 ```
-
-The script will display latency metrics for only the queries that are present
-in the `SHOW PROXIED QUERIES`/`SHOW CACHES` output that was piped into the
-script.
