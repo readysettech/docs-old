@@ -53,7 +53,7 @@ ReadySet metrics are formatted for easy integration with [Prometheus](https://pr
     python3 metrics.py --host=${HOST}
     ```
 
-    You can filter the output of this script to show only queries displayed in [`SHOW PROXIED QUERIES`](../cache/cache-queries.md#check-query-support) or [`SHOW CACHES`](../cache/cache-queries.md#cache-queries_1) by passing the `--filter-queries` flag and piping the output of those ReadySet commands into the script like so:
+    You can filter the output of this script to show only queries displayed in [`SHOW PROXIED QUERIES`](../cache/cache-queries.md#check-query-support) or [`SHOW CACHES`](../cache/cache-queries.md#view-cached-queries) by passing the `--filter-queries` flag and piping the output of those ReadySet commands into the script like so:
 
     ``` sh
     PGPASSWORD=noria psql --host=127.0.0.1 --port=5433 --username=postgres --dbname=noria -c "SHOW CACHES" | python3 metrics.py --filter-queries
