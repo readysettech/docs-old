@@ -190,13 +190,15 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
 1. Cache the query in ReadySet:
 
     ``` sql
-    CREATE CACHE FROM -- (1)
+    CREATE CACHE FROM
     SELECT count(*) FROM title_ratings
     JOIN title_basics ON title_ratings.tconst = title_basics.tconst
     WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
     ```
 
-    1. To cache a query, you can provide either the full `SELECT` (as shown here) or the query ID listed in the `SHOW PROXIED QUERIES` output.
+    !!! tip 
+    
+        To cache a query, you can provide either the full `SELECT` (as shown here) or the query ID listed in the `SHOW PROXIED QUERIES` output.
 
     !!! note
 
