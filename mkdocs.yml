@@ -50,6 +50,7 @@ theme:
 
 # Page tree
 nav:
+  - Home: index.md
   - Guides:
     - Intro:
       - What is ReadySet?: guides/intro/intro.md
