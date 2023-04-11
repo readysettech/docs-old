@@ -108,6 +108,11 @@ h4, h5, h6 {
 :root > * {
   --md-primary-fg-color: var(--gray12);
   --md-accent-fg-color: var(--gray12);
+  --md-code-bg-color: var(--gray4);
+}
+
+.md-clipboard:after {
+  background-color:var(--gray11)
 }
 
 /* Don't show copy to clipboard icon in command output */
