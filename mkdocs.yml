@@ -27,7 +27,7 @@ theme:
     # Heading fonts defined in stylesheets/extra.css
     text: Roboto
     code: Roboto Mono
-  logo: assets/docslogo.svg
+  logo: assets/logo.svg
   favicon: assets/favicon.png
   icon:
     repo: fontawesome/brands/github
