@@ -1,13 +1,27 @@
 /* Font for headings  */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @font-face {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Inter", sans-serif;
+}
+html {
+  --gray1: hsl(0, 0%, 99.0%);
+  --gray2: hsl(0, 0%, 97.3%);
+  --gray3: hsl(0, 0%, 95.1%);
+  --gray4: hsl(0, 0%, 93.0%);
+  --gray5: hsl(0, 0%, 90.9%);
+  --gray6: hsl(0, 0%, 88.7%);
+  --gray7: hsl(0, 0%, 85.8%);
+  --gray8: hsl(0, 0%, 78.0%);
+  --gray9: hsl(0, 0%, 56.1%);
+  --gray10: hsl(0, 0%, 52.3%);
+  --gray11: hsl(0, 0%, 43.5%);
+  --gray12: hsl(0, 0%, 9.0%);
 }
 
 h1, h2, h3,
 h4, h5, h6 {
-  font-family: "Space Grotesk";
+  font-family: "Inter";
 }
 
 /* Override heading font in sidenav and page toc */
@@ -23,7 +37,8 @@ h4, h5, h6 {
 /* Top nav background and logo customizations */
 .md-header, .md-tabs {
   /* background: linear-gradient(44.99deg, #17AEFF 11.43%, #B263FE 43.27%, #F97ACE 85.89%); */
-  background: linear-gradient(44.99deg, #17AEFF, #B263FE , #F97ACE );
+  background: var(--gray1);
+  color: var(--gray12);
   /* background: linear-gradient(45deg, #17AEFF , #B263FE); */
   /* background: linear-gradient(44.99deg, #17AEFF 11.43%, #B263FE 33.27%, #263238 85.89%); */
   /* background: #17AEFF; */
@@ -31,28 +46,65 @@ h4, h5, h6 {
   /* background: #F97ACE; */
 }
 
+.md-tabs {
+  border-bottom: 1px solid var(--gray6);
+
+}
+[dir=ltr] .md-header__title {
+  margin-left:4px;
+}
+
+.md-main {
+  background: var(--gray2);
+}
+
 .md-header__button.md-logo {
   padding: 1px;
   margin: 1px;
 }
 
+.md-footer-meta, .md-footer-meta * {
+  background-color: var(--gray2);
+  color: var(--gray12);
+}
 .md-header__button.md-logo > :-webkit-any(img,svg) {
-  height: 2.5rem;
+  height: 1.875rem;
+  transform: translateY(2%);
+}
+
+.md-nav--secondary .md-nav__title, .md-nav--lifted>.md-nav__list>.md-nav__item--active>.md-nav__link {
+  background: transparent;
+  box-shadow: none;
 }
 
 .md-header__topic:first-child {
-  font-family: "Space Grotesk";
+  font-family: "Inter";
   font-weight: normal;
 }
 
+.md-search__form {
+  background-color: var(--gray3);
+  border: 1px solid var(--gray6);
+  border-radius: 6px;
+  color: var(--gray11);
+}
+.md-search__input+.md-search__icon, .md-search__input::placeholder, .md-search__options>.md-icon{
+  color: var(--gray11);
+
+}
+
 .md-ellipsis {
-  font-family: "Space Grotesk";
+  font-family: "Inter";
+}
+
+.md-nav__link {
+  color: var(--gray11);
 }
 
 /* Custom primary and secondary colors */
 :root > * {
-  --md-primary-fg-color: #17AEFF;
-  --md-accent-fg-color: #B263FE;
+  --md-primary-fg-color: var(--gray12);
+  --md-accent-fg-color: var(--gray12);
 }
 
 /* Don't show copy to clipboard icon in command output */
