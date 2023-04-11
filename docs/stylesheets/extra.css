@@ -24,6 +24,9 @@ h4, h5, h6 {
   font-family: "Inter";
 }
 
+.md-typeset h1 {
+  color: var(--gray12);
+}
 /* Override heading font in sidenav and page toc */
 .md-nav .md-ellipsis {
   font-family: "Roboto" !important;
