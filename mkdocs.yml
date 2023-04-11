@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 
-site_name: "ReadySet Docs"
+site_name: "Docs"
 repo_url: https://github.com/readysettech/docs
 repo_name: readysettech/docs
 edit_uri: edit/main/docs/
@@ -27,7 +27,7 @@ theme:
     # Heading fonts defined in stylesheets/extra.css
     text: Roboto
     code: Roboto Mono
-  logo: assets/White.svg
+  logo: assets/docslogo.svg
   favicon: assets/favicon.png
   icon:
     repo: fontawesome/brands/github
