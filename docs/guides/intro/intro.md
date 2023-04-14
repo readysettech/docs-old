@@ -30,7 +30,7 @@ ReadySet is a good fit for read-heavy applications that use MySQL or Postgres as
 
 ReadySet is particularly well-suited for the following cases:
 
-- **Reducing latency:** You want sub-millisecond query latency, but you don't want to maintain the custom application logic and infrastructure required by traditional caching solutions like Redis or Memcached.  
+- **Reducing latency:** You want sub-millisecond query latency, but you don't want to maintain the custom application logic and infrastructure required by traditional caching solutions like Redis or Memcached.
 - **Increasing throughput:** Your database load is too high, and you want to avoid the expense of scaling or provisioning read replicas and load balancing between them.
 
 ## How do you get started with ReadySet?
@@ -41,13 +41,13 @@ Integrating with ReadySet is straight-forward:
 2. Change your application's connection string to point at ReadySet.
 3. Cache queries using ReadySet's custom SQL commands.
 
-To run through this process on your local machine on in your browser, see the [Quickstart](quickstart.md) or [Playground](playground.md).  
+To run through this process on your local machine on in your browser, see the [Quickstart](quickstart.md) or [Playground](playground.md).
 
 To run through this process in a cloud deployment, see [Deploy with ReadySet Cloud](../deploy/deploy-readyset-cloud.md), [Deploy with Kubernetes](../deploy/deploy-readyset-kubernetes.md), or [Deploy with Binary](../deploy/deploy-readyset-binary.md).
 
 ## How do you connect to ReadySet?
 
-Once you have a ReadySet instance up and running, the next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. See [Connect an App](../connect/index.md) for examples.
+Once you have a ReadySet instance up and running, the next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. See [Connect an App](../connect/existing-app.md) for examples.
 
 ## When can you start caching queries?
 

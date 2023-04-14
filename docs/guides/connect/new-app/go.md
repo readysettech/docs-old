@@ -4,9 +4,9 @@ icon: material/language-go
 
 # Connect a Go App to ReadySet
 
-Once you have a ReadySet instance up and running, you connect your application to ReadySet exactly as you would to the upstream database. 
+Once you have a ReadySet instance up and running, you connect your application to ReadySet exactly as you would to the upstream database.
 
-This page gives you an example for the Go [pgx](https://github.com/jackc/pgx) driver. 
+This page gives you an example for the Go [pgx](https://github.com/jackc/pgx) driver.
 
 === "pgx"
 
@@ -16,15 +16,15 @@ This page gives you an example for the Go [pgx](https://github.com/jackc/pgx) dr
 
 1. Download our Docker Compose and sample data files and start up Postgres and ReadySet locally:
 
-    ``` sh
-    curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/{docker-compose-postgres.yml,imdb-postgres.sql}"
-    ```
+   ```sh
+   curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/{docker-compose-postgres.yml,imdb-postgres.sql}"
+   ```
 
-    ``` sh
-    docker-compose -f docker-compose-postgres.yml up -d
-    ```
+   ```sh
+   docker-compose -f docker-compose-postgres.yml up -d
+   ```
 
-    This also imports two tables from the [IMDb dataset](https://www.imdb.com/interfaces/) that you'll query from your app.
+   This also imports two tables from the [IMDb dataset](https://www.imdb.com/interfaces/) that you'll query from your app.
 
 ## Step 2. Get the code
 
@@ -32,7 +32,7 @@ This page gives you an example for the Go [pgx](https://github.com/jackc/pgx) dr
 
     1. Create a directory for the code and move into it:
 
-        ``` sh 
+        ``` sh
         mkdir readyset-pgx && cd readyset-pgx
         ```
 
@@ -72,14 +72,14 @@ This page gives you an example for the Go [pgx](https://github.com/jackc/pgx) dr
                 title string
                 rating float32
             )
-            rows, err := conn.Query(ctx, 
+            rows, err := conn.Query(ctx,
                 `SELECT title_basics.originaltitle, title_ratings.averagerating
                 FROM title_basics
                 JOIN title_ratings ON title_basics.tconst = title_ratings.tconst
                 WHERE title_basics.startyear = $1
                 AND title_basics.titletype = $2
                 AND title_ratings.numvotes > $3
-                ORDER BY title_ratings.averagerating DESC LIMIT 10`, 
+                ORDER BY title_ratings.averagerating DESC LIMIT 10`,
                 year, "movie", 50000)
             if err != nil {
                 log.Fatal(err)
@@ -105,7 +105,6 @@ This page gives you an example for the Go [pgx](https://github.com/jackc/pgx) dr
 
 === "pgx"
 
-
     Initialize the module:
 
     ``` sh
@@ -124,8 +123,8 @@ This page gives you an example for the Go [pgx](https://github.com/jackc/pgx) dr
 
         !!! note
 
-            ReadySet takes the same standard-format connection string as Postgres. 
-            
+            ReadySet takes the same standard-format connection string as Postgres.
+
             In this case, since both ReadySet and Postgres are running locally, only the port portion is different (`5433` for ReadySet, `5432` for Postgres).
 
     1. Run the code:
@@ -156,10 +155,10 @@ This page gives you an example for the Go [pgx](https://github.com/jackc/pgx) dr
 
 ## Next steps
 
-- [Cache queries](../cache/cache-queries.md)
+- [Cache queries](/cache/cache-queries.md)
 
-- [Review query support](../../reference/sql-support.md)
+- [Review query support](/reference/sql-support.md)
 
-- [Learn how ReadySet works under the hood](../../concepts/overview.md)
+- [Learn how ReadySet works under the hood](/concepts/overview.md)
 
-- [Deploy with ReadySet Cloud](../deploy/deploy-readyset-cloud.md)
+- [Deploy with ReadySet Cloud](/deploy/deploy-readyset-cloud.md)

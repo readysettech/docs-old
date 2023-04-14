@@ -317,7 +317,7 @@ On your call with ReadySet, you'll ensure replication is enabled. The steps are 
 
 ## Step 4. Cache queries
 
-1. Once you have the ReadySet connection string, update your app to connect to ReadySet instead of the upstream database. See [Connect an App](../connect/index.md) for client library and ORM examples.
+1. Once you have the ReadySet connection string, update your app to connect to ReadySet instead of the upstream database. See [Connect an App](../connect/existing-app.md) for client library and ORM examples.
 
     !!! note
 

@@ -4,7 +4,7 @@ icon: material/nodejs
 
 # Connect a Node.js App to ReadySet
 
-Once you have a ReadySet instance up and running, you connect your application to ReadySet exactly as you would to the upstream database. 
+Once you have a ReadySet instance up and running, you connect your application to ReadySet exactly as you would to the upstream database.
 
 This page gives you examples for a few common Postgres drivers and ORMS for Node.js.
 
@@ -18,15 +18,15 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
 
 1. Download our Docker Compose and sample data files and start up Postgres and ReadySet locally:
 
-    ``` sh
-    curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/{docker-compose-postgres.yml,imdb-postgres.sql}"
-    ```
+   ```sh
+   curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/{docker-compose-postgres.yml,imdb-postgres.sql}"
+   ```
 
-    ``` sh
-    docker-compose -f docker-compose-postgres.yml up -d
-    ```
+   ```sh
+   docker-compose -f docker-compose-postgres.yml up -d
+   ```
 
-    This also imports two tables from the [IMDb dataset](https://www.imdb.com/interfaces/) that you'll query from your app.
+   This also imports two tables from the [IMDb dataset](https://www.imdb.com/interfaces/) that you'll query from your app.
 
 ## Step 2. Get the code
 
@@ -34,7 +34,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
 
     1. Create a directory for the code and move into it:
 
-        ``` sh 
+        ``` sh
         mkdir readyset-node-postgres && cd readyset-node-postgres
         ```
 
@@ -48,7 +48,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
 
         === ":octicons-file-code-16: `app.js`"
 
-            ``` js 
+            ``` js
             const { Pool } = require('pg')
 
             const connectionString = process.env.DATABASE_URL;
@@ -58,7 +58,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
             });
 
             async function query(year) {
-                const text = 
+                const text =
                         `SELECT title_basics.originaltitle, title_ratings.averagerating
                         FROM title_basics
                         JOIN title_ratings ON title_basics.tconst = title_ratings.tconst
@@ -66,7 +66,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
                         AND title_basics.titletype = $2
                         AND title_ratings.numvotes > $3
                         ORDER BY title_ratings.averagerating DESC LIMIT 10`;
-                const values = [year, 'movie', 50000] 
+                const values = [year, 'movie', 50000]
 
                 await pool.query(text, values, (err, res) => {
                     if (err) {
@@ -99,7 +99,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
 
     1. Create a directory for the code and move into it:
 
-        ``` sh 
+        ``` sh
         mkdir readyset-sequelize && cd readyset-sequelize
         ```
 
@@ -124,13 +124,13 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
             startYear: {type: DataTypes.INTEGER},
             endYear: {type: DataTypes.INTEGER},
             runTimeMinutes: {type: DataTypes.INTEGER},
-            genres: {type: DataTypes.STRING} 
+            genres: {type: DataTypes.STRING}
         }, {tableName: 'title_basics'});
 
         const Rating = sequelize.define('Rating', {
             tconst: {type: DataTypes.STRING, primaryKey: true},
             averageRating: {type: DataTypes.FLOAT},
-            numVotes: {type: DataTypes.INTEGER}, 
+            numVotes: {type: DataTypes.INTEGER},
         }, {tableName: 'title_ratings'});
 
         async function query(year) {
@@ -160,7 +160,6 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
 
 === "node-postgres"
 
-
     Install the app requirements, including the [node-postgres](https://node-postgres.com/) driver:
 
     ``` sh
@@ -171,11 +170,11 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
 
     Install [Sequelize](https://sequelize.org/) and the [node-postgres](https://node-postgres.com/) driver:
 
-    ``` sh 
+    ``` sh
     npm install --save sequelize
     ```
 
-    ``` sh 
+    ``` sh
     npm install --save pg pg-hstore
     ```
 
@@ -191,8 +190,8 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
 
         !!! note
 
-            ReadySet takes the same standard-format connection string as Postgres. 
-            
+            ReadySet takes the same standard-format connection string as Postgres.
+
             In this case, since both ReadySet and Postgres are running locally, only the port portion is different (`5433` for ReadySet, `5432` for Postgres).
 
     1. Run the code:
@@ -216,7 +215,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
           { originaltitle: 'The Gods Must Be Crazy', averagerating: '7.3' },
           { originaltitle: 'Caddyshack', averagerating: '7.2' },
           { originaltitle: 'The Fog', averagerating: '6.8' }
-        ]        
+        ]
         ```
 
         !!! note
@@ -233,8 +232,8 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
 
         !!! note
 
-            ReadySet takes the same standard-format connection string as Postgres. 
-            
+            ReadySet takes the same standard-format connection string as Postgres.
+
             In this case, since both ReadySet and Postgres are running locally, only the port portion is different (`5433` for ReadySet, `5432` for Postgres).
 
     1. Run the code:
@@ -258,7 +257,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
           { originaltitle: 'The Gods Must Be Crazy', averagerating: '7.3' },
           { originaltitle: 'Caddyshack', averagerating: '7.2' },
           { originaltitle: 'The Fog', averagerating: '6.8' }
-        ]        
+        ]
         ```
 
         !!! note
@@ -267,10 +266,10 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
 
 ## Next steps
 
-- [Cache queries](../cache/cache-queries.md)
+- [Cache queries](/cache/cache-queries.md)
 
-- [Review query support](../../reference/sql-support.md)
+- [Review query support](/reference/sql-support.md)
 
-- [Learn how ReadySet works under the hood](../../concepts/overview.md)
+- [Learn how ReadySet works under the hood](/concepts/overview.md)
 
-- [Deploy with ReadySet Cloud](../deploy/deploy-readyset-cloud.md)
+- [Deploy with ReadySet Cloud](/deploy/deploy-readyset-cloud.md)
