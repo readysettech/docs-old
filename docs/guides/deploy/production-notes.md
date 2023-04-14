@@ -17,7 +17,6 @@ Depending on your workload and needs, these components can be deployed in variou
 
 - [Standard](#standard)
 - [Scale out](#scale-out)
-- [Multi-region](#multi-region)
 
 !!! tip
 
@@ -43,16 +42,6 @@ For even more throughput, you can run multiple Adapters, with a load balancer di
 
 ![Scale out](../../assets/deployment-pattern-scale-out.png)
 
-### Multi-region
-
-When your application is running across multiple regions, you can run a ReadySet Server and one or more Adapters in each region, with a load balancer in each region configured to redirect traffic to other regions when a region’s Server and/or Adapters are unhealthy or unavailable.
-
-!!! warning
-
-    This pattern has not been thoroughly tested by ReadySet. If you are interested in deploying ReadySet in a multi-region context, please [reach out](mailto:info@readyset.io) for guidance.
-
-![Multi-region](../../assets/deployment-pattern-multi-server.png)
-
 ## Hardware
 
 ReadySet is a memory-intensive application. Size your hardware to comfortably hold your working data in memory.
@@ -73,8 +62,8 @@ Configure your upstream database's network to allow ReadySet to connect, and con
 
 ReadySet is wire-compatible with MySQL and Postgres and has been tested against the following database versions:
 
-- Postgres 13 and 14
-- MySQL 8
+- Postgres 13 and above
+- MySQL 8 and above
 
 If you run ReadySet against another database version and experience problems, please [file an issue](https://github.com/readysettech/readyset/issues/new/choose).
 
