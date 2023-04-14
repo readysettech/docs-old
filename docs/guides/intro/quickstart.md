@@ -516,7 +516,7 @@ docker-compose -f docker-compose-postgres.yml down -v
 
 ## Next steps
 
-- [Connect an app](../connect/index.md)
+- [Connect an app](../connect/existing-app.md)
 
 - [Review query support](../../reference/sql-support.md)
 
