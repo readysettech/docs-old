@@ -6,6 +6,43 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 
     Beta versions of ReadySet are backward-incompatible. To upgrade between beta versions, you must therefore clear all data files. Rolling upgrades will be supported with future ReadySet major releases.
 
+## beta-2023-03-15
+
+### Downloads
+
+=== ":material-docker: Docker"
+
+    - ReadySet Server (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset-server:beta-2023-03-15
+        ```
+
+    - ReadySet Adapter (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset:beta-2023-03-15
+        ```
+
+=== ":material-source-repository: Source"
+
+    !!! note
+
+        This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development).
+
+    - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-03-15.zip)
+    - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-03-15.tar.gz)
+
+### Changes
+
+- Fixed PostgreSQL table/column quoting for `SHOW PROXIED QUERIES` to use double quotes instead of backticks.
+- Fixed quoting of table/column identifiers in PostgreSQL snapshotting.
+- Added support for the PostgreSQL functions `json_object` and `jsonb_object`.
+- Fixed a bug where we were not correctly handling netmasks in the Postgres INET type.
+- When upgrading to a new version of ReadySet with an incompatible format for user configuration, ReadySet will now automatically wipe out the cluster state, where previously manual intervention was required. Note that this does mean that upgrading to a new version of ReadySet can currently result in losing `CREATE CACHE` statements.
+- Added a new '--statement-logging' flag to enable logging statements received by ReadySet from the client, and via replication from the primary database. Logs are optionally written to the path provided by '--statement-log-path' or <deployment-name>_statements.log.
+- ReadySet now defaults to explicit query caching mode, rather than implicit
+- ReadySet will now automatically re-snapshot the snapshotted copy of base table state if necessary when upgrading to a new version.
+- ReadySet now automatically runs ALTER TABLE <table> REPLICA IDENTITY FULL on PostgreSQL tables that ReadySet is configured to replicate from, and which don't have primary keys or already-configured non-default replica identities. This avoids an issue where ReadySet replicating from these tables would cause PostgreSQL to return an error message for updates and deletes to these tables
+
 ## beta-2023-02-15
 
 ### Downloads
