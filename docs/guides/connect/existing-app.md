@@ -4,13 +4,13 @@ Once you have a ReadySet instance up and running, connecting your application to
 
 This usually involves changing your database connection string, either via an ORM setting or an environment variable.
 
-If you've followed the [ReadySet quick start]('../../intro/quickstart.md'), your connection string will be:
+If you've followed the [ReadySet quick start]('../../../intro/quickstart.md'), your connection string will be:
 
 ```sh
 postgres://postgres:readyset@127.0.0.1:5433/imdb
 ```
 
-If you've deployed the [ReadySet binary]('../../deploy/deploy-readyset-binary'), use the host, port, username and password you started the server with.
+If you've deployed the [ReadySet binary]('../../../deploy/deploy-readyset-binary'), use the host, port, username and password you started the server with.
 
 === "Prisma"
 
