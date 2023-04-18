@@ -266,10 +266,10 @@ This page gives you examples for a few common Postgres drivers and ORMS for Node
 
 ## Next steps
 
-- [Cache queries](/cache/cache-queries.md)
+- [Cache queries](/guides/cache/cache-queries)
 
-- [Review query support](/reference/sql-support.md)
+- [Review query support](/reference/sql-support)
 
-- [Learn how ReadySet works under the hood](/concepts/overview.md)
+- [Learn how ReadySet works under the hood](/concepts/overview)
 
-- [Deploy with ReadySet Cloud](/deploy/deploy-readyset-cloud.md)
+- [Deploy with ReadySet Cloud](/guides/deploy/deploy-readyset-cloud)
