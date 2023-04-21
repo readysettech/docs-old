@@ -18,6 +18,9 @@
   --gray10: hsl(0, 0%, 52.3%);
   --gray11: hsl(0, 0%, 43.5%);
   --gray12: hsl(0, 0%, 9.0%);
+  --link : hsl(208, 100%, 47.3%);
+  --link-hover: hsl(211, 100%, 43.2%);
+
 }
 
 [data-md-color-scheme="slate"] {
@@ -33,6 +36,9 @@
   --gray10: hsl(0, 0%, 49.4%);
   --gray11: hsl(0, 0%, 62.8%);
   --gray12: hsl(0, 0%, 93.0%);
+  --link: hsl(209, 100%, 60.6%);
+  --link-hover: hsl(210, 100%, 66.1%);
+
 }
 
 .md-header__button.md-logo > :-webkit-any(img,svg) {
@@ -44,6 +50,15 @@ h1, h2, h3,
 h4, h5, h6, p, label, th, td, ul, li{
   font-family: "Inter";
   color: var(--gray12);
+}
+
+
+.md-typeset a {
+  color: var(--link);
+}
+.md-typeset a:hover {
+  color: var(--link-hover);
+
 }
 
 .md-typeset h1{
