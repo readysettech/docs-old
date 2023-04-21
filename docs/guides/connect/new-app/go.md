@@ -155,10 +155,10 @@ This page gives you an example for the Go [pgx](https://github.com/jackc/pgx) dr
 
 ## Next steps
 
-- [Cache queries](../../../cache/cache-queries.md)
+- [Cache queries](../../cache/cache-queries.md)
 
 - [Review query support](../../../reference/sql-support.md)
 
 - [Learn how ReadySet works under the hood](../../../concepts/overview.md)
 
-- [Deploy with ReadySet Cloud](../../../deploy/deploy-readyset-cloud.md)
+- [Deploy with ReadySet Cloud](../../deploy/deploy-readyset-cloud.md)
