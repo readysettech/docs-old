@@ -4,7 +4,7 @@ icon: material/language-ruby
 
 # Connect a Ruby App to ReadySet
 
-Once you have a ReadySet instance up and running, you connect your application to ReadySet exactly as you would to the upstream database. 
+Once you have a ReadySet instance up and running, you connect your application to ReadySet exactly as you would to the upstream database.
 
 This page gives you examples for a few common Postgres drivers and ORMS for Ruby.
 
@@ -18,15 +18,15 @@ This page gives you examples for a few common Postgres drivers and ORMS for Ruby
 
 1. Download our Docker Compose and sample data files and start up Postgres and ReadySet locally:
 
-    ``` sh
-    curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/{docker-compose-postgres.yml,imdb-postgres.sql}"
-    ```
+   ```sh
+   curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/{docker-compose-postgres.yml,imdb-postgres.sql}"
+   ```
 
-    ``` sh
-    docker-compose -f docker-compose-postgres.yml up -d
-    ```
+   ```sh
+   docker-compose -f docker-compose-postgres.yml up -d
+   ```
 
-    This also imports two tables from the [IMDb dataset](https://www.imdb.com/interfaces/) that you'll query from your app.
+   This also imports two tables from the [IMDb dataset](https://www.imdb.com/interfaces/) that you'll query from your app.
 
 ## Step 2. Get the code
 
@@ -34,7 +34,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Ruby
 
     1. Create a directory for the code and move into it:
 
-        ``` sh 
+        ``` sh
         mkdir readyset-pgx && cd readyset-pgx
         ```
 
@@ -70,7 +70,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Ruby
 
                 res.each do |val|
                     puts val
-                end                   
+                end
             end
 
             def main()
@@ -86,7 +86,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Ruby
 
         === "`Gemfile`"
 
-            ``` ruby 
+            ``` ruby
             source "https://rubygems.org"
 
             gem "pg"
@@ -96,7 +96,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Ruby
 
     1. Create a directory for the code and move into it:
 
-        ``` sh 
+        ``` sh
         mkdir readyset-activerecord && cd readyset-activerecord
         ```
 
@@ -145,7 +145,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Ruby
 
         === "`Gemfile`"
 
-            ``` ruby 
+            ``` ruby
             source "https://rubygems.org"
 
             gem "pg"
@@ -220,8 +220,8 @@ This page gives you examples for a few common Postgres drivers and ORMS for Ruby
 
         !!! note
 
-            ReadySet takes the same standard-format connection string as Postgres. 
-            
+            ReadySet takes the same standard-format connection string as Postgres.
+
             In this case, since both ReadySet and Postgres are running locally, only the port portion is different (`5433` for ReadySet, `5432` for Postgres).
 
     1. Run the code:
@@ -261,8 +261,8 @@ This page gives you examples for a few common Postgres drivers and ORMS for Ruby
 
         !!! note
 
-            ReadySet takes the same standard-format connection string as Postgres. 
-            
+            ReadySet takes the same standard-format connection string as Postgres.
+
             In this case, since both ReadySet and Postgres are running locally, only the port portion is different (`5433` for ReadySet, `5432` for Postgres).
 
     1. Run the code:
@@ -293,10 +293,10 @@ This page gives you examples for a few common Postgres drivers and ORMS for Ruby
 
 ## Next steps
 
-- [Cache queries](../cache/cache-queries.md)
+- [Cache queries](/cache/cache-queries.md)
 
-- [Review query support](../../reference/sql-support.md)
+- [Review query support](/reference/sql-support.md)
 
-- [Learn how ReadySet works under the hood](../../concepts/overview.md)
+- [Learn how ReadySet works under the hood](/concepts/overview.md)
 
-- [Deploy with ReadySet Cloud](../deploy/deploy-readyset-cloud.md)
+- [Deploy with ReadySet Cloud](/deploy/deploy-readyset-cloud.md)
