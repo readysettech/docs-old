@@ -779,7 +779,7 @@ In this step, you'll check the status of the snapshotting process. Snapshotting 
 
 - Connect your app
 
-    The next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. See [Connect an App](../connect/index.md) for examples.
+    The next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. See [Connect an App](../connect/existing-app.md) for examples.
 
     !!! note
 

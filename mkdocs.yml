@@ -62,12 +62,13 @@ nav:
       - Deploy with ReadySet Cloud: guides/deploy/deploy-readyset-cloud.md
       - Deploy with Kubernetes: guides/deploy/deploy-readyset-kubernetes.md
       - Deploy with Binary: guides/deploy/deploy-readyset-binary.md
-    - Connect:
-      - guides/connect/index.md
-      - Node.js: guides/connect/nodejs.md
-      - Python: guides/connect/python.md
-      - Ruby: guides/connect/ruby.md
-      - Go: guides/connect/go.md
+    - Connect: 
+      - Connect an existing application: guides/connect/existing-app.md
+      - Install an ORM and connect a new application: 
+        - Node.js: guides/connect/new-app/nodejs.md
+        - Python: guides/connect/new-app/python.md
+        - Ruby: guides/connect/new-app/ruby.md
+        - Go: guides/connect/new-app/go.md
     - Cache:
       - Profile Queries: guides/cache/profile-queries.md
       - Check Snapshotting: guides/cache/check-snapshotting.md

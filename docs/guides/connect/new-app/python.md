@@ -4,7 +4,7 @@ icon: material/language-python
 
 # Connect a Python App to ReadySet
 
-Once you have a ReadySet instance up and running, you connect your application to ReadySet exactly as you would to the upstream database. 
+Once you have a ReadySet instance up and running, you connect your application to ReadySet exactly as you would to the upstream database.
 
 This page gives you examples for a few common Postgres drivers and ORMS for Python.
 
@@ -18,15 +18,15 @@ This page gives you examples for a few common Postgres drivers and ORMS for Pyth
 
 1. Download our Docker Compose and sample data files and start up Postgres and ReadySet locally:
 
-    ``` sh
-    curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/{docker-compose-postgres.yml,imdb-postgres.sql}"
-    ```
+   ```sh
+   curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/{docker-compose-postgres.yml,imdb-postgres.sql}"
+   ```
 
-    ``` sh
-    docker-compose -f docker-compose-postgres.yml up -d
-    ```
+   ```sh
+   docker-compose -f docker-compose-postgres.yml up -d
+   ```
 
-    This also imports two tables from the [IMDb dataset](https://www.imdb.com/interfaces/) that you'll query from your app.
+   This also imports two tables from the [IMDb dataset](https://www.imdb.com/interfaces/) that you'll query from your app.
 
 ## Step 2. Get the code
 
@@ -34,7 +34,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Pyth
 
     1. Create a directory for the code and move into it:
 
-        ``` sh 
+        ``` sh
         mkdir readyset-psycopg2 && cd readyset-psycopg2
         ```
 
@@ -127,7 +127,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Pyth
 
     1. Create a directory for the code and move into it:
 
-        ``` sh 
+        ``` sh
         mkdir readyset-sqlalchemy && cd readyset-sqlalchemy
         ```
 
@@ -141,7 +141,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Pyth
 
         === ":octicons-file-code-16: `main.py`"
 
-            ``` py 
+            ``` py
             import os
             import sqlalchemy as db
             from sqlalchemy.orm import declarative_base
@@ -186,7 +186,7 @@ This page gives you examples for a few common Postgres drivers and ORMS for Pyth
 
             print("Year:", year)
 
-            for r in result: 
+            for r in result:
                 print(r.originaltitle, "|", r.averagerating)
             ```
 
@@ -206,20 +206,20 @@ This page gives you examples for a few common Postgres drivers and ORMS for Pyth
         ``` sh
         pip install virtualenv
         ```
-    
+
     1. Create and activate a virtual environment:
 
         ``` sh
-        virtualenv env 
+        virtualenv env
         ```
 
         ``` sh
-        source env/bin/activate 
+        source env/bin/activate
         ```
-    
+
     1. Install the required modules to the virtual environment:
 
-        ``` sh 
+        ``` sh
         pip install -r requirements.txt
         ```
 
@@ -230,20 +230,20 @@ This page gives you examples for a few common Postgres drivers and ORMS for Pyth
         ``` sh
         pip install virtualenv
         ```
-    
+
     1. Create and activate a virtual environment:
 
         ``` sh
-        virtualenv env 
+        virtualenv env
         ```
 
         ``` sh
-        source env/bin/activate 
+        source env/bin/activate
         ```
-    
+
     1. Install the required modules to the virtual environment:
 
-        ``` sh 
+        ``` sh
         pip install -r requirements.txt
         ```
 
@@ -259,8 +259,8 @@ This page gives you examples for a few common Postgres drivers and ORMS for Pyth
 
         !!! note
 
-            ReadySet takes the same standard-format connection string as Postgres. 
-            
+            ReadySet takes the same standard-format connection string as Postgres.
+
             In this case, since both ReadySet and Postgres are running locally, only the port portion is different (`5433` for ReadySet, `5432` for Postgres).
 
     1. Run the code:
@@ -299,8 +299,8 @@ This page gives you examples for a few common Postgres drivers and ORMS for Pyth
 
         !!! note
 
-            ReadySet takes the same standard-format connection string as Postgres. 
-            
+            ReadySet takes the same standard-format connection string as Postgres.
+
             In this case, since both ReadySet and Postgres are running locally, only the port portion is different (`5433` for ReadySet, `5432` for Postgres).
 
     1. Run the code:
@@ -329,13 +329,12 @@ This page gives you examples for a few common Postgres drivers and ORMS for Pyth
 
             Since the query has not been cached in ReadySet, ReadySet proxies the query and returns the results from Postgres. After the query is cached, ReadySet returns the results directly and blazing fast!
 
-
 ## Next steps
 
-- [Cache queries](../cache/cache-queries.md)
+- [Cache queries](/cache/cache-queries.md)
 
-- [Review query support](../../reference/sql-support.md)
+- [Review query support](/reference/sql-support.md)
 
-- [Learn how ReadySet works under the hood](../../concepts/overview.md)
+- [Learn how ReadySet works under the hood](/concepts/overview.md)
 
-- [Deploy with ReadySet Cloud](../deploy/deploy-readyset-cloud.md)
+- [Deploy with ReadySet Cloud](/deploy/deploy-readyset-cloud.md)
