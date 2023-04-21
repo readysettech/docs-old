@@ -107,6 +107,11 @@ thead {
   display: none;
 }
 
+.md-typeset .md-button--primary {
+  border-radius: .385rem;
+  font-weight: 500;
+}
+
 /* Top nav background and logo customizations */
 .md-header, .md-tabs {
   /* background: linear-gradient(44.99deg, #17AEFF 11.43%, #B263FE 43.27%, #F97ACE 85.89%); */
@@ -217,6 +222,7 @@ thead {
 /* Custom primary and secondary colors */
 :root > * {
   --md-primary-fg-color: var(--gray12);
+  --md-primary-bg-color: var(--gray1);
   --md-accent-fg-color: var(--gray12);
   
   --md-code-bg-color-light: var(--gray2);
