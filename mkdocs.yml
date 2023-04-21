@@ -25,11 +25,12 @@ theme:
   font:
     # Fonts for everything but headings
     # Heading fonts defined in stylesheets/extra.css
-    text: Roboto
+    text: Inter
     code: Roboto Mono
-  logo: assets/logo.svg
   favicon: assets/favicon.png
+  custom_dir: docs/overrides
   icon:
+    logo: main/logo
     repo: fontawesome/brands/github
     admonition:
       note: fontawesome/solid/note-sticky
@@ -129,6 +130,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_generator: !!python/name:materialx.emoji.to_svg
       emoji_index: !!python/name:materialx.emoji.twemoji
+      options:
+        custom_icons:
+          - overrides/.icons
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
