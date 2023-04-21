@@ -142,14 +142,28 @@ thead {
 }
 
 .md-search__form {
-  background-color: var(--gray3);
+  background-color: var(--gray1);
   border: 1px solid var(--gray6);
   border-radius: 6px;
   color: var(--gray11);
 }
 .md-search__input+.md-search__icon, .md-search__input::placeholder, .md-search__options>.md-icon{
   color: var(--gray11);
+  font-size: 16px;
+}
 
+[dir=ltr] .md-search__input {
+  padding-left: 12px;
+  font-size: 16px;
+}
+
+[dir=rtl] .md-search__input {
+  padding-right: 8px;
+  font-size: 16px;
+}
+
+.md-search__icon{
+  display: none;
 }
 
 .md-ellipsis {
