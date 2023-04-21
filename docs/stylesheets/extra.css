@@ -21,7 +21,7 @@ html {
 }
 
 h1, h2, h3,
-h4, h5, h6, p, label, th, td, a, ul, li{
+h4, h5, h6, p, label, th, td, ul, li{
   font-family: "Inter";
   color: var(--gray12);
 }
@@ -109,7 +109,12 @@ thead {
 }
 
 .md-nav__link{
-  color: var(--gray11)
+  color: var(--gray11);
+}
+
+.md-nav--lifted>.md-nav__list>.md-nav__item--active>.md-nav__link {
+  font-weight: 400;
+  color: var(--gray11);
 }
 
 .md-nav__link--active {
