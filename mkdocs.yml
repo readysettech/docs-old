@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 
-site_name: "ReadySet Docs"
+site_name: "Docs"
 repo_url: https://github.com/readysettech/docs
 repo_name: readysettech/docs
 edit_uri: edit/main/docs/
@@ -25,11 +25,12 @@ theme:
   font:
     # Fonts for everything but headings
     # Heading fonts defined in stylesheets/extra.css
-    text: Roboto
+    text: Inter
     code: Roboto Mono
-  logo: assets/White.svg
   favicon: assets/favicon.png
+  custom_dir: docs/overrides
   icon:
+    logo: main/logo
     repo: fontawesome/brands/github
     admonition:
       note: fontawesome/solid/note-sticky
@@ -130,6 +131,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_generator: !!python/name:materialx.emoji.to_svg
       emoji_index: !!python/name:materialx.emoji.twemoji
+      options:
+        custom_icons:
+          - overrides/.icons
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
