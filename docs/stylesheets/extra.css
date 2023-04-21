@@ -5,7 +5,7 @@
   font-family: "Inter", sans-serif;
 }
 html {
-  --gray1: hsl(0, 0%, 99.0%);
+  --gray1: hsl(0, 0%, 100%);
   --gray2: hsl(0, 0%, 97.3%);
   --gray3: hsl(0, 0%, 95.1%);
   --gray4: hsl(0, 0%, 93.0%);
@@ -17,13 +17,48 @@ html {
   --gray10: hsl(0, 0%, 52.3%);
   --gray11: hsl(0, 0%, 43.5%);
   --gray12: hsl(0, 0%, 9.0%);
+  
 }
 
 h1, h2, h3,
-h4, h5, h6 {
+h4, h5, h6, p, label, th, td, a, ul, li{
   font-family: "Inter";
+  color: var(--gray12);
 }
 
+.md-typeset h1{
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.md-typeset h2{
+  font-size: 22px;
+  font-weight: 500;
+
+}
+
+.md-typeset h3{
+  font-size: 18px;
+  font-weight: 500;
+
+}
+
+.md-typeset p, li, span, label{
+  font-size: 16px;
+}
+
+.md-typeset .admonition, .md-typeset details {
+  border-radius: .385rem;
+}
+
+.md-typeset table:not([class]), .md-typeset table:not([class]) p {
+  border-radius: .385rem;
+  font-size: 14px;
+}
+
+thead {
+  background: var(--gray2)
+}
 .md-typeset h1 {
   color: var(--gray12);
 }
@@ -49,16 +84,19 @@ h4, h5, h6 {
   /* background: #F97ACE; */
 }
 
-.md-tabs {
-  border-bottom: 1px solid var(--gray6);
+.md-tabs__link {
+  font-size: 16px;
+}
 
+.md-tabs {
+  border-bottom: 1px solid var(--gray5);
 }
 [dir=ltr] .md-header__title {
   margin-left:4px;
 }
 
 .md-main {
-  background: var(--gray2);
+  background: var(--gray1);
 }
 
 .md-header__button.md-logo {
@@ -66,10 +104,28 @@ h4, h5, h6 {
   margin: 1px;
 }
 
+.md-nav__title {
+  display: none;
+}
+
+.md-nav__link{
+  color: var(--gray11)
+}
+
+.md-nav__link--active {
+  color: var(--gray12)
+}
+
 .md-footer-meta, .md-footer-meta * {
-  background-color: var(--gray2);
+  background-color: var(--gray1);
   color: var(--gray12);
 }
+
+.md-footer {
+  border-top: 1px solid var(--gray5);
+
+}
+
 .md-header__button.md-logo > :-webkit-any(img,svg) {
   height: 1.875rem;
   transform: translateY(2%);
@@ -108,7 +164,13 @@ h4, h5, h6 {
 :root > * {
   --md-primary-fg-color: var(--gray12);
   --md-accent-fg-color: var(--gray12);
-  --md-code-bg-color: var(--gray4);
+  --md-code-bg-color: var(--gray2);
+}
+
+.md-typeset code {
+  border-radius: .385rem;
+  border: 1px solid var(--gray5);
+  font-size: 14px;
 }
 
 .md-clipboard:after {
