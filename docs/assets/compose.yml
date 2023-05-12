@@ -1,7 +1,6 @@
 name: readyset
 services:
   readyset:
-    container_name: readyset
     image: "public.ecr.aws/readyset/readyset:latest"
     platform: linux/amd64
     expose:
@@ -25,25 +24,21 @@ services:
     volumes:
       - "readyset:/state"
   prometheus:
-    container_name: prometheus
     image: "public.ecr.aws/readyset/readyset-prometheus:latest"
     healthcheck:
       test: ["CMD", "nc", "-vz", "localhost", "9090"]
       interval: 10s
       timeout: 2s
       retries: 5
-      start_period: 5s
     expose:
       - 9090
     volumes:
       - "prometheus:/prometheus"
   pushgateway:
-    container_name: pushgateway
     image: prom/pushgateway
     expose:
       - 9091
   grafana:
-    container_name: grafana
     image: "public.ecr.aws/readyset/readyset-grafana:latest"
     ports:
       - ${RS_GRAFANA_PORT:-4000}:${RS_GRAFANA_PORT:-4000}
