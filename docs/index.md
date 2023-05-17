@@ -66,7 +66,7 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
 </div>
 <div class="row">
   <div class="column">
-    <a href="guides/connect/"><h4>Connect an App</h4></a>
+    <a href="guides/connect/existing-app/"><h4>Connect an App</h4></a>
     <p>Connect your application by swapping out your database connection string</p>
   </div>
   <div class="column">
