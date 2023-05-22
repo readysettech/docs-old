@@ -1,4 +1,4 @@
-name: readyset-mysql
+name: readyset-postgres
 services:
   readyset:
     image: public.ecr.aws/readyset/readyset:latest
@@ -19,23 +19,23 @@ services:
       STANDALONE: true
       DEPLOYMENT: docker_compose_deployment
       LISTEN_ADDRESS: 0.0.0.0:${RS_PORT:-3307}
-      UPSTREAM_DB_URL: mysql://root:readyset@mysql/testdb
+      UPSTREAM_DB_URL: postgresql://postgres:readyset@postgres/testdb
       CONTROLLER_ADDRESS: 0.0.0.0
     volumes:
       - "readyset:/state"
     healthcheck:
-      test: "mysqladmin ping -h127.0.0.1 -P3307 -uroot -preadyset"
+      test: "pg_isready -h127.0.0.1 -p5433"
       interval: 5s
       timeout: 2s
-      retries: 5
+      retries: 2
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
   prometheus:
     image: public.ecr.aws/readyset/readyset-prometheus:latest
     healthcheck:
       test: ["CMD", "nc", "-vz", "localhost", "9090"]
-      interval: 10s
+      interval: 5s
       timeout: 2s
       retries: 5
     expose:
@@ -51,24 +51,29 @@ services:
     ports:
       - ${RS_GRAFANA_PORT:-4000}:${RS_GRAFANA_PORT:-4000}
     environment:
-      RS_UPSTREAM_DB_URL: mysql://root:readyset@mysql/testdb
+      RS_UPSTREAM_DB_URL: postgresql://postgres:readyset@postgres/testdb
       RS_PORT: ${RS_PORT:-3307}
       RS_GRAFANA_PORT: ${RS_GRAFANA_PORT:-4000}
-  mysql:
-    image: mysql:8
+  postgres:
+    image: postgres:14
     environment:
-      - MYSQL_ROOT_PASSWORD=readyset
-      - MYSQL_DATABASE=testdb
+      - POSTGRES_PASSWORD=readyset
+      - POSTGRES_DB=testdb
     expose:
-      - 3306
+      - 5432
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
     healthcheck:
-      test: "mysqladmin ping -h127.0.0.1 -P3306 -uroot -preadyset"
+      test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 5s
-      timeout: 2s
+      timeout: 5s
       retries: 5
     volumes:
-      - mysql:/var/lib/mysql
+      - postgres:/var/lib/postgresql/data
+      - ./imdb-postgres.sql:/docker-entrypoint-initdb.d/imdb-postgres.sql
 volumes:
-  mysql: ~
+  postgres: ~
   prometheus: ~
   readyset: ~
