@@ -2,8 +2,6 @@
 
 This page provides recommendations for production deployments of ReadySet.
 
-These recommendations apply to both self-managed deployments of ReadySet Core, and ReadySet-managed deployments on ReadySet Cloud. However, on [ReadySet Cloud](deploy-readyset-cloud.md), ReadySet takes care of all hardware and infrastructure setup and management for you.
-
 ## Deployment patterns
 
 A ReadySet deployment sits between your application and database and contains the following core components:
@@ -73,7 +71,7 @@ The upstream database must be configured to allow ReadySet to connect to the dat
 
 !!! tip
 
-    For step-by-step database configuration guidance, see [Deploy with ReadySet Cloud](deploy-readyset-cloud.md) or [Deploy with Kubernetes](deploy-readyset-kubernetes.md).
+    For step-by-step database configuration guidance, see [Deploy with Kubernetes](deploy-readyset-kubernetes.md).
 
 ### Amazon RDS for Postgres
 

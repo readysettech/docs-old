@@ -59,7 +59,6 @@ nav:
       - Playground: guides/intro/playground.md
     - Deploy:
       - Production Notes: guides/deploy/production-notes.md
-      - Deploy with ReadySet Cloud: guides/deploy/deploy-readyset-cloud.md
       - Deploy with Kubernetes: guides/deploy/deploy-readyset-kubernetes.md
       - Deploy with Binary: guides/deploy/deploy-readyset-binary.md
     - Connect: 

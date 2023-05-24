@@ -522,4 +522,4 @@ docker-compose -f docker-compose-postgres.yml down -v
 
 - [Learn how ReadySet works under the hood](../../concepts/overview.md)
 
-- [Deploy with ReadySet Cloud](../deploy/deploy-readyset-cloud.md)
+- [Deploy the ReadySet Binary](../deploy/deploy-readyset-binary.md)

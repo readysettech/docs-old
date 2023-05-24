@@ -43,7 +43,7 @@ Integrating with ReadySet is straight-forward:
 
 To run through this process on your local machine on in your browser, see the [Quickstart](quickstart.md) or [Playground](playground.md).
 
-To run through this process in a cloud deployment, see [Deploy with ReadySet Cloud](../deploy/deploy-readyset-cloud.md), [Deploy with Kubernetes](../deploy/deploy-readyset-kubernetes.md), or [Deploy with Binary](../deploy/deploy-readyset-binary.md).
+To run through this process on a server, see [Deploy with binary](../deploy/deploy-readyset-binary.md) or [Deploy with Kubernetes](../deploy/deploy-readyset-kubernetes.md).
 
 ## How do you connect to ReadySet?
 

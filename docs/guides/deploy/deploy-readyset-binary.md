@@ -2,10 +2,6 @@
 
 This page shows you how to manually deploy ReadySet on Amazon EC2 in front of a Supabase, Amazon RDS Postgres, or Amazon RDS MySQL database.
 
-!!! tip
-
-    If you don't want to run and manage ReadySet yourself, get a fully-managed deployment on [ReadySet Cloud](deploy-readyset-cloud.md).
-
 ## Before you begin
 
 === "Supabase Postgres"

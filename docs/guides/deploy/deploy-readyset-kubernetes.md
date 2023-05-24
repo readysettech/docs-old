@@ -2,10 +2,6 @@
 
 This page shows you how to run ReadySet with Kubernetes on [Amazon EKS](https://aws.amazon.com/eks/) in front of an Amazon RDS Postgres or MySQL database.
 
-!!! tip
-
-    If you don't want to run and manage ReadySet yourself, get a fully-managed deployment on [ReadySet Cloud](deploy-readyset-cloud.md).
-
 ## Before you begin
 
 === "RDS Postgres"
