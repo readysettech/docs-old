@@ -21,6 +21,13 @@ ReadySet is a lightweight SQL caching engine that sits between your application 
   border-radius: 6px;
 }
 
+/* Responsive layout - makes the columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .row {
+    flex-wrap: wrap;
+  }
+}
+
 .column:hover {
   border: 1px solid var(--gray8);
   transition: all 150ms ease-out; 
