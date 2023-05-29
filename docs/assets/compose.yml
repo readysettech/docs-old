@@ -23,6 +23,8 @@ services:
       CONTROLLER_ADDRESS: 0.0.0.0
     volumes:
       - "readyset:/state"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   prometheus:
     image: "public.ecr.aws/readyset/readyset-prometheus:latest"
     healthcheck:
