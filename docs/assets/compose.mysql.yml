@@ -26,8 +26,8 @@ services:
     healthcheck:
       test: "mysqladmin ping -h127.0.0.1 -P3307 -uroot -preadyset"
       interval: 5s
-      timeout: 2s
-      retries: 5
+      timeout: 5s
+      retries: 12
     depends_on:
       mysql:
         condition: service_healthy
@@ -35,9 +35,9 @@ services:
     image: public.ecr.aws/readyset/readyset-prometheus:latest
     healthcheck:
       test: ["CMD", "nc", "-vz", "localhost", "9090"]
-      interval: 10s
-      timeout: 2s
-      retries: 5
+      interval: 5s
+      timeout: 5s
+      retries: 12
     expose:
       - 9090
     volumes:
@@ -64,8 +64,8 @@ services:
     healthcheck:
       test: "mysqladmin ping -h127.0.0.1 -P3306 -uroot -preadyset"
       interval: 5s
-      timeout: 2s
-      retries: 5
+      timeout: 5s
+      retries: 12
     volumes:
       - mysql:/var/lib/mysql
 volumes:

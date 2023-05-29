@@ -35,9 +35,9 @@ services:
     image: "public.ecr.aws/readyset/readyset-prometheus:latest"
     healthcheck:
       test: ["CMD", "nc", "-vz", "localhost", "9090"]
-      interval: 10s
-      timeout: 2s
-      retries: 5
+      interval: 5s
+      timeout: 5s
+      retries: 12
     expose:
       - 9090
     volumes:
