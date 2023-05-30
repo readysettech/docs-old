@@ -25,6 +25,12 @@ services:
       - "readyset:/state"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: [ "CMD", "curl", "--fail", "127.0.0.1:6033/health" ]
+      interval: 2s
+      timeout: 1s
+      retries: 5
+      start_period: 5s
   prometheus:
     image: "public.ecr.aws/readyset/readyset-prometheus:latest"
     healthcheck:

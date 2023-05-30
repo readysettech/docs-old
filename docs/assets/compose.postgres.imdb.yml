@@ -24,10 +24,11 @@ services:
     volumes:
       - "readyset:/state"
     healthcheck:
-      test: "pg_isready -h127.0.0.1 -p5433"
-      interval: 5s
-      timeout: 2s
-      retries: 2
+      test: [ "CMD", "curl", "--fail", "127.0.0.1:6033/health" ]
+      interval: 2s
+      timeout: 1s
+      retries: 5
+      start_period: 5s
     depends_on:
       postgres:
         condition: service_healthy
