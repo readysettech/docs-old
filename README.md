@@ -12,7 +12,7 @@ Want to contribute to the docs? See [CONTRIBUTING](CONTRIBUTING.md) for details 
 
 ## Join the Community
 
-For questions or support, join us on the [ReadySet Community Discord](https://discord.gg/readyset), post questions on our [Github forum](https://github.com/readysettech/readyset/discussions), or schedule an [office hours chat](https://calendly.com/d/d5n-y44-mbg/office-hours-with-ready-set) with our team.
+For questions or support, join us on the [ReadySet Community Discord](https://discord.gg/readyset), post questions on our [GitHub forum](https://github.com/readysettech/readyset/discussions), or schedule an [office hours chat](https://calendly.com/d/d5n-y44-mbg/office-hours-with-ready-set) with our team.
 
 Everyone is welcome!
 

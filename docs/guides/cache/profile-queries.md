@@ -16,14 +16,14 @@ If you already have performance monitoring in place, use that tooling to identif
     SELECT calls, query FROM pg_stat_statements LIMIT 1;
     ```
 
-    If an error is returned, enable pg_stat_statments with the following command
+    If an error is returned, enable `pg_stat_statments` with the following command
 
     ```sh
     CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
     ```
     !!! warning
 
-        In some environments, the pg_stat_statements extension may not be available.  In that case, run `ALTER SYSTEM SET shared_preload_libraries = 'pg_stat_statements';` and restart your Postgres instance before re-running the `CREATE EXTENSION` command.
+        In some environments, the `pg_stat_statements` extension may not be available.  In that case, run `ALTER SYSTEM SET shared_preload_libraries = 'pg_stat_statements';` and restart your Postgres instance before re-running the `CREATE EXTENSION` command.
 
 === "Using ReadySet metrics"
 

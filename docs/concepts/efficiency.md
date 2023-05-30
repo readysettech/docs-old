@@ -1,5 +1,5 @@
-
 # Memory Efficiency
+
 In the first section, we discussed the **stateful, streaming dataflow** model and how to use it to
 maintain cached state in real time. In this model, both reader and internal nodes of the graph store result sets.
 Without care, this could lead to an impractical memory footprint.
@@ -14,7 +14,7 @@ What does this look like in practice? Let's come back to the query in the prior 
 SELECT id, author, title, url, vcount
 FROM stories
 JOIN (SELECT story_id, COUNT(*) AS vcount
-            FROM votes GROUP BY story_id)  
+            FROM votes GROUP BY story_id)
 AS VoteCount
 ON VoteCount.story_id = stories.id WHERE stories.id = ?;
 ```
@@ -29,7 +29,6 @@ With partial materialization, ReadySet can compute the query results for specifi
 After this initial computation, ReadySet will keep those results up-to-date based on writes to the primary database.
 For example, after the info for story `42` has been cached, if any users upvote that story, then ReadySet will
 increment the cached vote count for story `42` by `1` to reflect this data change.
-
 
 When ReadySet is initially deployed, the cache starts off cold and the dataflow graph is entirely empty. During the initial cache warming phase,
 most queries will be ones that ReadySet has never seen before (i.e., cache misses) so ReadySet will have to compute their

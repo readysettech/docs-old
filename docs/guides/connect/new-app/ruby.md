@@ -300,4 +300,3 @@ This page gives you examples for a few common Postgres drivers and ORMS for Ruby
 - [Learn how ReadySet works under the hood](/concepts/overview.md)
 
 - [Deploy with the ReadySet binary](/deploy/deploy-readyset-binary.md)
-

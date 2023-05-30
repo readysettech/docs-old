@@ -1,10 +1,12 @@
 # ReadySet Concepts
+
 The heart of ReadySet is a query engine based on **partially-stateful, streaming dataflow**.
 
 What's that? Let's break it down. First, we'll take a look at the basics of **stateful, streaming dataflow**, then
 in a later section we'll consider how to improve memory overhead using **partial state**.
 
 ## Streaming dataflow
+
 The basic premise of [streaming dataflow](https://en.wikipedia.org/wiki/Stream_processing) is that a **series
 of operations** is applied to each element of a **stream** (a given sequence of data).
 
@@ -33,6 +35,7 @@ cache the final query results, and all non-leaf nodes effectively cache intermed
 ![High Level](../assets/high-level-graph.png)
 
 ## Putting it all together
+
 As writes are applied to your database, the resulting data changes are immediately replicated to ReadySet. ReadySet incrementally
 updates its cached query results to reflect these changes, thus replacing any hand-written cache eviction logic. When using ReadySet,
 you just write traditional SQL queries, and ReadySet will keep the results up-to-date for you.

@@ -1,7 +1,9 @@
 # Example: News Forum
+
 To illustrate these concepts, we will walk through an example of using ReadySet for a news forum application inspired by HackerNews.
 
 ## Schema
+
 First we define two tables to keep track of HackerNews stories and votes.
 
 ```sql
@@ -15,13 +17,13 @@ CREATE TABLE votes (user int, story_id int);
 ## Query
 
 Next, we'll write a query that computes the vote count for each story and joins the
-vote counts with other story metadata such as the author, title, and ID.  
+vote counts with other story metadata such as the author, title, and ID.
 
 ```sql
 SELECT id, author, title, url, vcount
 FROM stories
 JOIN (SELECT story_id, COUNT(*) AS vcount
-            FROM votes GROUP BY story_id)  
+            FROM votes GROUP BY story_id)
 AS VoteCount
 ON VoteCount.story_id = stories.id WHERE stories.id = ?;
 ```

@@ -199,7 +199,7 @@ ReadySet supports the UTF-8 character set for strings and compares strings case-
 
 ### Writes
 
-All `INSERT`, `UPDATE`, and `DELETE` statements sent to ReadySet are proxied to the upstream database. ReadySet receives new/changed data via the database's replication stream and updates its snapshot and cache automatically.  
+All `INSERT`, `UPDATE`, and `DELETE` statements sent to ReadySet are proxied to the upstream database. ReadySet receives new/changed data via the database's replication stream and updates its snapshot and cache automatically.
 
 ### Schema changes
 
@@ -304,7 +304,7 @@ But the following queries are not supported:
 SELECT * FROM t1
   JOIN t2 ON t1.x = t1.y;
 ```
-```  sql  
+```  sql
 -- This query doesn't compare using equality
 SELECT * FROM t1
   JOIN t2 ON t1.x > t2.x;
@@ -403,13 +403,13 @@ ReadySet supports the following components of the SQL expression language:
     - `JSONB_SET_LAX()`
     - `JSONB_STRIP_NULLS()`
     - `JSONB_TYPEOF()`
-    - `LEAST()`    
+    - `LEAST()`
     - `MONTH()`
     - `ROUND()`
     - `SPLIT_PART()`
     - `SUBSTR()` and `SUBSTRING()`
     - `TIMEDIFF()`
-- Aggregate functions (see [Aggregations](#aggregations))  
+- Aggregate functions (see [Aggregations](#aggregations))
 
 ReadySet does not support the following components of the SQL expression language (this is not an exhaustive list):
 
