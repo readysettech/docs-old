@@ -92,7 +92,7 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
   - Properly mark PostgreSQL partitioned tables as unsupported. [2abffe13](https://github.com/readysettech/readyset/commit/2abffe13)
   - Fix handling of a partial replay where a source node has been dropped.
     [94be3fcb](https://github.com/readysettech/readyset/commit/94be3fcb)
-  - Properly handle creating tables with FKs. [f10319eb](https://github.com/readysettech/readyset/commit/f10319eb)
+  - Properly support creating tables with FKs. [f10319eb](https://github.com/readysettech/readyset/commit/f10319eb)
   - Properly handle replication offsets for uninitialized base tables. [582b68fb](https://github.com/readysettech/readyset/commit/582b68fb)
 
 ## beta-2023-02-15
