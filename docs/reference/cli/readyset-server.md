@@ -41,7 +41,7 @@ The IP address/hostname and port that the ReadySet Server listens on.
 <div class="option-details" markdown="1">
 The external authority for a distributed ReadySet deployment. The authority handles node discovery, leader election, and consensus and manages internal state and metrics.
 
-**Possible values:** `"consul"`, `"zookeeper"` (deprecated)
+**Possible values:** `"consul"`
 
 **Default:** `"consul"`
 

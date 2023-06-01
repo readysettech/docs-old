@@ -48,7 +48,7 @@ The external authority for a distributed ReadySet deployment. The authority hand
 
 This option is ignored when `--standalone` is passed. In that case, the ReadySet Server and Adapter are run as a single process, and no external authority is required.
 
-**Possible values:** `"consul"`, `"zookeeper"` (deprecated)
+**Possible values:** `"consul"`
 
 **Default:** `"consul"`
 
