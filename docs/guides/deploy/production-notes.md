@@ -79,7 +79,7 @@ The upstream database must be configured to allow ReadySet to connect to the dat
 
     ReadySet uses Postgres' logical replication feature to keep the cache up-to-date as the underlying database changes.
 
-- ReadySet must be connected to the primary database instance. ReadySet cannot work off an RDS [read replica](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html).  
+- ReadySet must be connected to the primary database instance. ReadySet cannot work off an RDS [read replica](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html).
 
 - ReadySet does not support [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html). Make sure any RLS policies are disabled.
 
@@ -93,11 +93,11 @@ The upstream database must be configured to allow ReadySet to connect to the dat
 
 - The [binary logging format](https://dev.mysql.com/doc/refman/5.7/en/binary-log-setting.html) must be set to `ROW`.
 
-- ReadySet must be connected to the primary database instance. ReadySet cannot work off a [read replica](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html).  
+- ReadySet must be connected to the primary database instance. ReadySet cannot work off a [read replica](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html).
 
 ### Supabase
 
-- In Supabase, [replication](https://www.postgresql.org/docs/current/logical-replication.html) is already enabled. However, you must change the `postgres` user's permissions to `SUPERUSER` so that ReadySet can create a replication slot.  
+- In Supabase, [replication](https://www.postgresql.org/docs/current/logical-replication.html) is already enabled. However, you must change the `postgres` user's permissions to `SUPERUSER` so that ReadySet can create a replication slot.
 
 - ReadySet does not support [row-level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html). Make sure any RLS policies are disabled.
 

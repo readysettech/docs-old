@@ -34,7 +34,7 @@ In this step, you'll use Docker Compose to start Postgres, load some sample data
     Compose then does the following:
 
     - Starts Postgres in a container called `db` and imports two tables from the [IMDb dataset](https://www.imdb.com/interfaces/).
-    - Starts ReadySet in a container called `cache`. For details about the CLI options used to start ReadySet, see the [CLI reference docs](../../reference/cli/readyset.md).   
+    - Starts ReadySet in a container called `cache`. For details about the CLI options used to start ReadySet, see the [CLI reference docs](../../reference/cli/readyset.md).
     - Creates a container called `app` for running a sample Python app against ReadySet.
 
 ## Step 2. Check snapshotting
@@ -101,7 +101,7 @@ Snapshotting can take between a few minutes to several hours, depending on the s
 
 ## Step 3. Cache queries
 
-With snapshotting finished, ReadySet is ready for caching, so in this step, you'll get to know the dataset, run some queries, check if ReadySet supports them, and then cache them.   
+With snapshotting finished, ReadySet is ready for caching, so in this step, you'll get to know the dataset, run some queries, check if ReadySet supports them, and then cache them.
 
 1. If necessary, reconnect the `psql` shell to ReadySet:
 
@@ -146,7 +146,7 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
        tconst   | averagerating | numvotes
      -----------+---------------+----------
       tt0093779 |           8.0 |   427192
-     (1 row)    
+     (1 row)
     ```
 
 1. Run a query that joins results from `title_ratings` and `title_basics` to count how many titles released in 2000 have an average rating higher than 5:
@@ -196,8 +196,8 @@ With snapshotting finished, ReadySet is ready for caching, so in this step, you'
     WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
     ```
 
-    !!! tip 
-    
+    !!! tip
+
         To cache a query, you can provide either the full `SELECT` (as shown here) or the query ID listed in the `SHOW PROXIED QUERIES` output.
 
     !!! note

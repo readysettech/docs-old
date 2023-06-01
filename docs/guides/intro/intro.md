@@ -47,7 +47,7 @@ To run through this process on a server, see [Deploy with binary](../deploy/depl
 
 ## How do you connect to ReadySet?
 
-Once you have a ReadySet instance up and running, the next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this vary by database client library, ORM, and programming language. See [Connect an App](../connect/existing-app.md) for examples.
+Once you have a ReadySet instance up and running, the next step is to connect your application by swapping out your database connection string to point to ReadySet instead. The specifics of how to do this varies by database client library, ORM, and programming language. See [Connect an App](../connect/existing-app.md) for examples.
 
 ## When can you start caching queries?
 
@@ -69,4 +69,4 @@ To view a list of queries that are cached in ReadySet, connect a database SQL sh
 
 ## How do you stop caching a query?
 
-To stop caching a query in ReadySet, connect a database SQL shell and run the the custom [`DROP CACHE`](../cache/cache-queries.md#remove-cached-queries) SQL command.
+To stop caching a query in ReadySet, connect a database SQL shell and run the custom [`DROP CACHE`](../cache/cache-queries.md#remove-cached-queries) SQL command.
