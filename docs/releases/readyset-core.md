@@ -34,7 +34,8 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 ### Changes
 
 #### What's New
-  - Revamped our helm chart. [[a51ac40](https://github.com/readysettech/readyset/commit/a51ac40), [b739acb1](https://github.com/readysettech/readyset/commit/b739acb1), [931d0b91](https://github.com/readysettech/readyset/commit/931d0b91), [c4ff836b](https://github.com/readysettech/readyset/commit/c4ff836b)]
+  - Revamped helm chart with changes to align with best practices and support
+    multiple cloud platforms. [[a51ac40](https://github.com/readysettech/readyset/commit/a51ac40), [b739acb1](https://github.com/readysettech/readyset/commit/b739acb1), [931d0b91](https://github.com/readysettech/readyset/commit/931d0b91), [c4ff836b](https://github.com/readysettech/readyset/commit/c4ff836b)]
   - Created the [proptest-stateful](https://crates.io/crates/proptest-stateful)
     crate and added extensive stateful property tests.
   - ReadySet can now infer the `database_type` from an `upstream_db_url`,
