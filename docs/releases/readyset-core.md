@@ -6,6 +6,96 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 
     Beta versions of ReadySet are backward-incompatible. To upgrade between beta versions, you must therefore clear all data files. Rolling upgrades will be supported with future ReadySet major releases.
 
+## beta-2023-05-31
+
+### Downloads
+
+=== ":material-docker: Docker"
+
+    - ReadySet Server (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset-server:beta-2023-05-31
+        ```
+
+    - ReadySet Adapter (linux-x84_64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset:beta-2023-05-31
+        ```
+
+=== ":material-source-repository: Source"
+
+    !!! note
+
+        This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development).
+
+    - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-05-31.zip)
+    - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-05-31.tar.gz)
+
+### Changes
+
+#### What's New
+  - Revamped helm chart with changes to align with best practices and support
+    multiple cloud platforms. [[a51ac40](https://github.com/readysettech/readyset/commit/a51ac40), [b739acb1](https://github.com/readysettech/readyset/commit/b739acb1), [931d0b91](https://github.com/readysettech/readyset/commit/931d0b91), [c4ff836b](https://github.com/readysettech/readyset/commit/c4ff836b)]
+  - Created the [proptest-stateful](https://crates.io/crates/proptest-stateful)
+    crate and added extensive stateful property tests.
+  - ReadySet can now infer the `database_type` from an `upstream_db_url`,
+    making the `--database-type` argument optional. If `--database-type` is
+    provided with an `upstream_db_url`, readyset will validate the database
+    type. [8ad44824](https://github.com/readysettech/readyset/commit/8ad44824)
+  - Improve error messages for why something is unsupported when running
+    without an upstream database. [41f35326](https://github.com/readysettech/readyset/commit/41f35326)
+  - Add `--controller-address` option that exports prometheus metrics for the
+    readyset-server when running in standalone mode. [688ab939](https://github.com/readysettech/readyset/commit/688ab939)
+  - Add `replication-server-id` flag to allow multiple readyset deployments to
+    connect to the same upstream db. Each deployment must have a unique
+    replication server id. [896b423c](https://github.com/readysettech/readyset/commit/896b423c)
+  - Add logging that uses row estimates to report snapshotting progress.
+    [9f857769](https://github.com/readysettech/readyset/commit/9f857769)
+  - Added an experimental feature to automatically inline
+    placeholders in a query with literal values when the placeholders are
+    unsupported, so that the query can be run against ReadySet. This
+    feature is enabled with the `--experimental-placeholder-inlining` flag.
+    This feature is experimental as it could degrade the performance of
+    the ReadySet instance if too many inlined instances of a query are
+    created.  It is recommended that you drop the cache of any query with
+    inlined placeholders with high cardinality. [4a31acdf](https://github.com/readysettech/readyset/commit/4a31acdf)
+  - Add support for `INT2`, `INT4`, and `INT8` postgres type aliases. [e9518f11](https://github.com/readysettech/readyset/commit/e9518f11)
+
+#### Performance Improvements
+
+  - Controller requests now run asynchronously. [120fb301](https://github.com/readysettech/readyset/commit/120fb301)
+  - RocksDB compaction is now done as a background process. [51d5a4c3](https://github.com/readysettech/readyset/commit/51d5a4c3)
+  - Tuned the retry behavior of `extend_recipe`. [1b771836](https://github.com/readysettech/readyset/commit/1b771836)
+  - Initialize persistent state in a different thread. [c78bd61d](https://github.com/readysettech/readyset/commit/c78bd61d)
+  - Numerous miscelaneous query performance optimizations.
+
+#### Bug Fixes
+
+  - Update metrics-rs crate to 0.21 to [fix a bug in summary
+    calculations](https://github.com/metrics-rs/metrics/pull/306) where they
+    were not being calculated over [sliding windows of
+    time](https://prometheus.io/docs/instrumenting/writing_clientlibs/#summary).
+    [1557db04](https://github.com/readysettech/readyset/commit/1557db04)
+  - Fixed a bug where DDL actions were lost when we encountered a particular
+    error in replication. [1101215c](https://github.com/readysettech/readyset/commit/1101215c)
+  - Fixed an issue where we returned an empty value instead of `BEGIN` for
+    certain transactional queries. [fd08ff18](https://github.com/readysettech/readyset/commit/fd08ff18)
+  - Fixed an incorect timezone conversion that prevented lookups into a date
+    field using timestamps that had the same date. [33990c76](https://github.com/readysettech/readyset/commit/33990c76)
+  - Fixed a bug with optimized string serialization. [5dec2e14](https://github.com/readysettech/readyset/commit/5dec2e14)
+  - Fixed a panic if offset is longer than result set, specifically in the case
+    that a query, has `ORDER BY`, `LIMIT`, and `OFFSET`, has aggregates with a
+    group by, and *doesn't* filter by a primary or unique column. [5d9c5cee](https://github.com/readysettech/readyset/commit/5d9c5cee)
+  - Fixed a panic that could happen if a connection failed during a migration.
+    [020f58a3](https://github.com/readysettech/readyset/commit/020f58a3)
+  - Fixed a bug where the ordering of project and distinct nodes would return
+    incorrect results. [236ed823](https://github.com/readysettech/readyset/commit/236ed823)
+  - Properly mark PostgreSQL partitioned tables as unsupported. [2abffe13](https://github.com/readysettech/readyset/commit/2abffe13)
+  - Fix handling of a partial replay where a source node has been dropped.
+    [94be3fcb](https://github.com/readysettech/readyset/commit/94be3fcb)
+  - Properly support creating tables with FKs. [f10319eb](https://github.com/readysettech/readyset/commit/f10319eb)
+  - Properly handle replication offsets for uninitialized base tables. [582b68fb](https://github.com/readysettech/readyset/commit/582b68fb)
+
 ## beta-2023-02-15
 
 ### Downloads
