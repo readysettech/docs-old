@@ -6,7 +6,7 @@ This page shows you how to run ReadySet with Kubernetes on [Amazon EKS](https://
 
 === "RDS Postgres"
 
-    - Note that this tutorial covers the [scale-out deployment pattern](production-notes.md#scale-out), with the ReadySet Server and Adapter running as separate processes on separate machines.
+    - Note that this tutorial deploys the ReadySet Server and ReadySet Adapter running as a single process on a single machine.
 
     - Make sure you have an [Amazon RDS for Postgres](https://aws.amazon.com/rds/postgresql/) database running Postgres 13 or 14.
 
@@ -32,7 +32,7 @@ This page shows you how to run ReadySet with Kubernetes on [Amazon EKS](https://
 
 === "RDS MySQL"
 
-    - Note that this tutorial covers the [scale-out deployment pattern](production-notes.md#scale-out), with the ReadySet Server and Adapter running as separate processes on separate machines.
+    - Note that this tutorial deploys the ReadySet Server and ReadySet Adapter running as a single process on a single machine.
 
     - Make sure you have an [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) database.
 

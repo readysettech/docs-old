@@ -44,7 +44,7 @@ Don't require authentication for any client connections. When passed, `--usernam
 #### `--authority`
 
 <div class="option-details" markdown="1">
-The external authority for a [distributed ReadySet deployment](../../guides/deploy/production-notes.md#scale-out). The authority handles node discovery, leader election, and consensus and manages internal state and metrics.
+The external authority for a distributed ReadySet deployment. The authority handles node discovery, leader election, and consensus and manages internal state and metrics.
 
 This option is ignored when `--standalone` is passed. In that case, the ReadySet Server and Adapter are run as a single process, and no external authority is required.
 
@@ -130,7 +130,7 @@ The durability of the tables that ReadySet replicates from the upstream database
 #### `--embedded-readers`
 
 <div class="option-details" markdown="1">
-For a [distributed ReadySet deployment](../../guides/deploy/production-notes.md#scale-out), store cached query results with the Adapter instead of the Server.
+For a distributed ReadySet deployment, store cached query results with the Adapter instead of the Server.
 
 To use this option, you must pass `--no-readers` and `--reader-replicas` when starting [`readyset-server`](readyset-server.md).
 
@@ -238,7 +238,7 @@ The frequency, in seconds, at which to check memory usage by ReadySet. Once usag
 <div class="option-details" markdown="1">
 The IP address/hostname and port of the Prometheus endpoint for [ReadySet metrics](http://docs/rustdoc/readyset_client/metrics/recorded/index.html).
 
-This option is ignored unless [`--prometheus-metrics`](#-prometheus-metrics) is passed. Also, when running a [distributed ReadySet deployment](../../guides/deploy/production-notes.md#scale-out), this option determines the Prometheus endpoint for the ReadySet Adapter only. The [`--external-address`](readyset-server.md#-external-address) option for the `readyset-server` command determines the Prometheus endpoint for the ReadySet Server.
+This option is ignored unless [`--prometheus-metrics`](#-prometheus-metrics) is passed. Also, when running a distributed ReadySet deployment, this option determines the Prometheus endpoint for the ReadySet Adapter only. The [`--external-address`](readyset-server.md#-external-address) option for the `readyset-server` command determines the Prometheus endpoint for the ReadySet Server.
 
 **Default:** `0.0.0.0:6034`
 
@@ -340,7 +340,7 @@ To use this option, you must pass [`--query-log](#-query-log) as well.
 #### `--quorum`, `-q`
 
 <div class="option-details" markdown="1">
-For a [distributed ReadySet deployment](../../guides/deploy/production-notes.md#multi-region) with multiple ReadySet Server instances, the number of ReadySet Server instances. ReadySet will wait until this number is reached before accepting requests.
+For a distributed ReadySet deployment with multiple ReadySet Server instances, the number of ReadySet Server instances. ReadySet will wait until this number is reached before accepting requests.
 
 **Default:** `1`
 
@@ -469,7 +469,7 @@ Print ReadySet version information. See the [example](#print-version-information
 #### `--views-polling-interval`
 
 <div class="option-details" markdown="1">
-For a [distributed ReadySet deployment](../../guides/deploy/production-notes.md#scale-out) with multiple ReadySet Adapters, each Adapter needs to know about the caches on the ReadySet Server. This flag sets the interval, in seconds, at which to poll the ReadySet Server.
+For a distributed ReadySet deployment with multiple ReadySet Adapters, each Adapter needs to know about the caches on the ReadySet Server. This flag sets the interval, in seconds, at which to poll the ReadySet Server.
 
 This option is not relevant when using [`--embedded-readers`](#-embedded-readers).
 
@@ -480,7 +480,7 @@ This option is not relevant when using [`--embedded-readers`](#-embedded-readers
 
 ## Examples
 
-These examples focus on running a [standard ReadySet deployment](../../guides/deploy/production-notes.md#standard) (i.e., ReadySet Server and Adapter running as a single process on a single machine). For running a distributed ReadySet deployment, see the [`readyset-server` examples](readyset-server.md#examples).
+These examples focus on running a standard ReadySet deployment (i.e., ReadySet Server and Adapter running as a single process on a single machine). For running a distributed ReadySet deployment, see the [`readyset-server` examples](readyset-server.md#examples).
 
 ### Start ReadySet
 

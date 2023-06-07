@@ -58,8 +58,8 @@ nav:
       - Quickstart: guides/intro/quickstart.md
       - Playground: guides/intro/playground.md
     - Deploy:
-      - Production Notes: guides/deploy/production-notes.md
-      - Deploy with Kubernetes: guides/deploy/deploy-readyset-kubernetes.md
+    #  - Production Notes: guides/deploy/production-notes.md
+      - Deploy with Kubernetes: https://github.com/readysettech/readyset/tree/main/helm/readyset#readme
       - Deploy with Binary: guides/deploy/deploy-readyset-binary.md
     - Connect: 
       - Connect an existing application: guides/connect/existing-app.md

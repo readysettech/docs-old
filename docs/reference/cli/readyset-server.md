@@ -39,7 +39,7 @@ The IP address/hostname and port that the ReadySet Server listens on.
 #### `--authority`
 
 <div class="option-details" markdown="1">
-The external authority for a [distributed ReadySet deployment](../../guides/deploy/production-notes.md#scale-out). The authority handles node discovery, leader election, and consensus and manages internal state and metrics.
+The external authority for a distributed ReadySet deployment. The authority handles node discovery, leader election, and consensus and manages internal state and metrics.
 
 **Possible values:** `"consul"`, `"zookeeper"` (deprecated)
 
@@ -253,7 +253,7 @@ Output ReadySet metrics to the Prometheus endpoint at `<metrics address>/metrics
 #### `--quorum`, `-q`
 
 <div class="option-details" markdown="1">
-For a [distributed ReadySet deployment](../../guides/deploy/production-notes.md#multi-region) with multiple ReadySet Server instances, the number of ReadySet Server instances. ReadySet will wait until this number is reached before accepting requests.
+For a distributed ReadySet deployment with multiple ReadySet Server instances, the number of ReadySet Server instances. ReadySet will wait until this number is reached before accepting requests.
 
 **Default:** `1`
 
@@ -352,14 +352,14 @@ Print ReadySet version information.
 
 The volume associated with a ReadySet Server.
 
-For a [distributed ReadySet deployment](../../guides/deploy/production-notes.md#multi-region) with multiple ReadySet Servers, snapshotted tables are scheduled, round-robin, onto volumes associated with Server instances. If a Server restarts, the Server must know which volume contains its portion of the snapshot.
+For a distributed ReadySet deployment with multiple ReadySet Servers, snapshotted tables are scheduled, round-robin, onto volumes associated with Server instances. If a Server restarts, the Server must know which volume contains its portion of the snapshot.
 
 **Env variable:** `VOLUME_ID`
 </div>
 
 ## Examples
 
-These examples focus on a [distributed ReadySet deployment](../../guides/deploy/production-notes.md#scale-out) (i.e., ReadySet Server and Adapter running as distinct processes and separate machines). For running a standard ReadySet deployment, see the [`readyset` examples](readyset.md#examples).
+These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server and Adapter running as distinct processes and separate machines). For running a standard ReadySet deployment, see the [`readyset` examples](readyset.md#examples).
 
 ### Start ReadySet
 

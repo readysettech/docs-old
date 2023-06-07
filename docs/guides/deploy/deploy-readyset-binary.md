@@ -6,7 +6,7 @@ This page shows you how to manually deploy ReadySet on Amazon EC2 in front of a 
 
 === "Supabase Postgres"
 
-    - Note that this tutorial covers the [standard deployment pattern](production-notes.md#standard), with the ReadySet Server and ReadySet Adapter running as a single process on a single machine.
+    - Note that this tutorial deploys the ReadySet Server and ReadySet Adapter running as a single process on a single machine.
 
     - Make sure you have a [Supabase](https://supabase.com/) database running Postgres 13 or 14.
 
@@ -22,7 +22,7 @@ This page shows you how to manually deploy ReadySet on Amazon EC2 in front of a 
 
 === "RDS Postgres"
 
-    - Note that this tutorial covers the [standard deployment pattern](production-notes.md#standard), with the ReadySet Server and ReadySet Adapter running as a single process on a single machine.
+    - Note that this tutorial deploys the ReadySet Server and ReadySet Adapter running as a single process on a single machine.
 
     - Make sure you have an [Amazon RDS for Postgres](https://aws.amazon.com/rds/postgresql/) database running Postgres 13 or 14.
 
@@ -38,7 +38,7 @@ This page shows you how to manually deploy ReadySet on Amazon EC2 in front of a 
 
 === "RDS MySQL"
 
-    - Note that this tutorial covers the [standard deployment pattern](production-notes.md#standard), with the ReadySet Server and ReadySet Adapter running as a single process on a single machine.  
+    - Note that this tutorial deploys the ReadySet Server and ReadySet Adapter running as a single process on a single machine.
 
     - Make sure you have an [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) database running MySQL 8.
 
