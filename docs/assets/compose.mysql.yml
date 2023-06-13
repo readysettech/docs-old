@@ -66,6 +66,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 12
+    stop_grace_period: 30s
     volumes:
       - mysql:/var/lib/mysql
 volumes:
