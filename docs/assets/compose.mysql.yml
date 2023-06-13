@@ -24,10 +24,11 @@ services:
     volumes:
       - "readyset:/state"
     healthcheck:
-      test: "mysqladmin ping -h127.0.0.1 -P3307 -uroot -preadyset"
-      interval: 5s
-      timeout: 5s
-      retries: 12
+      test: [ "CMD", "curl", "--fail", "127.0.0.1:6033/health" ]
+      interval: 2s
+      timeout: 1s
+      retries: 5
+      start_period: 5s
     depends_on:
       mysql:
         condition: service_healthy
