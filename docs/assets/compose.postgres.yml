@@ -8,7 +8,7 @@ services:
       - 6034  # ReadySet Adapter Prometheus metrics at http://readyset:6034/metrics
     ports:
       # The ReadySet Adapter listen port, i.e. what your application / SQL shell connects to
-      - "${RS_PORT:-3307}:${RS_PORT:-3307}"
+      - "5433:5433"
     environment:
       DEPLOYMENT_ENV: quickstart_docker
       DB_DIR: /state
@@ -18,7 +18,7 @@ services:
       QUERY_LOG_AD_HOC: true
       STANDALONE: true
       DEPLOYMENT: docker_compose_deployment
-      LISTEN_ADDRESS: 0.0.0.0:${RS_PORT:-3307}
+      LISTEN_ADDRESS: 0.0.0.0:5433
       UPSTREAM_DB_URL: postgresql://postgres:readyset@postgres/testdb
       CONTROLLER_ADDRESS: 0.0.0.0
     volumes:
@@ -50,11 +50,11 @@ services:
   grafana:
     image: public.ecr.aws/readyset/readyset-grafana:latest
     ports:
-      - ${RS_GRAFANA_PORT:-4000}:${RS_GRAFANA_PORT:-4000}
+      - "4000:4000"
     environment:
-      RS_UPSTREAM_DB_URL: postgresql://postgres:readyset@postgres/testdb
-      RS_PORT: ${RS_PORT:-3307}
-      RS_GRAFANA_PORT: ${RS_GRAFANA_PORT:-4000}
+      UPSTREAM_DB_URL: postgresql://postgres:readyset@postgres/testdb
+      RS_PORT: 5433
+      RS_GRAFANA_PORT: 4000
   postgres:
     image: postgres:14
     environment:
