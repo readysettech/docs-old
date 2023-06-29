@@ -1,6 +1,6 @@
 name: readyset
 services:
-  readyset:
+  cache:
     image: "public.ecr.aws/readyset/readyset:latest"
     platform: linux/amd64
     expose:
