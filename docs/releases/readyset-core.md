@@ -6,6 +6,57 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 
     Beta versions of ReadySet are backward-incompatible. To upgrade between beta versions, you must therefore clear all data files. Rolling upgrades will be supported with future ReadySet major releases.
 
+## beta-2023-06-29
+
+### Downloads
+
+=== ":material-docker: Docker"
+
+    - ReadySet Server (linux/amd64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset-server:beta-2023-06-29
+        ```
+
+    - ReadySet Adapter (linux/amd64)
+        ``` sh
+        docker pull public.ecr.aws/readyset/readyset:beta-2023-06-29
+        ```
+
+=== ":material-source-repository: Source"
+
+    !!! note
+
+        This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development).
+
+    - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-06-29.zip)
+    - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-06-29.tar.gz)
+
+### Changes
+
+#### What's New
+
+- Helm chart improvements. [[c6ded74](https://github.com/readysettech/readyset/commit/c6ded74), [cc1cf3f](https://github.com/readysettech/readyset/commit/cc1cf3f)]
+- The custom SHOW READYSET STATUS SQL statement now includes the minimum and maximum replication offset. [da50579](https://github.com/readysettech/readyset/commit/da50579)
+- Apache Zookeeper is no longer supported. [83ced41](https://github.com/readysettech/readyset/commit/83ced41)
+- Reduced the time ReadySet waits before retrying after a replication error from 30s to 1s. [2649e2f](https://github.com/readysettech/readyset/commit/2649e2f)
+- SQL support:
+   - Allow spaces between and around arguments to aggregate functions. [529ba86](https://github.com/readysettech/readyset/commit/529ba86)
+   - MySQL:
+      - Allow arbitrary expressions as arguments to GROUP_CONCAT. [6f16afe](https://github.com/readysettech/readyset/commit/6f16afe)
+      - Support bit literals (already supported for Postgres). [071678b](https://github.com/readysettech/readyset/commit/071678b) (thanks @cameronbraid!)
+   - Postgres:
+      - Support COMMENT statements. [a2e9302](https://github.com/readysettech/readyset/commit/a2e9302)
+- Added the custom EXPLAIN DOMAINS SQL statement, which gives a list of domain replica shards and the URLs of the workers they're running on, sorted by the worker URL. [[8e402e7](https://github.com/readysettech/readyset/commit/8e402e7), [12090f8](https://github.com/readysettech/readyset/commit/12090f8)]
+
+#### Performance Improvements
+
+- RocksDB-based persistent storage now uses the block-based SST format, improving post-snapshot compaction speed by 10x for large tables (100+ GiB), and improving get/put performance by 7-28% across current benchmarks. [[8a32b30a](https://github.com/readysettech/readyset/commit/8a32b30a), [d0bec66](https://github.com/readysettech/readyset/commit/d0bec66)]
+
+#### Bug Fixes
+
+- Update to rust-openssl 0.10.55 to patch [RUSTSEC-2023-0044](https://rustsec.org/advisories/RUSTSEC-2023-0044). [5fb5e88](https://github.com/readysettech/readyset/commit/5fb5e88)
+- Correctly handle concurrent updates to Consul keys. [cba739a](https://github.com/readysettech/readyset/commit/cba739a)
+
 ## beta-2023-05-31
 
 ### Downloads
