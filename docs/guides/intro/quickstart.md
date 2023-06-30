@@ -2,20 +2,20 @@
 
 The quickstart sets up a ReadySet instance and a sample database on your local machine using Docker.
 
-!!! warning
+!!! attention
 
     Before starting, make sure you have Docker Engine version >= 19.03.0​ and Docker Compose V2 OR Docker Desktop >= 4.1.0 and the MySQL or Postgres client installed.
 
 === "Postgres"
 
-    ### 1. Download and run the ReadySet Docker Compose file
+    <font size="4">1. Download and run the ReadySet Docker Compose file</font>
 
     ```
     curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.postgres.yml" && docker compose up -d
     ```
 
 
-    ### 2. Import sample data
+    <font size="4">2. Import sample data</font>
 
     ```
     curl -s "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/imdb-postgres.sql" | psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
@@ -26,7 +26,7 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
         Data loading will be slow on Macs with Apple Silicon.
 
 
-    ### 3. Connect and explore the dataset
+    <font size="4">3. Connect and explore the dataset</font>
 
     Connect to ReadySet and enable query timing.
 
@@ -52,7 +52,7 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
     ```
 
 
-    ### 4. Cache a query!
+    <font size="4">4. Cache a query!</font>
 
     Using the `CREATE CACHE FROM` SQL extension, cache the query in ReadySet.
 
@@ -77,14 +77,14 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
     ```
 
 
-    ### 5. Explore Grafana
+    <font size="4">5. Explore Grafana</font>
 
     Navigate to localhost:4000 to view query latency metrics for ReadySet and Postgres.
 
     ![Grafana](../../assets/explore-grafana-postgres.png)
 
 
-    ### 6. Try more queries!
+    <font size="4">6. Try more queries!</font>
 
     Explore the dataset and test ReadySet's performance with additional queries.
 
@@ -106,14 +106,14 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
 
 === "MySQL"
 
-    ### 1. Download and run the ReadySet Docker Compose file
+    <font size="4">1. Download and run the ReadySet Docker Compose file</font>
 
     ```
     curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.mysql.yml" && docker compose up -d
     ```
 
 
-    ### 2. Import sample data
+    <font size="4">2. Import sample data</font>
 
     ```
     curl -s "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/imdb-mysql.sql" | mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset
@@ -124,7 +124,7 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
         Data loading will be slow on Macs with Apple Silicon.
 
 
-    ### 3. Connect and explore the dataset
+    <font size="4">3. Connect and explore the dataset</font>
 
     Connect to ReadySet and enable query timing.
 
@@ -150,7 +150,7 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
     ```
 
 
-    ### 4. Cache a query!
+    <font size="4">4. Cache a query!</font>
 
     Using the `CREATE CACHE FROM` SQL extension, cache the query in ReadySet.
 
@@ -175,14 +175,14 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
     ```
 
 
-    ### 5. Explore Grafana
+    <font size="4">5. Explore Grafana</font>
 
     Navigate to localhost:4000 to view query latency metrics for ReadySet and Postgres.
 
     ![Grafana](../../assets/explore-grafana-mysql.png)
 
 
-    ### 6. Try more queries!
+    <font size="4">6. Try more queries!</font>
 
     Explore the dataset and test ReadySet's performance with additional queries.
 
