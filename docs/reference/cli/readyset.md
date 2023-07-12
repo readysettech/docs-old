@@ -116,7 +116,7 @@ Disable verification of SSL certificates supplied by the upstream database on co
 #### `--durability`
 
 <div class="option-details" markdown="1">
-The durability of the tables that ReadySet replicates from the upstream database as the basis for caching query results.  
+The durability of the tables that ReadySet replicates from the upstream database as the basis for caching query results.
 
 **Possible values:**
 
@@ -188,7 +188,7 @@ The [severity level(s)](https://docs.rs/tracing-core/0.1.30/tracing_core/metadat
 
 Possible values, from most to least severe:
 
-- `ERROR`: Used for hazardous situations that require special handling, where normal operation cannot proceed as expected.   
+- `ERROR`: Used for hazardous situations that require special handling, where normal operation cannot proceed as expected.
 - `WARN`: Used for potentially hazardous situations that may require special handling.
 - `INFO`: Used for information messages that do not require action.
 - `DEBUG`: Used for lower priority information.
@@ -274,7 +274,7 @@ When ReadySet cannot return results for a cached query (i.e., a cache miss), pro
 <div class="option-details" markdown="1">
 The password for authenticating connections to ReadySet. This can differ from the password in the database connections string in [`--upstream-db-url`](#-upstream-db-url).
 
-This option is ignored when [`--allow-unauthenticated-connections`](#-allow-unauthenticated-connections) is passed.    
+This option is ignored when [`--allow-unauthenticated-connections`](#-allow-unauthenticated-connections) is passed.
 
 **Default:** The username for the upstream database in [`--upstream-db-url`](#-upstream-db-url).
 
@@ -337,14 +337,14 @@ To use this option, you must pass [`--query-log](#-query-log) as well.
 **Env variable:** `QUERY_LOG_AD_HOC`
 </div>
 
-#### `--quorum`, `-q`
+#### `--min-workers`
 
 <div class="option-details" markdown="1">
 For a distributed ReadySet deployment with multiple ReadySet Server instances, the number of ReadySet Server instances. ReadySet will wait until this number is reached before accepting requests.
 
 **Default:** `1`
 
-**Env variable:** `NORIA_QUORUM`
+**Env variable:** `MIN_WORKERS`
 </div>
 
 #### `--replication-pool-size`
@@ -364,7 +364,7 @@ The number of connections to the upstream database for snapshotting and replicat
 <div class="option-details" markdown="1">
 By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#-upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use this option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.
 
-This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.  
+This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.
 
 **Env variable:** `REPLICATION_TABLES`
 </div>
