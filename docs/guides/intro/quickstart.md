@@ -11,14 +11,18 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
     <font size="4">1. Download and run the ReadySet Docker Compose file</font>
 
     ```
-    curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.postgres.yml" && docker compose pull && docker compose up -d
+    curl -L -o compose.yml                                  \
+      "https://readyset.io/quickstart/compose.postgres.yml" \
+      && docker compose pull                                \
+      && docker compose up -d
     ```
 
 
     <font size="4">2. Import sample data</font>
 
     ```
-    curl -s "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/imdb-postgres.sql" | psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
+    curl -L -s "https://readyset.io/quickstart/imdb-postgres.sql" \
+      | psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
     ```
 
     !!! warning
@@ -124,14 +128,18 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
     <font size="4">1. Download and run the ReadySet Docker Compose file</font>
 
     ```
-    curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.mysql.yml" && docker compose up -d
+    curl -L -o compose.yml                                  \
+      "https://readyset.io/quickstart/compose.mysql.yml"    \
+      && docker compose pull                                \
+      && docker compose up -d
     ```
 
 
     <font size="4">2. Import sample data</font>
 
     ```
-    curl -s "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/imdb-mysql.sql" | mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset
+    curl -L -s "https://readyset.io/quickstart/imdb-mysql.sql" \
+      | mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset
     ```
 
     !!! warning
