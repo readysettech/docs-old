@@ -28,22 +28,32 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
 
     <font size="4">3. Connect and explore the dataset</font>
 
-    Connect to ReadySet and enable query timing.
+    Connect to ReadySet.
 
     ```
     psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
-    testdb=> \timing
+    ```
+
+    Enable query timing.
+
+    ```
+    \timing
     ```
 
     Run a sample query.
-    
+
     Note that since we have not created a cache, this query is served by Postgres.
 
+    Query:
     ```
-    testdb=> SELECT count(*) FROM title_ratings 
-    JOIN title_basics ON title_ratings.tconst = title_basics.tconst 
+    SELECT count(*) FROM title_ratings
+    JOIN title_basics ON title_ratings.tconst = title_basics.tconst
     WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
-    count
+    ```
+
+    Results:
+    ```{.text .no-copy}
+     count 
     -------
     4764
     (1 row)
@@ -57,17 +67,22 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
     Using the `CREATE CACHE FROM` SQL extension, cache the query in ReadySet.
 
     ```
-    testdb=> CREATE CACHE FROM SELECT count(*) FROM title_ratings
+    CREATE CACHE FROM SELECT count(*) FROM title_ratings
     JOIN title_basics ON title_ratings.tconst = title_basics.tconst
     WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
     ```
 
     Validate that creating the cache succeeded by running the query again.  This time, it is served by ReadySet.
 
+    Query:
     ```
-    testdb=> SELECT count(*) FROM title_ratings
+    SELECT count(*) FROM title_ratings
     JOIN title_basics ON title_ratings.tconst = title_basics.tconst
     WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
+    ```
+
+    Results:
+    ```{.text .no-copy}
     count(coalesce(`public`.`title_ratings`.`tconst`, 0))
     -------------------------------------------------------
                                                     4756
@@ -126,21 +141,31 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
 
     <font size="4">3. Connect and explore the dataset</font>
 
-    Connect to ReadySet and enable query timing.
+    Connect to ReadySet.
 
     ```
     mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset
-    mysql> set profiling=1;
+    ```
+
+    Enable query timing.
+
+    ```
+    set profiling=1;
     ```
 
     Run a sample query.
-    
+
     Note that since we have not created a cache, this query is served by MySQL.
 
+    Query:
     ```
-    mysql> SELECT count(*) FROM title_ratings 
-    JOIN title_basics ON title_ratings.tconst = title_basics.tconst 
+    SELECT count(*) FROM title_ratings
+    JOIN title_basics ON title_ratings.tconst = title_basics.tconst
     WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
+    ```
+
+    Results:
+    ```{.text .no-copy}
     +----------+
     | count(*) |
     +----------+
@@ -155,17 +180,23 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
     Using the `CREATE CACHE FROM` SQL extension, cache the query in ReadySet.
 
     ```
-    mysql> CREATE CACHE FROM SELECT count(*) FROM title_ratings
+    CREATE CACHE FROM SELECT count(*) FROM title_ratings
     JOIN title_basics ON title_ratings.tconst = title_basics.tconst
     WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
     ```
 
     Validate that creating the cache succeeded by running the query again.  This time, it is served by ReadySet.
 
+    Query:
     ```
-    mysql> SELECT count(*) FROM title_ratings
+    SELECT count(*) FROM title_ratings
     JOIN title_basics ON title_ratings.tconst = title_basics.tconst
     WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
+
+    ```
+
+    Results:
+    ```{.text .no-copy}
     +-------------------------------------------------------+
     | count(coalesce(`testdb`.`title_ratings`.`tconst`, 0)) |
     +-------------------------------------------------------+
