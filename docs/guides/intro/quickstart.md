@@ -11,7 +11,7 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
     <font size="4">1. Download and run the ReadySet Docker Compose file</font>
 
     ```
-    curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.postgres.yml" && docker compose up -d
+    curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.postgres.yml" && docker compose pull && docker compose up -d
     ```
 
 
