@@ -53,9 +53,9 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
 
     Results:
     ```{.text .no-copy}
-     count 
+     count
     -------
-    4764
+      2418
     (1 row)
 
     Time: 154.980 ms
@@ -83,9 +83,9 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
 
     Results:
     ```{.text .no-copy}
-    count(coalesce(`public`.`title_ratings`.`tconst`, 0))
-    -------------------------------------------------------
-                                                    4756
+     count(*)
+    ----------
+         2418
     (1 row)
 
     Time: 2.073 ms
@@ -197,11 +197,11 @@ The quickstart sets up a ReadySet instance and a sample database on your local m
 
     Results:
     ```{.text .no-copy}
-    +-------------------------------------------------------+
-    | count(coalesce(`testdb`.`title_ratings`.`tconst`, 0)) |
-    +-------------------------------------------------------+
-    |                                                  2418 |
-    +-------------------------------------------------------+
+    +----------+
+    | count(*) |
+    +----------+
+    |     2418 |
+    +----------+
     1 row in set (0.03 sec)
     ```
 
