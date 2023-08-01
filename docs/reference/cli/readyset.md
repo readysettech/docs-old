@@ -473,9 +473,9 @@ For a distributed ReadySet deployment with multiple ReadySet Adapters, each Adap
 
 This option is not relevant when using [`--embedded-readers`](#-embedded-readers).
 
-**Default:** `300`
+**Default:** `5`
 
-**Env variable:** `OUTPUTS_POLLING_INTERVAL`
+**Env variable:** `VIEWS_POLLING_INTERVAL`
 </div>
 
 ## Examples
