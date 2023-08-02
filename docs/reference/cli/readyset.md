@@ -158,11 +158,6 @@ The `--forbid-full-materialization` option prevents ReadySet from caching querie
 
 **Env variable:** `FORBID_FULL_MATERIALIZATION`
 
-!!! tip
-
-    Consider passing this option when [`--query-caching`](#-query-caching) is set to `"inrequestpath"` or `"async"`. In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can exhaust memory, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#-eviction-policy) applies only to partially materialized queries).
-</div>
-
 #### `--help`, `-h`
 
 <div class="option-details" markdown="1">
@@ -305,10 +300,10 @@ The query caching mode for ReadySet.
 **Possible values:**
 
 - `"explicit"`: ReadySet does not automatically cache queries. Instead, users use the [`CREATE CACHE`](../../guides/cache-queries/#cache-queries_1) command to cache queries.
-- "`inrequestpath`: ReadySet caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready.
-- "`async`": ReadySet caches [supported queries](../reference/sql-support/#query-caching) automatically but proxies queries to the upstream database until the cache is ready.
+- "`inrequestpath`: (*Experimental*) ReadySet caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready.
+- "`async`": (*Experimental*) ReadySet caches [supported queries](../reference/sql-support/#query-caching) automatically but proxies queries to the upstream database until the cache is ready.
 
-**Default:** `"async"`
+**Default:** `"explicit"`
 
 **Env variable:** `QUERY_CACHING`
 
@@ -492,7 +487,6 @@ These examples focus on running a standard ReadySet deployment (i.e., ReadySet S
     --deployment="<deployment name>" \
     --upstream-db-url="postgresql://<db user>:<db password>@<db address>:5432/<database>" \
     --database-type=postgresql \
-    --query-caching="<caching mode>" \
     --username=<readyset user> \
     --password=<readyset password> \
     --address=<readyset address> \
@@ -507,7 +501,6 @@ These examples focus on running a standard ReadySet deployment (i.e., ReadySet S
     --deployment="<deployment name>" \
     --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
     --database-type=mysql \
-    --query-caching="<caching mode>" \
     --username=<readyset user> \
     --password=<readyset password> \
     --address=<readyset address> \
@@ -526,7 +519,6 @@ To output ReadySet metrics to Prometheus, pass `--metrics-address` and `--promet
     --deployment="<deployment name>" \
     --upstream-db-url="postgresql://<db user>:<db password>@<db address>:5432/<database>" \
     --database-type=postgresql \
-    --query-caching="<caching mode>" \
     --username=<readyset user> \
     --password=<readyset password> \
     --address=<readyset address> \
@@ -545,7 +537,6 @@ To output ReadySet metrics to Prometheus, pass `--metrics-address` and `--promet
     --deployment="<deployment name>" \
     --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
     --database-type=mysql \
-    --query-caching="<caching mode>" \
     --username=<readyset user> \
     --password=<readyset password> \
     --address=<readyset address> \

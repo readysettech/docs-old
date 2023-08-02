@@ -153,11 +153,6 @@ The `--forbid-full-materialization` option prevents ReadySet from caching querie
 
 **Env variable:** `FORBID_FULL_MATERIALIZATION`
 
-!!! tip
-
-    Consider passing this option when ReadySet Adapters use the `"inrequestpath"` or `"async"` [query caching mode](readyset.md#-query-caching). In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can exhaust memory, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#-eviction-policy) applies only to partially materialized queries).
-</div>
-
 #### `--help`, `-h`
 
 <div class="option-details" markdown="1">
@@ -373,7 +368,6 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
         readyset-server \
         --deployment="<deployment name>" \
         --upstream-db-url="postgresql://<db user>:<db password>@<db address>:5432/<database>" \
-        --query-caching="<caching mode>" \
         --username=<readyset user> \
         --password=<readyset password> \
         --address=<readyset server address> \
@@ -387,7 +381,6 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
         readyset-server \
         --deployment="<deployment name>" \
         --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
-        --query-caching="<caching mode>" \
         --username=<readyset user> \
         --password=<readyset password> \
         --address=<readyset server address> \
