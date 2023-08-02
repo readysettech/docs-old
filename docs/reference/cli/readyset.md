@@ -142,7 +142,7 @@ To use this option, you must pass `--no-readers` and `--reader-replicas` when st
 <div class="option-details" markdown="1">
 When possible, ReadySet stores only certain results sets for a query in memory. For example, if a query is [parameterized](../sql-support.md#parameters) on user IDs, ReadySet would only cache the results of that query for the active subset of users, since they are the ones issuing requests. This is referred to as "partial materialization".
 
-The `--eviction-policy` option determines the strategy for evicting cache entries from partial materializations once the overall memory limit (see [`--memory`](#-memory-m)) has been surpassed.
+The `--eviction-policy` option determines the strategy for evicting cache entries from partial materializations once the overall memory limit (see [`--memory-limit`](#-memory-limit-m)) has been surpassed.
 
 **Possible values:** `"random"`, `"lru"`, `"generational"`
 
@@ -205,7 +205,7 @@ Possible values, from most to least severe:
 **Env variable:** `LOG_LEVEL`
 </div>
 
-#### `--memory`, `-m`
+#### `--memory-limit`, `-m`
 
 <div class="option-details" markdown="1">
 The amount of memory, in bytes, available to ReadySet.
@@ -216,7 +216,7 @@ Once memory usage surpasses this limit, ReadySet starts evicting cache entries f
 
 **Default:** `0` (unlimited)
 
-**Env variable:** `NORIA_MEMORY_BYTES`
+**Env variable:** `READYSET_MEMORY_LIMIT`
 
 !!! tip
 
@@ -226,7 +226,7 @@ Once memory usage surpasses this limit, ReadySet starts evicting cache entries f
 #### `--memory-check-every`
 
 <div class="option-details" markdown="1">
-The frequency, in seconds, at which to check memory usage by ReadySet. Once usage surpasses the limit set in [`--memory`](#-memory-m), ReadySet starts evicting cache entries for partial materializations based on the [`--eviction-policy`](#-eviction-policy).
+The frequency, in seconds, at which to check memory usage by ReadySet. Once usage surpasses the limit set in [`--memory-limit`](#-memory-limit-m), ReadySet starts evicting cache entries for partial materializations based on the [`--eviction-policy`](#-eviction-policy).
 
 **Default:** `1`
 
