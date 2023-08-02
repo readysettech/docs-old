@@ -322,7 +322,7 @@ The query caching mode for ReadySet.
 <div class="option-details" markdown="1">
 Include query-specific execution details in Prometheus metrics.
 
-To use this option, you must pass [`--prometheus-metrics](#-prometheus-metrics) as well.
+To use this option, you must pass [`--prometheus-metrics](#-prometheus-metrics) as well. This option is enabled by default if [`--prometheus-metrics](#-prometheus-metrics) is set.
 
 **Env variable:** `QUERY_LOG`
 </div>
@@ -332,7 +332,7 @@ To use this option, you must pass [`--prometheus-metrics](#-prometheus-metrics) 
 <div class="option-details" markdown="1">
 Include execution details for ad-hoc queries in Prometheus metrics. Ad-hoc queries are those that do not use [parameters](../sql-support.md#parameters).
 
-To use this option, you must pass [`--query-log](#-query-log) as well.
+To use this option, you must pass [`--query-log](#-query-log) as well. This option is enabled by default if [`--prometheus-metrics](#-prometheus-metrics) is set.
 
 **Env variable:** `QUERY_LOG_AD_HOC`
 </div>
